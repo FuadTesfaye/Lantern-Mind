@@ -96,7 +96,7 @@ function ExperiencesPage() {
             href={`#${domain.slug}`}
             className="rounded-full border border-border/50 px-4 py-2 text-xs tracking-wide text-muted-foreground transition-colors hover:border-border hover:text-foreground"
           >
-            {domain.letter}. {domain.name.split("&")[0].trim()}
+            {domain.letter}. {(domain.name.split("&")[0] || "").trim()}
           </a>
         ))}
       </nav>

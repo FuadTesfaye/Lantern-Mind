@@ -11,20 +11,27 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { MoreHorizontal } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { supabase } from '@/lib/supabase'
 
 export const Route = createFileRoute('/admin/users')({
   component: AdminUsers,
 })
 
-const mockUsers = [
-  { id: "1", name: "Amina K.", email: "amina.k@example.com", role: "User", status: "Active", joinDate: "Aug 1, 2026" },
-  { id: "2", name: "Yusuf M.", email: "yusuf.m@example.com", role: "User", status: "Active", joinDate: "Aug 2, 2026" },
-  { id: "3", name: "Sarah L.", email: "sarah.l@example.com", role: "Moderator", status: "Active", joinDate: "Jul 15, 2026" },
-  { id: "4", name: "Omar R.", email: "omar.r@example.com", role: "User", status: "Suspended", joinDate: "Jun 20, 2026" },
-  { id: "5", name: "Fatima A.", email: "fatima.a@example.com", role: "Admin", status: "Active", joinDate: "Jan 10, 2026" },
-];
-
 function AdminUsers() {
+  const { data: users, isLoading, error } = useQuery({
+    queryKey: ['admin-users'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .order('join_date', { ascending: false });
+      
+      if (error) throw error;
+      return data;
+    }
+  });
+
   return (
     <div className="flex-1 space-y-4">
       <div className="flex items-center justify-between space-y-2">
@@ -52,7 +59,22 @@ function AdminUsers() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {mockUsers.map((user) => (
+                {isLoading && (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center h-24">Loading users...</TableCell>
+                  </TableRow>
+                )}
+                {error && (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center h-24 text-destructive">Error loading users. Did you run the SQL schema?</TableCell>
+                  </TableRow>
+                )}
+                {!isLoading && !error && users?.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center h-24 text-muted-foreground">No users found.</TableCell>
+                  </TableRow>
+                )}
+                {users?.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">{user.name}</TableCell>
                     <TableCell>{user.email}</TableCell>
@@ -66,7 +88,7 @@ function AdminUsers() {
                         {user.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>{user.joinDate}</TableCell>
+                    <TableCell>{new Date(user.join_date).toLocaleDateString()}</TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="icon">
                         <MoreHorizontal className="h-4 w-4" />

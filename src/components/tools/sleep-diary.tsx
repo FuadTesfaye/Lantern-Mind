@@ -25,7 +25,7 @@ export function SleepDiary() {
   }, []);
 
   const saveLog = () => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().split("T")[0] as string;
     // Check if already logged today
     if (logs.some((l) => l.date === today)) {
       alert("You have already logged your sleep for today.");
