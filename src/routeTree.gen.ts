@@ -13,9 +13,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ReachUsRouteImport } from './routes/reach-us'
 import { Route as StudioRouteImport } from './routes/studio'
+import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
-import { Route as PillarsSlugRouteImport } from './routes/pillars.$slug'
+import { Route as TaxonomySlugRouteImport } from './routes/taxonomy.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -37,6 +38,11 @@ const StudioRoute = StudioRouteImport.update({
   path: '/studio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JournalIndexRoute = JournalIndexRouteImport.update({
   id: '/journal/',
   path: '/journal/',
@@ -47,9 +53,9 @@ const JournalSlugRoute = JournalSlugRouteImport.update({
   path: '/journal/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PillarsSlugRoute = PillarsSlugRouteImport.update({
-  id: '/pillars/$slug',
-  path: '/pillars/$slug',
+const TaxonomySlugRoute = TaxonomySlugRouteImport.update({
+  id: '/taxonomy/$slug',
+  path: '/taxonomy/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -58,8 +64,9 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/reach-us': typeof ReachUsRoute
   '/studio': typeof StudioRoute
+  '/tools': typeof ToolsRoute
   '/journal/$slug': typeof JournalSlugRoute
-  '/pillars/$slug': typeof PillarsSlugRoute
+  '/taxonomy/$slug': typeof TaxonomySlugRoute
   '/journal/': typeof JournalIndexRoute
 }
 export interface FileRoutesByTo {
@@ -67,8 +74,9 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/reach-us': typeof ReachUsRoute
   '/studio': typeof StudioRoute
+  '/tools': typeof ToolsRoute
   '/journal/$slug': typeof JournalSlugRoute
-  '/pillars/$slug': typeof PillarsSlugRoute
+  '/taxonomy/$slug': typeof TaxonomySlugRoute
   '/journal': typeof JournalIndexRoute
 }
 export interface FileRoutesById {
@@ -77,8 +85,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/reach-us': typeof ReachUsRoute
   '/studio': typeof StudioRoute
+  '/tools': typeof ToolsRoute
   '/journal/$slug': typeof JournalSlugRoute
-  '/pillars/$slug': typeof PillarsSlugRoute
+  '/taxonomy/$slug': typeof TaxonomySlugRoute
   '/journal/': typeof JournalIndexRoute
 }
 export interface FileRouteTypes {
@@ -88,8 +97,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/reach-us'
     | '/studio'
+    | '/tools'
     | '/journal/$slug'
-    | '/pillars/$slug'
+    | '/taxonomy/$slug'
     | '/journal/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -97,8 +107,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/reach-us'
     | '/studio'
+    | '/tools'
     | '/journal/$slug'
-    | '/pillars/$slug'
+    | '/taxonomy/$slug'
     | '/journal'
   id:
     | '__root__'
@@ -106,8 +117,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/reach-us'
     | '/studio'
+    | '/tools'
     | '/journal/$slug'
-    | '/pillars/$slug'
+    | '/taxonomy/$slug'
     | '/journal/'
   fileRoutesById: FileRoutesById
 }
@@ -116,8 +128,9 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ReachUsRoute: typeof ReachUsRoute
   StudioRoute: typeof StudioRoute
+  ToolsRoute: typeof ToolsRoute
   JournalSlugRoute: typeof JournalSlugRoute
-  PillarsSlugRoute: typeof PillarsSlugRoute
+  TaxonomySlugRoute: typeof TaxonomySlugRoute
   JournalIndexRoute: typeof JournalIndexRoute
 }
 
@@ -151,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journal/': {
       id: '/journal/'
       path: '/journal'
@@ -165,11 +185,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JournalSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pillars/$slug': {
-      id: '/pillars/$slug'
-      path: '/pillars/$slug'
-      fullPath: '/pillars/$slug'
-      preLoaderRoute: typeof PillarsSlugRouteImport
+    '/taxonomy/$slug': {
+      id: '/taxonomy/$slug'
+      path: '/taxonomy/$slug'
+      fullPath: '/taxonomy/$slug'
+      preLoaderRoute: typeof TaxonomySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -180,8 +200,9 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ReachUsRoute: ReachUsRoute,
   StudioRoute: StudioRoute,
+  ToolsRoute: ToolsRoute,
   JournalSlugRoute: JournalSlugRoute,
-  PillarsSlugRoute: PillarsSlugRoute,
+  TaxonomySlugRoute: TaxonomySlugRoute,
   JournalIndexRoute: JournalIndexRoute,
 }
 export const routeTree = rootRouteImport
