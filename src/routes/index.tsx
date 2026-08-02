@@ -92,22 +92,22 @@ function Index() {
 
       {/* Bold Artistic Quote Section */}
       <section className="relative z-10 mx-auto w-full max-w-5xl px-8 py-20 md:py-32">
-        <div className="liquid-glass relative overflow-hidden rounded-[3rem] p-12 md:p-20 text-center border border-border/30 shadow-2xl shadow-foreground/5 before:absolute before:inset-0 before:bg-gradient-to-br before:from-foreground/5 before:to-transparent">
+        <div className="liquid-glass relative overflow-hidden rounded-[3rem] p-12 md:p-24 text-center border border-blue-500/10 shadow-[0_40px_100px_-20px_rgba(14,165,233,0.1)]">
           <div className="relative z-10">
             <span
-              className="text-6xl text-foreground/20 leading-none absolute -top-8 -left-4"
+              className="text-8xl text-blue-400/10 leading-none absolute -top-12 -left-8"
               style={{ fontFamily: "'Instrument Serif', serif" }}
             >
               "
             </span>
             <h2
-              className="text-3xl md:text-5xl font-medium leading-[1.15] tracking-tight text-foreground"
-              style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic" }}
+              className="text-3xl md:text-5xl font-normal leading-[1.2] tracking-tight text-foreground"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
             >
               The people who help others for decades aren't the ones who ignore their own wounds.
               <br />
               <br />
-              <span className="text-foreground/70">
+              <span className="italic text-blue-200/80">
                 They're the ones who gradually heal enough that their wounds stop controlling them.
               </span>
             </h2>
