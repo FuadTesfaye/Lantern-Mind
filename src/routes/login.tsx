@@ -14,7 +14,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/admin/login")({
+export const Route = createFileRoute("/login")({
   component: AdminLogin,
 });
 

@@ -19,7 +19,7 @@ function AdminLayout() {
       } = await supabase.auth.getSession();
 
       if (!session) {
-        navigate({ to: "/admin/login" });
+        navigate({ to: "/login" });
       } else {
         setIsAuthenticated(true);
       }
@@ -32,7 +32,7 @@ function AdminLayout() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_OUT" || !session) {
-        navigate({ to: "/admin/login" });
+        navigate({ to: "/login" });
       }
     });
 

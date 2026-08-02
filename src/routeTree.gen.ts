@@ -14,13 +14,13 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ExperiencesRouteImport } from './routes/experiences'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReachUsRouteImport } from './routes/reach-us'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminNewsletterRouteImport } from './routes/admin.newsletter'
 import { Route as AdminPostsRouteImport } from './routes/admin.posts'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
@@ -54,6 +54,11 @@ const ExperiencesRoute = ExperiencesRouteImport.update({
   path: '/experiences',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -82,11 +87,6 @@ const ToolsRoute = ToolsRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminNewsletterRoute = AdminNewsletterRouteImport.update({
@@ -131,12 +131,12 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/community': typeof CommunityRouteWithChildren
   '/experiences': typeof ExperiencesRoute
+  '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/reach-us': typeof ReachUsRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
-  '/admin/login': typeof AdminLoginRoute
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/posts': typeof AdminPostsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -151,12 +151,12 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/community': typeof CommunityRouteWithChildren
   '/experiences': typeof ExperiencesRoute
+  '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/reach-us': typeof ReachUsRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
-  '/admin/login': typeof AdminLoginRoute
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/posts': typeof AdminPostsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -173,12 +173,12 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/community': typeof CommunityRouteWithChildren
   '/experiences': typeof ExperiencesRoute
+  '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/reach-us': typeof ReachUsRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
-  '/admin/login': typeof AdminLoginRoute
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/posts': typeof AdminPostsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -196,12 +196,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/community'
     | '/experiences'
+    | '/login'
     | '/privacy'
     | '/reach-us'
     | '/studio'
     | '/terms'
     | '/tools'
-    | '/admin/login'
     | '/admin/newsletter'
     | '/admin/posts'
     | '/admin/users'
@@ -216,12 +216,12 @@ export interface FileRouteTypes {
     | '/about'
     | '/community'
     | '/experiences'
+    | '/login'
     | '/privacy'
     | '/reach-us'
     | '/studio'
     | '/terms'
     | '/tools'
-    | '/admin/login'
     | '/admin/newsletter'
     | '/admin/posts'
     | '/admin/users'
@@ -237,12 +237,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/community'
     | '/experiences'
+    | '/login'
     | '/privacy'
     | '/reach-us'
     | '/studio'
     | '/terms'
     | '/tools'
-    | '/admin/login'
     | '/admin/newsletter'
     | '/admin/posts'
     | '/admin/users'
@@ -259,6 +259,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   CommunityRoute: typeof CommunityRouteWithChildren
   ExperiencesRoute: typeof ExperiencesRoute
+  LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
   ReachUsRoute: typeof ReachUsRoute
   StudioRoute: typeof StudioRoute
@@ -306,6 +307,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExperiencesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -346,13 +354,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/newsletter': {
@@ -408,7 +409,6 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
-  AdminLoginRoute: typeof AdminLoginRoute
   AdminNewsletterRoute: typeof AdminNewsletterRoute
   AdminPostsRoute: typeof AdminPostsRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -416,7 +416,6 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
-  AdminLoginRoute: AdminLoginRoute,
   AdminNewsletterRoute: AdminNewsletterRoute,
   AdminPostsRoute: AdminPostsRoute,
   AdminUsersRoute: AdminUsersRoute,
@@ -443,6 +442,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   CommunityRoute: CommunityRouteWithChildren,
   ExperiencesRoute: ExperiencesRoute,
+  LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
   ReachUsRoute: ReachUsRoute,
   StudioRoute: StudioRoute,
