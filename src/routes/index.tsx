@@ -90,6 +90,135 @@ function Index() {
         </div>
       </section>
 
+      {/* Bold Artistic Quote Section */}
+      <section className="relative z-10 mx-auto w-full max-w-5xl px-8 py-20 md:py-32">
+        <div className="liquid-glass relative overflow-hidden rounded-[3rem] p-12 md:p-20 text-center border border-border/30 shadow-2xl shadow-foreground/5 before:absolute before:inset-0 before:bg-gradient-to-br before:from-foreground/5 before:to-transparent">
+          <div className="relative z-10">
+            <span
+              className="text-6xl text-foreground/20 leading-none absolute -top-8 -left-4"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              "
+            </span>
+            <h2
+              className="text-3xl md:text-5xl font-medium leading-[1.15] tracking-tight text-foreground"
+              style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic" }}
+            >
+              The people who help others for decades aren't the ones who ignore their own wounds.
+              <br />
+              <br />
+              <span className="text-foreground/70">
+                They're the ones who gradually heal enough that their wounds stop controlling them.
+              </span>
+            </h2>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Journal Cards */}
+      <section className="relative z-10 mx-auto w-full max-w-7xl px-8 pb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">The Journal</p>
+            <h2
+              className="mt-4 max-w-2xl text-4xl font-normal leading-[1.02] tracking-[-1.4px] sm:text-5xl"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              Notes on <em className="not-italic text-muted-foreground">living.</em>
+            </h2>
+          </div>
+          <Link
+            to="/journal"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors border-b border-border pb-1"
+          >
+            Read all entries →
+          </Link>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <Link
+            to="/journal/$slug"
+            params={{ slug: "fog-and-focus" }}
+            className="liquid-glass group rounded-3xl p-8 transition-all hover:-translate-y-2 hover:bg-foreground/5 border border-border/40 flex flex-col min-h-[320px]"
+          >
+            <span className="text-xs text-muted-foreground mb-6 block">April 12</span>
+            <h3
+              className="text-2xl text-foreground mb-4 leading-snug"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              On the architecture of brain fog
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+              Why forgetting isn't a failure of character, but a physiological response to
+              overwhelm.
+            </p>
+            <span className="text-xs uppercase tracking-widest text-foreground font-medium group-hover:underline mt-8 block">
+              Read →
+            </span>
+          </Link>
+
+          <Link
+            to="/journal/$slug"
+            params={{ slug: "grief-in-the-body" }}
+            className="liquid-glass group rounded-3xl p-8 transition-all hover:-translate-y-2 hover:bg-foreground/5 border border-border/40 flex flex-col min-h-[320px]"
+          >
+            <span className="text-xs text-muted-foreground mb-6 block">March 28</span>
+            <h3
+              className="text-2xl text-foreground mb-4 leading-snug"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              Where grief settles
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+              Tracing the physical map of emotional loss through the nervous system.
+            </p>
+            <span className="text-xs uppercase tracking-widest text-foreground font-medium group-hover:underline mt-8 block">
+              Read →
+            </span>
+          </Link>
+
+          <Link
+            to="/journal/$slug"
+            params={{ slug: "rest-as-resistance" }}
+            className="liquid-glass group rounded-3xl p-8 transition-all hover:-translate-y-2 hover:bg-foreground/5 border border-border/40 flex flex-col min-h-[320px]"
+          >
+            <span className="text-xs text-muted-foreground mb-6 block">March 15</span>
+            <h3
+              className="text-2xl text-foreground mb-4 leading-snug"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              Rest as resistance
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+              The radical act of doing absolutely nothing when the world demands everything.
+            </p>
+            <span className="text-xs uppercase tracking-widest text-foreground font-medium group-hover:underline mt-8 block">
+              Read →
+            </span>
+          </Link>
+
+          <Link
+            to="/journal/$slug"
+            params={{ slug: "the-myth-of-closure" }}
+            className="liquid-glass group rounded-3xl p-8 transition-all hover:-translate-y-2 hover:bg-foreground/5 border border-border/40 flex flex-col min-h-[320px]"
+          >
+            <span className="text-xs text-muted-foreground mb-6 block">February 02</span>
+            <h3
+              className="text-2xl text-foreground mb-4 leading-snug"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              The myth of closure
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+              Why we should stop looking for an ending, and start looking for integration.
+            </p>
+            <span className="text-xs uppercase tracking-widest text-foreground font-medium group-hover:underline mt-8 block">
+              Read →
+            </span>
+          </Link>
+        </div>
+      </section>
+
       {/* Your Journey Taxonomy Section */}
       <section className="relative z-10 mx-auto w-full max-w-7xl px-8 py-28">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">

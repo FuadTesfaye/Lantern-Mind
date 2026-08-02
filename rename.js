@@ -1,23 +1,22 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 function walkDir(dir, callback) {
-  fs.readdirSync(dir).forEach(f => {
+  fs.readdirSync(dir).forEach((f) => {
     let dirPath = path.join(dir, f);
     let isDirectory = fs.statSync(dirPath).isDirectory();
-    isDirectory ? 
-      walkDir(dirPath, callback) : callback(path.join(dir, f));
+    isDirectory ? walkDir(dirPath, callback) : callback(path.join(dir, f));
   });
 }
 
-walkDir('./src', (filePath) => {
-  if (filePath.endsWith('.tsx') || filePath.endsWith('.ts') || filePath.endsWith('.css')) {
-    let content = fs.readFileSync(filePath, 'utf8');
+walkDir("./src", (filePath) => {
+  if (filePath.endsWith(".tsx") || filePath.endsWith(".ts") || filePath.endsWith(".css")) {
+    let content = fs.readFileSync(filePath, "utf8");
     let original = content;
-    content = content.replace(/Velorah/g, 'Lantern-Mind');
-    content = content.replace(/velorah/g, 'lantern-mind');
+    content = content.replace(/Velorah/g, "Lantern-Mind");
+    content = content.replace(/velorah/g, "lantern-mind");
     if (content !== original) {
-      fs.writeFileSync(filePath, content, 'utf8');
+      fs.writeFileSync(filePath, content, "utf8");
       console.log(`Updated ${filePath}`);
     }
   }

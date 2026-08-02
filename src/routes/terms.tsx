@@ -100,8 +100,8 @@ function TermsPage() {
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           All original content, including articles, brain map designs, and taxonomy structures, are
-          the property of Lantern-Mind. You may not reproduce, distribute, or create derivative works
-          from our content without explicit permission.
+          the property of Lantern-Mind. You may not reproduce, distribute, or create derivative
+          works from our content without explicit permission.
         </p>
 
         <h2
@@ -112,8 +112,8 @@ function TermsPage() {
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           We may update these terms periodically to reflect changes in our platform or legal
-          requirements. Continued use of Lantern-Mind after such changes constitutes acceptance of the
-          new terms.
+          requirements. Continued use of Lantern-Mind after such changes constitutes acceptance of
+          the new terms.
         </p>
 
         <div className="mt-12 rounded-2xl bg-[var(--color-primary)]/5 p-6 border border-[var(--color-primary)]/20">

@@ -64,7 +64,9 @@ function AdminLogin() {
         <form onSubmit={handleLogin}>
           <CardHeader>
             <CardTitle className="text-2xl font-bold">Admin Access</CardTitle>
-            <CardDescription>Sign in to manage the Lantern-Mind community platform.</CardDescription>
+            <CardDescription>
+              Sign in to manage the Lantern-Mind community platform.
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">

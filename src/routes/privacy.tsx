@@ -30,8 +30,8 @@ function PrivacyPage() {
           1. Data Minimization & Local Storage
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-          Many of the tools on Lantern-Mind, such as the Sleep Diary, Burnout Assessment, and Recovery
-          Planner, run entirely in your browser. This means that{" "}
+          Many of the tools on Lantern-Mind, such as the Sleep Diary, Burnout Assessment, and
+          Recovery Planner, run entirely in your browser. This means that{" "}
           <strong>no personal data from these tools is sent to our servers</strong>. It is stored
           locally on your device (using LocalStorage) to ensure maximum privacy.
         </p>
