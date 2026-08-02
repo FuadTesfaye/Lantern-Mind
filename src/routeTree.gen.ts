@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ExperiencesRouteImport } from './routes/experiences'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -18,6 +19,10 @@ import { Route as ReachUsRouteImport } from './routes/reach-us'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsRouteImport } from './routes/tools'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminNewsletterRouteImport } from './routes/admin.newsletter'
+import { Route as AdminPostsRouteImport } from './routes/admin.posts'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as TaxonomySlugRouteImport } from './routes/taxonomy.$slug'
@@ -30,6 +35,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CommunityRoute = CommunityRouteImport.update({
@@ -67,6 +77,26 @@ const ToolsRoute = ToolsRouteImport.update({
   path: '/tools',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNewsletterRoute = AdminNewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPostsRoute = AdminPostsRouteImport.update({
+  id: '/posts',
+  path: '/posts',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
 const JournalIndexRoute = JournalIndexRouteImport.update({
   id: '/journal/',
   path: '/journal/',
@@ -86,6 +116,7 @@ const TaxonomySlugRoute = TaxonomySlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/community': typeof CommunityRoute
   '/experiences': typeof ExperiencesRoute
   '/privacy': typeof PrivacyRoute
@@ -93,8 +124,12 @@ export interface FileRoutesByFullPath {
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
+  '/admin/posts': typeof AdminPostsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/journal/': typeof JournalIndexRoute
 }
 export interface FileRoutesByTo {
@@ -107,14 +142,19 @@ export interface FileRoutesByTo {
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
+  '/admin/posts': typeof AdminPostsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
+  '/admin': typeof AdminIndexRoute
   '/journal': typeof JournalIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/community': typeof CommunityRoute
   '/experiences': typeof ExperiencesRoute
   '/privacy': typeof PrivacyRoute
@@ -122,8 +162,12 @@ export interface FileRoutesById {
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
+  '/admin/posts': typeof AdminPostsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/journal/': typeof JournalIndexRoute
 }
 export interface FileRouteTypes {
@@ -131,6 +175,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/community'
     | '/experiences'
     | '/privacy'
@@ -138,8 +183,12 @@ export interface FileRouteTypes {
     | '/studio'
     | '/terms'
     | '/tools'
+    | '/admin/newsletter'
+    | '/admin/posts'
+    | '/admin/users'
     | '/journal/$slug'
     | '/taxonomy/$slug'
+    | '/admin/'
     | '/journal/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -152,13 +201,18 @@ export interface FileRouteTypes {
     | '/studio'
     | '/terms'
     | '/tools'
+    | '/admin/newsletter'
+    | '/admin/posts'
+    | '/admin/users'
     | '/journal/$slug'
     | '/taxonomy/$slug'
+    | '/admin'
     | '/journal'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/community'
     | '/experiences'
     | '/privacy'
@@ -166,14 +220,19 @@ export interface FileRouteTypes {
     | '/studio'
     | '/terms'
     | '/tools'
+    | '/admin/newsletter'
+    | '/admin/posts'
+    | '/admin/users'
     | '/journal/$slug'
     | '/taxonomy/$slug'
+    | '/admin/'
     | '/journal/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   CommunityRoute: typeof CommunityRoute
   ExperiencesRoute: typeof ExperiencesRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -200,6 +259,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/community': {
@@ -251,6 +317,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/newsletter': {
+      id: '/admin/newsletter'
+      path: '/newsletter'
+      fullPath: '/admin/newsletter'
+      preLoaderRoute: typeof AdminNewsletterRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/posts': {
+      id: '/admin/posts'
+      path: '/posts'
+      fullPath: '/admin/posts'
+      preLoaderRoute: typeof AdminPostsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/journal/': {
       id: '/journal/'
       path: '/journal'
@@ -275,9 +369,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminNewsletterRoute: typeof AdminNewsletterRoute
+  AdminPostsRoute: typeof AdminPostsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminNewsletterRoute: AdminNewsletterRoute,
+  AdminPostsRoute: AdminPostsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   CommunityRoute: CommunityRoute,
   ExperiencesRoute: ExperiencesRoute,
   PrivacyRoute: PrivacyRoute,
