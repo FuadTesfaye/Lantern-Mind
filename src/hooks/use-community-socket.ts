@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { voiceStories } from "@/content/trauma";
 import {
   COMMUNITY_WS_PATH,
+  uniquePostSlug,
   type ClientMessage,
   type CommunityComment,
   type CommunityPost,
@@ -22,7 +23,7 @@ type UseCommunitySocketResult = {
   pending: CommunityPost[];
   lastError: string | null;
   send: (message: ClientMessage) => void;
-  getPost: (postId: string) => CommunityPost | undefined;
+  getPost: (slugOrId: string) => CommunityPost | undefined;
 };
 
 function wsUrl() {
@@ -32,18 +33,28 @@ function wsUrl() {
 }
 
 function seedFallback(): CommunityPost[] {
-  return voiceStories.map((story) => ({
-    id: `seed_${story.id}`,
-    title: story.title,
-    body: story.excerpt,
-    excerpt: story.excerpt,
-    author: story.author,
-    tags: story.tags,
-    status: "published" as const,
-    createdAt: new Date(0).toISOString(),
-    publishedAt: new Date(0).toISOString(),
-    comments: [],
-  }));
+  const posts = voiceStories.map((story) => {
+    const postId = `seed_${story.id}`;
+    return {
+      id: postId,
+      slug: "",
+      title: story.title,
+      body: story.excerpt,
+      excerpt: story.excerpt,
+      author: story.author,
+      tags: story.tags,
+      status: "published" as const,
+      createdAt: new Date(0).toISOString(),
+      publishedAt: new Date(0).toISOString(),
+      comments: [] as CommunityPost["comments"],
+    };
+  });
+  const taken: string[] = [];
+  return posts.map((post) => {
+    const slug = uniquePostSlug(post.title, post.id, taken);
+    taken.push(slug);
+    return { ...post, slug };
+  });
 }
 
 function applySnapshot(
@@ -173,9 +184,9 @@ export function useCommunitySocket(
   }, [enabled]);
 
   const getPost = useCallback(
-    (postId: string) =>
-      snapshot.published.find((p) => p.id === postId) ??
-      snapshot.pending.find((p) => p.id === postId),
+    (slugOrId: string) =>
+      snapshot.published.find((p) => p.slug === slugOrId || p.id === slugOrId) ??
+      snapshot.pending.find((p) => p.slug === slugOrId || p.id === slugOrId),
     [snapshot],
   );
 

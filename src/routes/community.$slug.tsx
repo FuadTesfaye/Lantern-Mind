@@ -1,17 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { PageShell } from "@/components/page-shell";
 import { CareNote } from "@/components/care-note";
 import { PostDiscussion } from "@/components/community/post-discussion";
 import { useCommunitySocket } from "@/hooks/use-community-socket";
 import { formatRelativeDate } from "@/lib/community/types";
 
-export const Route = createFileRoute("/community/$postId")({
+export const Route = createFileRoute("/community/$slug")({
   head: ({ params }) => ({
     meta: [
-      { title: `Voice — Velorah` },
+      { title: "Voice — Velorah" },
       {
         name: "description",
-        content: `Anonymous discussion for community post ${params.postId}.`,
+        content: `Anonymous story and discussion: ${params.slug}.`,
       },
     ],
   }),
@@ -19,10 +20,18 @@ export const Route = createFileRoute("/community/$postId")({
 });
 
 function CommunityPostPage() {
-  const { postId } = Route.useParams();
+  const { slug } = Route.useParams();
   const { getPost, send, status, published } = useCommunitySocket();
-  const post = getPost(postId);
+  const post = getPost(slug);
   const ready = status === "open" || published.length > 0;
+
+  useEffect(() => {
+    if (!post || post.status !== "published") return;
+    if (typeof window === "undefined") return;
+    if (window.location.hash !== "#discussion") return;
+    const el = document.getElementById("discussion");
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [post]);
 
   if (ready && !post) {
     return (
@@ -90,33 +99,46 @@ function CommunityPostPage() {
         <span>{formatRelativeDate(post.publishedAt ?? post.createdAt)}</span>
         <span aria-hidden>·</span>
         <span>— {post.author}</span>
+        {post.comments.length > 0 ? (
+          <>
+            <span aria-hidden>·</span>
+            <a
+              href="#discussion"
+              className="transition-colors hover:text-foreground"
+            >
+              {post.comments.length} in discussion
+            </a>
+          </>
+        ) : null}
       </div>
 
-      <article className="max-w-2xl">
-        <div className="flex flex-wrap gap-2">
-          {post.tags.map((t) => (
-            <span
-              key={t}
-              className="rounded-full bg-foreground/5 px-2.5 py-0.5 text-xs text-muted-foreground"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-        <p
-          className="mt-8 whitespace-pre-wrap text-base leading-relaxed text-muted-foreground sm:text-lg"
-          style={{ fontFamily: "'Inter', sans-serif" }}
-        >
+      <article className="max-w-2xl animate-fade-rise">
+        {post.tags.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {post.tags.map((t) => (
+              <span
+                key={t}
+                className="rounded-full bg-foreground/5 px-2.5 py-0.5 text-xs text-muted-foreground"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        ) : null}
+        <p className="mt-8 whitespace-pre-wrap text-base leading-[1.75] text-foreground/85 sm:text-lg">
           {post.body}
         </p>
+        <p className="mt-10 text-sm text-muted-foreground">— {post.author}</p>
       </article>
 
-      <PostDiscussion
-        postId={post.id}
-        comments={post.comments}
-        send={send}
-        status={status}
-      />
+      <div id="discussion" className="scroll-mt-28">
+        <PostDiscussion
+          postId={post.id}
+          comments={post.comments}
+          send={send}
+          status={status}
+        />
+      </div>
 
       <CareNote>
         Peer witnessing only — not crisis care. If you need urgent help, contact local

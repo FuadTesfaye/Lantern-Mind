@@ -23,7 +23,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminNewsletterRouteImport } from './routes/admin.newsletter'
 import { Route as AdminPostsRouteImport } from './routes/admin.posts'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
-import { Route as CommunityPostIdRouteImport } from './routes/community.$postId'
+import { Route as CommunitySlugRouteImport } from './routes/community.$slug'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as TaxonomySlugRouteImport } from './routes/taxonomy.$slug'
@@ -98,9 +98,9 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
-const CommunityPostIdRoute = CommunityPostIdRouteImport.update({
-  id: '/$postId',
-  path: '/$postId',
+const CommunitySlugRoute = CommunitySlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
   getParentRoute: () => CommunityRoute,
 } as any)
 const JournalIndexRoute = JournalIndexRouteImport.update({
@@ -133,7 +133,7 @@ export interface FileRoutesByFullPath {
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/posts': typeof AdminPostsRoute
   '/admin/users': typeof AdminUsersRoute
-  '/community/$postId': typeof CommunityPostIdRoute
+  '/community/$slug': typeof CommunitySlugRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -152,7 +152,7 @@ export interface FileRoutesByTo {
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/posts': typeof AdminPostsRoute
   '/admin/users': typeof AdminUsersRoute
-  '/community/$postId': typeof CommunityPostIdRoute
+  '/community/$slug': typeof CommunitySlugRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
   '/admin': typeof AdminIndexRoute
@@ -173,7 +173,7 @@ export interface FileRoutesById {
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/posts': typeof AdminPostsRoute
   '/admin/users': typeof AdminUsersRoute
-  '/community/$postId': typeof CommunityPostIdRoute
+  '/community/$slug': typeof CommunitySlugRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -195,7 +195,7 @@ export interface FileRouteTypes {
     | '/admin/newsletter'
     | '/admin/posts'
     | '/admin/users'
-    | '/community/$postId'
+    | '/community/$slug'
     | '/journal/$slug'
     | '/taxonomy/$slug'
     | '/admin/'
@@ -214,7 +214,7 @@ export interface FileRouteTypes {
     | '/admin/newsletter'
     | '/admin/posts'
     | '/admin/users'
-    | '/community/$postId'
+    | '/community/$slug'
     | '/journal/$slug'
     | '/taxonomy/$slug'
     | '/admin'
@@ -234,7 +234,7 @@ export interface FileRouteTypes {
     | '/admin/newsletter'
     | '/admin/posts'
     | '/admin/users'
-    | '/community/$postId'
+    | '/community/$slug'
     | '/journal/$slug'
     | '/taxonomy/$slug'
     | '/admin/'
@@ -357,11 +357,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/community/$postId': {
-      id: '/community/$postId'
-      path: '/$postId'
-      fullPath: '/community/$postId'
-      preLoaderRoute: typeof CommunityPostIdRouteImport
+    '/community/$slug': {
+      id: '/community/$slug'
+      path: '/$slug'
+      fullPath: '/community/$slug'
+      preLoaderRoute: typeof CommunitySlugRouteImport
       parentRoute: typeof CommunityRoute
     }
     '/journal/': {
@@ -405,11 +405,11 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface CommunityRouteChildren {
-  CommunityPostIdRoute: typeof CommunityPostIdRoute
+  CommunitySlugRoute: typeof CommunitySlugRoute
 }
 
 const CommunityRouteChildren: CommunityRouteChildren = {
-  CommunityPostIdRoute: CommunityPostIdRoute,
+  CommunitySlugRoute: CommunitySlugRoute,
 }
 
 const CommunityRouteWithChildren = CommunityRoute._addFileChildren(

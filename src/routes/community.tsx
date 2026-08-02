@@ -80,9 +80,9 @@ function CommunityPage() {
               Stories of recovery
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Human-sized tiles. Soft tags underneath. Click a tag to find every story
-              that carries that thread. Use Post please to send a story for review —
-              it reaches the admin queue before it appears here.
+              Human-sized tiles. Soft tags underneath. Click a story to read the full
+              text and join the anonymous discussion. Use Post please to send a story
+              for review before it appears here.
             </p>
           </div>
           <p
@@ -128,53 +128,43 @@ function CommunityPage() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           {stories.map((story) => (
-            <article
+            <Link
               key={story.id}
-              className="liquid-glass group flex flex-col rounded-3xl p-7 transition-transform hover:scale-[1.01]"
+              to="/community/$slug"
+              params={{ slug: story.slug }}
+              className="liquid-glass group flex flex-col rounded-3xl p-7 transition-transform hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <p className="text-xs text-muted-foreground">
                 {formatRelativeDate(story.publishedAt ?? story.createdAt)}
               </p>
               <h3
-                className="mt-4 text-2xl leading-snug tracking-[-0.5px] text-foreground"
+                className="mt-4 text-2xl leading-snug tracking-[-0.5px] text-foreground transition-colors group-hover:text-muted-foreground"
                 style={{ fontFamily: "'Instrument Serif', serif" }}
               >
-                <Link
-                  to="/community/$postId"
-                  params={{ postId: story.id }}
-                  className="transition-colors hover:text-muted-foreground"
-                >
-                  {story.title}
-                </Link>
+                {story.title}
               </h3>
               <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">
                 {story.excerpt}
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {story.tags.map((t) => (
-                  <button
+                  <span
                     key={t}
-                    type="button"
-                    onClick={() => setActiveTag(t)}
-                    className="rounded-full bg-foreground/5 px-2.5 py-0.5 text-xs text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground"
+                    className="rounded-full bg-foreground/5 px-2.5 py-0.5 text-xs text-muted-foreground"
                   >
                     {t}
-                  </button>
+                  </span>
                 ))}
               </div>
               <div className="mt-6 flex items-center justify-between border-t border-border/40 pt-4">
                 <p className="text-xs text-foreground/60">— {story.author}</p>
-                <Link
-                  to="/community/$postId"
-                  params={{ postId: story.id }}
-                  className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-                >
+                <span className="text-xs text-muted-foreground transition-colors group-hover:text-foreground">
                   {story.comments.length > 0
                     ? `${story.comments.length} in discussion`
-                    : "Open discussion"}
-                </Link>
+                    : "Open story & discussion"}
+                </span>
               </div>
-            </article>
+            </Link>
           ))}
           {status === "open" && stories.length === 0 ? (
             <p className="col-span-full text-sm text-muted-foreground">

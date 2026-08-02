@@ -13,6 +13,8 @@ export type CommunityComment = {
 
 export type CommunityPost = {
   id: string;
+  /** URL segment — title-derived, unique */
+  slug: string;
   title: string;
   body: string;
   excerpt: string;
@@ -54,6 +56,36 @@ export type ServerMessage =
   | { type: "error"; message: string };
 
 export const COMMUNITY_WS_PATH = "/api/community-ws";
+
+export function slugifyTitle(title: string): string {
+  const base = title
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 72);
+  return base || "voice";
+}
+
+/** Prefer a clean title slug; collide → append a short id tail. */
+export function uniquePostSlug(
+  title: string,
+  id: string,
+  taken: Iterable<string>,
+): string {
+  const used = new Set(taken);
+  const base = slugifyTitle(title);
+  if (!used.has(base)) return base;
+  const tail = id.replace(/[^a-z0-9]/gi, "").slice(-6).toLowerCase() || "x";
+  let candidate = `${base}-${tail}`;
+  let n = 2;
+  while (used.has(candidate)) {
+    candidate = `${base}-${tail}-${n}`;
+    n += 1;
+  }
+  return candidate;
+}
 
 export function excerptFromBody(body: string, max = 180): string {
   const cleaned = body.trim().replace(/\s+/g, " ");

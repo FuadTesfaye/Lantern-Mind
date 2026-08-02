@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { voiceStories } from "../src/content/trauma.ts";
 import {
   excerptFromBody,
+  uniquePostSlug,
   type ClientMessage,
   type CommunityComment,
   type CommunityPost,
@@ -37,19 +38,40 @@ function sanitizeTags(tags: string[]) {
   return unique.slice(0, 3);
 }
 
+function ensureSlugs(posts: CommunityPost[]): CommunityPost[] {
+  const taken: string[] = [];
+  let changed = false;
+  const next = posts.map((post) => {
+    if (post.slug && !taken.includes(post.slug)) {
+      taken.push(post.slug);
+      return post;
+    }
+    changed = true;
+    const slug = uniquePostSlug(post.title, post.id, taken);
+    taken.push(slug);
+    return { ...post, slug };
+  });
+  return changed ? next : posts;
+}
+
 function seedPosts(): CommunityPost[] {
-  return voiceStories.map((story) => ({
-    id: `seed_${story.id}`,
-    title: story.title,
-    body: story.excerpt,
-    excerpt: story.excerpt,
-    author: story.author,
-    tags: story.tags,
-    status: "published" as const,
-    createdAt: nowIso(),
-    publishedAt: nowIso(),
-    comments: [],
-  }));
+  const posts = voiceStories.map((story) => {
+    const postId = `seed_${story.id}`;
+    return {
+      id: postId,
+      slug: "",
+      title: story.title,
+      body: story.excerpt,
+      excerpt: story.excerpt,
+      author: story.author,
+      tags: story.tags,
+      status: "published" as const,
+      createdAt: nowIso(),
+      publishedAt: nowIso(),
+      comments: [],
+    };
+  });
+  return ensureSlugs(posts);
 }
 
 function load(): CommunityPost[] {
@@ -58,7 +80,7 @@ function load(): CommunityPost[] {
     const raw = readFileSync(STORE_PATH, "utf8");
     const parsed = JSON.parse(raw) as PersistShape;
     if (!Array.isArray(parsed.posts) || parsed.posts.length === 0) return seedPosts();
-    return parsed.posts;
+    return ensureSlugs(parsed.posts);
   } catch {
     return seedPosts();
   }
@@ -77,6 +99,7 @@ export type CommunityHub = {
 
 export function createCommunityHub(): CommunityHub {
   let posts = load();
+  save(posts);
 
   const persist = () => save(posts);
 
@@ -105,8 +128,14 @@ export function createCommunityHub(): CommunityHub {
             },
           ];
         }
+        const postId = id("post");
         const post: CommunityPost = {
-          id: id("post"),
+          id: postId,
+          slug: uniquePostSlug(
+            title,
+            postId,
+            posts.map((p) => p.slug),
+          ),
           title,
           body,
           excerpt: excerptFromBody(body),
