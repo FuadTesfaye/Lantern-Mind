@@ -2,11 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { PageShell } from "@/components/page-shell";
 import { CareNote } from "@/components/care-note";
-import {
-  getUniqueStoryTags,
-  supportCircles,
-  voiceStories,
-} from "@/content/trauma";
+import { PostPleaseDialog } from "@/components/community/post-please-dialog";
+import { supportCircles } from "@/content/trauma";
+import { useCommunitySocket } from "@/hooks/use-community-socket";
+import { formatRelativeDate } from "@/lib/community/types";
 
 export const Route = createFileRoute("/community")({
   head: () => ({
@@ -21,7 +20,7 @@ export const Route = createFileRoute("/community")({
       {
         property: "og:description",
         content:
-          "Human-sized stories, soft tags, and moderated circles. Say “I hear you” — or sit with a story in silence.",
+          "Human-sized stories, soft tags, and moderated circles. Post please for review — then talk anonymously on published threads.",
       },
     ],
   }),
@@ -29,13 +28,17 @@ export const Route = createFileRoute("/community")({
 });
 
 function CommunityPage() {
-  const allTags = useMemo(() => getUniqueStoryTags(), []);
+  const { published, status, send } = useCommunitySocket();
   const [activeTag, setActiveTag] = useState<string | null>(null);
 
+  const allTags = useMemo(() => {
+    return [...new Set(published.flatMap((s) => s.tags))].sort();
+  }, [published]);
+
   const stories = useMemo(() => {
-    if (!activeTag) return voiceStories;
-    return voiceStories.filter((s) => s.tags.includes(activeTag));
-  }, [activeTag]);
+    if (!activeTag) return published;
+    return published.filter((s) => s.tags.includes(activeTag));
+  }, [activeTag, published]);
 
   return (
     <PageShell
@@ -48,6 +51,7 @@ function CommunityPage() {
       intro="A safe, moderated space for stories of recovery and circles of shared experience. Stories are anonymous. Tags come from the lived-experience map — not clinical labels. We witness; we do not diagnose."
     >
       <div className="mb-10 flex flex-wrap items-center gap-3">
+        <PostPleaseDialog send={send} status={status} />
         <Link
           to="/experiences"
           className="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03]"
@@ -77,15 +81,21 @@ function CommunityPage() {
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
               Human-sized tiles. Soft tags underneath. Click a tag to find every story
-              that carries that thread. Up to three tags per submission.
+              that carries that thread. Use Post please to send a story for review —
+              it reaches the admin queue before it appears here.
             </p>
           </div>
-          <button
-            type="button"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          <p
+            className="text-xs text-muted-foreground"
+            aria-live="polite"
+            title="Realtime connection"
           >
-            Submit a Story
-          </button>
+            {status === "open"
+              ? "Live"
+              : status === "connecting"
+                ? "Connecting…"
+                : "Reconnecting…"}
+          </p>
         </div>
 
         <div className="mb-8 flex flex-wrap gap-2">
@@ -122,12 +132,20 @@ function CommunityPage() {
               key={story.id}
               className="liquid-glass group flex flex-col rounded-3xl p-7 transition-transform hover:scale-[1.01]"
             >
-              <p className="text-xs text-muted-foreground">{story.date}</p>
+              <p className="text-xs text-muted-foreground">
+                {formatRelativeDate(story.publishedAt ?? story.createdAt)}
+              </p>
               <h3
                 className="mt-4 text-2xl leading-snug tracking-[-0.5px] text-foreground"
                 style={{ fontFamily: "'Instrument Serif', serif" }}
               >
-                {story.title}
+                <Link
+                  to="/community/$postId"
+                  params={{ postId: story.id }}
+                  className="transition-colors hover:text-muted-foreground"
+                >
+                  {story.title}
+                </Link>
               </h3>
               <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">
                 {story.excerpt}
@@ -146,19 +164,27 @@ function CommunityPage() {
               </div>
               <div className="mt-6 flex items-center justify-between border-t border-border/40 pt-4">
                 <p className="text-xs text-foreground/60">— {story.author}</p>
-                <button
-                  type="button"
+                <Link
+                  to="/community/$postId"
+                  params={{ postId: story.id }}
                   className="text-xs text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  I hear you
-                </button>
+                  {story.comments.length > 0
+                    ? `${story.comments.length} in discussion`
+                    : "Open discussion"}
+                </Link>
               </div>
             </article>
           ))}
-          {stories.length === 0 ? (
+          {status === "open" && stories.length === 0 ? (
             <p className="col-span-full text-sm text-muted-foreground">
               No stories with that tag yet. The map is wider than the archive — yours
               could be the first.
+            </p>
+          ) : null}
+          {status !== "open" && stories.length === 0 ? (
+            <p className="col-span-full text-sm text-muted-foreground">
+              Connecting to the live room…
             </p>
           ) : null}
         </div>
@@ -214,11 +240,11 @@ function CommunityPage() {
         </p>
         <ul className="mt-6 max-w-2xl space-y-4 text-sm leading-relaxed text-muted-foreground">
           <li className="border-l border-border/60 pl-5">
-            Content warnings on graphic detail. Sensitive threads are moderated with
-            extra care.
+            New stories use Post please — they wait in the admin queue before going
+            public.
           </li>
           <li className="border-l border-border/60 pl-5">
-            No open advice piles — respond with “I hear you,” or hold silence.
+            Discussions stay anonymous. Witness; don’t diagnose or pile on advice.
           </li>
           <li className="border-l border-border/60 pl-5">
             No trauma comparison or invalidation. Pain is not a contest.

@@ -23,6 +23,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminNewsletterRouteImport } from './routes/admin.newsletter'
 import { Route as AdminPostsRouteImport } from './routes/admin.posts'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as CommunityPostIdRouteImport } from './routes/community.$postId'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as TaxonomySlugRouteImport } from './routes/taxonomy.$slug'
@@ -97,6 +98,11 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
+const CommunityPostIdRoute = CommunityPostIdRouteImport.update({
+  id: '/$postId',
+  path: '/$postId',
+  getParentRoute: () => CommunityRoute,
+} as any)
 const JournalIndexRoute = JournalIndexRouteImport.update({
   id: '/journal/',
   path: '/journal/',
@@ -117,7 +123,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
-  '/community': typeof CommunityRoute
+  '/community': typeof CommunityRouteWithChildren
   '/experiences': typeof ExperiencesRoute
   '/privacy': typeof PrivacyRoute
   '/reach-us': typeof ReachUsRoute
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/posts': typeof AdminPostsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/community/$postId': typeof CommunityPostIdRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -135,7 +142,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/community': typeof CommunityRoute
+  '/community': typeof CommunityRouteWithChildren
   '/experiences': typeof ExperiencesRoute
   '/privacy': typeof PrivacyRoute
   '/reach-us': typeof ReachUsRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/posts': typeof AdminPostsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/community/$postId': typeof CommunityPostIdRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
   '/admin': typeof AdminIndexRoute
@@ -155,7 +163,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
-  '/community': typeof CommunityRoute
+  '/community': typeof CommunityRouteWithChildren
   '/experiences': typeof ExperiencesRoute
   '/privacy': typeof PrivacyRoute
   '/reach-us': typeof ReachUsRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/posts': typeof AdminPostsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/community/$postId': typeof CommunityPostIdRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
     | '/admin/newsletter'
     | '/admin/posts'
     | '/admin/users'
+    | '/community/$postId'
     | '/journal/$slug'
     | '/taxonomy/$slug'
     | '/admin/'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/admin/newsletter'
     | '/admin/posts'
     | '/admin/users'
+    | '/community/$postId'
     | '/journal/$slug'
     | '/taxonomy/$slug'
     | '/admin'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/admin/newsletter'
     | '/admin/posts'
     | '/admin/users'
+    | '/community/$postId'
     | '/journal/$slug'
     | '/taxonomy/$slug'
     | '/admin/'
@@ -233,7 +245,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
-  CommunityRoute: typeof CommunityRoute
+  CommunityRoute: typeof CommunityRouteWithChildren
   ExperiencesRoute: typeof ExperiencesRoute
   PrivacyRoute: typeof PrivacyRoute
   ReachUsRoute: typeof ReachUsRoute
@@ -345,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/community/$postId': {
+      id: '/community/$postId'
+      path: '/$postId'
+      fullPath: '/community/$postId'
+      preLoaderRoute: typeof CommunityPostIdRouteImport
+      parentRoute: typeof CommunityRoute
+    }
     '/journal/': {
       id: '/journal/'
       path: '/journal'
@@ -385,11 +404,23 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface CommunityRouteChildren {
+  CommunityPostIdRoute: typeof CommunityPostIdRoute
+}
+
+const CommunityRouteChildren: CommunityRouteChildren = {
+  CommunityPostIdRoute: CommunityPostIdRoute,
+}
+
+const CommunityRouteWithChildren = CommunityRoute._addFileChildren(
+  CommunityRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
-  CommunityRoute: CommunityRoute,
+  CommunityRoute: CommunityRouteWithChildren,
   ExperiencesRoute: ExperiencesRoute,
   PrivacyRoute: PrivacyRoute,
   ReachUsRoute: ReachUsRoute,

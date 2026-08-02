@@ -1,72 +1,128 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Check, X } from 'lucide-react'
+import { createFileRoute } from "@tanstack/react-router";
+import { Check, X, Wifi, WifiOff } from "lucide-react";
+import { toast } from "sonner";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useCommunitySocket } from "@/hooks/use-community-socket";
+import { formatRelativeDate } from "@/lib/community/types";
 
-export const Route = createFileRoute('/admin/posts')({
+export const Route = createFileRoute("/admin/posts")({
   component: AdminPosts,
-})
-
-const mockPendingPosts = [
-  {
-    id: "p1",
-    author: "Amina K.",
-    title: "Navigating Anxiety in the Workplace",
-    excerpt: "It can be difficult to manage stress when deadlines are looming. Here are some strategies I use to stay grounded...",
-    date: "Aug 2, 2026",
-    status: "Pending",
-  },
-  {
-    id: "p2",
-    author: "Yusuf M.",
-    title: "The Importance of Community Support",
-    excerpt: "We often underestimate how much a simple conversation can help someone going through a tough time.",
-    date: "Aug 1, 2026",
-    status: "Pending",
-  },
-];
+});
 
 function AdminPosts() {
+  const { pending, status, send, lastError } = useCommunitySocket();
+
+  const approve = (postId: string) => {
+    send({ type: "approve_post", postId });
+    toast.success("Post published to Voices");
+  };
+
+  const reject = (postId: string) => {
+    send({ type: "reject_post", postId });
+    toast.message("Submission declined");
+  };
+
   return (
     <div className="flex-1 space-y-4">
-      <div className="flex items-center justify-between space-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-3xl font-bold tracking-tight">Post Approvals</h2>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          {status === "open" ? (
+            <>
+              <Wifi className="h-3.5 w-3.5 text-emerald-500" aria-hidden />
+              Live queue
+            </>
+          ) : (
+            <>
+              <WifiOff className="h-3.5 w-3.5" aria-hidden />
+              {status === "connecting" ? "Connecting…" : "Reconnecting…"}
+            </>
+          )}
+        </div>
       </div>
 
+      <p className="max-w-2xl text-sm text-muted-foreground">
+        Submissions from Community → Post please land here over WebSocket. Approve to
+        publish on Voices; discussion opens on the live post.
+      </p>
+
+      {lastError ? (
+        <p className="text-sm text-destructive" role="alert">
+          {lastError}
+        </p>
+      ) : null}
+
       <div className="grid gap-4">
-        {mockPendingPosts.map((post) => (
+        {pending.map((post) => (
           <Card key={post.id}>
             <CardHeader>
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between gap-3">
                 <div>
                   <CardTitle>{post.title}</CardTitle>
-                  <CardDescription>Submitted by {post.author} on {post.date}</CardDescription>
+                  <CardDescription>
+                    From {post.author} · {formatRelativeDate(post.createdAt)}
+                  </CardDescription>
                 </div>
-                <Badge variant="secondary">{post.status}</Badge>
+                <Badge variant="secondary">Pending</Badge>
               </div>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground italic">"{post.excerpt}"</p>
+            <CardContent className="space-y-3">
+              <p className="whitespace-pre-wrap text-sm text-muted-foreground">
+                {post.body}
+              </p>
+              {post.tags.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <Badge key={tag} variant="outline">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              ) : null}
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
-              <Button variant="outline" className="text-destructive hover:bg-destructive/10">
+              <Button
+                variant="outline"
+                className="text-destructive hover:bg-destructive/10"
+                disabled={status !== "open"}
+                onClick={() => reject(post.id)}
+              >
                 <X className="mr-2 h-4 w-4" /> Reject
               </Button>
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
+                disabled={status !== "open"}
+                onClick={() => approve(post.id)}
+              >
                 <Check className="mr-2 h-4 w-4" /> Approve
               </Button>
             </CardFooter>
           </Card>
         ))}
-        {mockPendingPosts.length === 0 && (
+        {status === "open" && pending.length === 0 ? (
           <Card>
-            <CardContent className="flex flex-col items-center justify-center h-32 text-muted-foreground">
+            <CardContent className="flex h-32 flex-col items-center justify-center text-muted-foreground">
               <p>No pending posts for approval.</p>
             </CardContent>
           </Card>
-        )}
+        ) : null}
+        {status !== "open" && pending.length === 0 ? (
+          <Card>
+            <CardContent className="flex h-32 flex-col items-center justify-center text-muted-foreground">
+              <p>Connecting to the live queue…</p>
+            </CardContent>
+          </Card>
+        ) : null}
       </div>
     </div>
-  )
+  );
 }
