@@ -1,7 +1,6 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { storyTagOptions } from "@/content/trauma";
-import type { useCommunitySocket } from "@/hooks/use-community-socket";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,22 +14,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useMutation } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
 
-type Send = ReturnType<typeof useCommunitySocket>["send"];
-type Status = ReturnType<typeof useCommunitySocket>["status"];
-
-type PostPleaseDialogProps = {
-  send: Send;
-  status: Status;
-};
-
-export function PostPleaseDialog({ send, status }: PostPleaseDialogProps) {
+export function PostPleaseDialog() {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [author, setAuthor] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [submitting, setSubmitting] = useState(false);
 
   const tagLabels = useMemo(() => [...new Set(storyTagOptions.map((t) => t.label))].sort(), []);
 
@@ -49,30 +41,50 @@ export function PostPleaseDialog({ send, status }: PostPleaseDialogProps) {
     setTags([]);
   };
 
+  const submitPost = useMutation({
+    mutationFn: async () => {
+      const slug =
+        title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .slice(0, 50) +
+        "-" +
+        Math.random().toString(36).substring(2, 8);
+      const excerpt = body.slice(0, 150) + (body.length > 150 ? "..." : "");
+      const { data, error } = await supabase.from("community_posts").insert([
+        {
+          slug,
+          title,
+          body,
+          excerpt,
+          author: author.trim() || "Anonymous",
+          tags,
+          status: "Pending",
+        },
+      ]);
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      toast.success("Sent to moderators", {
+        description: "If it’s a fit, it will appear on Voices after review.",
+      });
+      reset();
+      setOpen(false);
+    },
+    onError: (error) => {
+      toast.error(`Error submitting story: ${error.message}`);
+    },
+  });
+
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (status !== "open") {
-      toast.error("Still connecting — try again in a second.");
-      return;
-    }
     if (title.trim().length < 3 || body.trim().length < 20) {
       toast.error("Add a short title and at least a few sentences.");
       return;
     }
-    setSubmitting(true);
-    send({
-      type: "submit_post",
-      title,
-      body,
-      tags,
-      ...(author.trim() ? { author: author.trim() } : {}),
-    });
-    toast.success("Sent to moderators", {
-      description: "If it’s a fit, it will appear on Voices after review.",
-    });
-    setSubmitting(false);
-    reset();
-    setOpen(false);
+    submitPost.mutate();
   };
 
   return (
@@ -167,11 +179,12 @@ export function PostPleaseDialog({ send, status }: PostPleaseDialogProps) {
               variant="ghost"
               onClick={() => setOpen(false)}
               className="text-muted-foreground"
+              disabled={submitPost.isPending}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={submitting || status !== "open"}>
-              Send for review
+            <Button type="submit" disabled={submitPost.isPending}>
+              {submitPost.isPending ? "Sending..." : "Send for review"}
             </Button>
           </DialogFooter>
         </form>

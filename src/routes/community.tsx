@@ -4,8 +4,10 @@ import { PageShell } from "@/components/page-shell";
 import { CareNote } from "@/components/care-note";
 import { PostPleaseDialog } from "@/components/community/post-please-dialog";
 import { supportCircles } from "@/content/trauma";
-import { useCommunitySocket } from "@/hooks/use-community-socket";
 import { formatRelativeDate } from "@/lib/community/types";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/community")({
   head: () => ({
@@ -28,16 +30,39 @@ export const Route = createFileRoute("/community")({
 });
 
 function CommunityPage() {
-  const { published, status, send } = useCommunitySocket();
+  const queryClient = useQueryClient();
   const [activeTag, setActiveTag] = useState<string | null>(null);
 
+  const {
+    data: published = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["community_posts"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("community_posts")
+        .select(
+          `
+          id, slug, title, excerpt, author, tags, published_at,
+          comments:community_comments(id)
+        `,
+        )
+        .eq("status", "Approved")
+        .order("published_at", { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    },
+  });
+
   const allTags = useMemo(() => {
-    return [...new Set(published.flatMap((s) => s.tags))].sort();
+    return [...new Set(published.flatMap((s: any) => s.tags || []))].sort();
   }, [published]);
 
   const stories = useMemo(() => {
     if (!activeTag) return published;
-    return published.filter((s) => s.tags.includes(activeTag));
+    return published.filter((s: any) => (s.tags || []).includes(activeTag));
   }, [activeTag, published]);
 
   return (
@@ -51,7 +76,7 @@ function CommunityPage() {
       intro="A safe, moderated space for stories of recovery and circles of shared experience. Stories are anonymous. Tags come from the lived-experience map — not clinical labels. We witness; we do not diagnose."
     >
       <div className="mb-10 flex flex-wrap items-center gap-3">
-        <PostPleaseDialog send={send} status={status} />
+        <PostPleaseDialog />
         <Link
           to="/experiences"
           className="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03]"
@@ -83,12 +108,8 @@ function CommunityPage() {
               here.
             </p>
           </div>
-          <p
-            className="text-xs text-muted-foreground"
-            aria-live="polite"
-            title="Realtime connection"
-          >
-            {status === "open" ? "Live" : status === "connecting" ? "Connecting…" : "Reconnecting…"}
+          <p className="text-xs text-muted-foreground" aria-live="polite">
+            Live from Database
           </p>
         </div>
 
@@ -104,7 +125,7 @@ function CommunityPage() {
           >
             All threads
           </button>
-          {allTags.map((tag) => (
+          {allTags.map((tag: any) => (
             <button
               key={tag}
               type="button"
@@ -121,7 +142,15 @@ function CommunityPage() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          {stories.map((story) => (
+          {isLoading && (
+            <p className="col-span-full text-sm text-muted-foreground">Loading stories...</p>
+          )}
+          {error && (
+            <p className="col-span-full text-sm text-destructive">
+              Error loading stories from database.
+            </p>
+          )}
+          {stories.map((story: any) => (
             <Link
               key={story.id}
               to="/community/$slug"
@@ -129,7 +158,7 @@ function CommunityPage() {
               className="liquid-glass group flex flex-col rounded-3xl p-7 transition-transform hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <p className="text-xs text-muted-foreground">
-                {formatRelativeDate(story.publishedAt ?? story.createdAt)}
+                {formatRelativeDate(story.published_at)}
               </p>
               <h3
                 className="mt-4 text-2xl leading-snug tracking-[-0.5px] text-foreground transition-colors group-hover:text-muted-foreground"
@@ -141,7 +170,7 @@ function CommunityPage() {
                 {story.excerpt}
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
-                {story.tags.map((t) => (
+                {story.tags?.map((t: string) => (
                   <span
                     key={t}
                     className="rounded-full bg-foreground/5 px-2.5 py-0.5 text-xs text-muted-foreground"
@@ -153,22 +182,16 @@ function CommunityPage() {
               <div className="mt-6 flex items-center justify-between border-t border-border/40 pt-4">
                 <p className="text-xs text-foreground/60">— {story.author}</p>
                 <span className="text-xs text-muted-foreground transition-colors group-hover:text-foreground">
-                  {story.comments.length > 0
+                  {story.comments && story.comments.length > 0
                     ? `${story.comments.length} in discussion`
                     : "Open story & discussion"}
                 </span>
               </div>
             </Link>
           ))}
-          {status === "open" && stories.length === 0 ? (
+          {!isLoading && !error && stories.length === 0 ? (
             <p className="col-span-full text-sm text-muted-foreground">
-              No stories with that tag yet. The map is wider than the archive — yours could be the
-              first.
-            </p>
-          ) : null}
-          {status !== "open" && stories.length === 0 ? (
-            <p className="col-span-full text-sm text-muted-foreground">
-              Connecting to the live room…
+              No stories found. Yours could be the first.
             </p>
           ) : null}
         </div>

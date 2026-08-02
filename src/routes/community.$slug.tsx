@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import { PageShell } from "@/components/page-shell";
 import { CareNote } from "@/components/care-note";
 import { PostDiscussion } from "@/components/community/post-discussion";
-import { useCommunitySocket } from "@/hooks/use-community-socket";
 import { formatRelativeDate } from "@/lib/community/types";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/community/$slug")({
   head: ({ params }) => ({
@@ -21,19 +22,61 @@ export const Route = createFileRoute("/community/$slug")({
 
 function CommunityPostPage() {
   const { slug } = Route.useParams();
-  const { getPost, send, status, published } = useCommunitySocket();
-  const post = getPost(slug);
-  const ready = status === "open" || published.length > 0;
+
+  const {
+    data: post,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["community_post", slug],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("community_posts")
+        .select(
+          `
+          *,
+          comments:community_comments(*)
+        `,
+        )
+        .eq("slug", slug)
+        .single();
+
+      if (error) {
+        if (error.code === "PGRST116") return null; // not found
+        throw error;
+      }
+
+      // Sort comments by created_at ascending (oldest first)
+      if (data?.comments) {
+        data.comments.sort(
+          (a: any, b: any) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+        );
+      }
+      return data;
+    },
+  });
 
   useEffect(() => {
-    if (!post || post.status !== "published") return;
+    if (!post || post.status !== "Approved") return;
     if (typeof window === "undefined") return;
     if (window.location.hash !== "#discussion") return;
     const el = document.getElementById("discussion");
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [post]);
 
-  if (ready && !post) {
+  if (isLoading) {
+    return (
+      <PageShell
+        eyebrow="Voices"
+        title={<>Opening the thread…</>}
+        intro="Connecting to the live room."
+      >
+        <p className="text-sm text-muted-foreground">One moment.</p>
+      </PageShell>
+    );
+  }
+
+  if (error || (!post && !isLoading)) {
     return (
       <PageShell
         eyebrow="Voices"
@@ -54,19 +97,7 @@ function CommunityPostPage() {
     );
   }
 
-  if (!post) {
-    return (
-      <PageShell
-        eyebrow="Voices"
-        title={<>Opening the thread…</>}
-        intro="Connecting to the live room."
-      >
-        <p className="text-sm text-muted-foreground">One moment.</p>
-      </PageShell>
-    );
-  }
-
-  if (post.status !== "published") {
+  if (post.status !== "Approved") {
     return (
       <PageShell
         eyebrow="Voices"
@@ -94,10 +125,10 @@ function CommunityPostPage() {
           ← Voices
         </Link>
         <span aria-hidden>·</span>
-        <span>{formatRelativeDate(post.publishedAt ?? post.createdAt)}</span>
+        <span>{formatRelativeDate(post.published_at || post.created_at)}</span>
         <span aria-hidden>·</span>
         <span>— {post.author}</span>
-        {post.comments.length > 0 ? (
+        {post.comments?.length > 0 ? (
           <>
             <span aria-hidden>·</span>
             <a href="#discussion" className="transition-colors hover:text-foreground">
@@ -108,9 +139,9 @@ function CommunityPostPage() {
       </div>
 
       <article className="max-w-2xl animate-fade-rise">
-        {post.tags.length > 0 ? (
+        {post.tags?.length > 0 ? (
           <div className="flex flex-wrap gap-2">
-            {post.tags.map((t) => (
+            {post.tags.map((t: string) => (
               <span
                 key={t}
                 className="rounded-full bg-foreground/5 px-2.5 py-0.5 text-xs text-muted-foreground"
@@ -127,7 +158,7 @@ function CommunityPostPage() {
       </article>
 
       <div id="discussion" className="scroll-mt-28">
-        <PostDiscussion postId={post.id} comments={post.comments} send={send} status={status} />
+        <PostDiscussion postId={post.id} comments={post.comments || []} />
       </div>
 
       <CareNote>

@@ -1,34 +1,49 @@
 import { useState, type FormEvent } from "react";
 import { formatRelativeDate, type CommunityComment } from "@/lib/community/types";
-import type { useCommunitySocket } from "@/hooks/use-community-socket";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
-type Send = ReturnType<typeof useCommunitySocket>["send"];
-type Status = ReturnType<typeof useCommunitySocket>["status"];
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 type PostDiscussionProps = {
   postId: string;
-  comments: CommunityComment[];
-  send: Send;
-  status: Status;
+  comments: any[];
 };
 
-export function PostDiscussion({ postId, comments, send, status }: PostDiscussionProps) {
+export function PostDiscussion({ postId, comments }: PostDiscussionProps) {
   const [body, setBody] = useState("");
   const [author, setAuthor] = useState("");
+  const queryClient = useQueryClient();
+
+  const addComment = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase.from("community_comments").insert([
+        {
+          post_id: postId,
+          body,
+          author: author.trim() || "Anonymous",
+        },
+      ]);
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      toast.success("Comment added quietly.");
+      setBody("");
+      queryClient.invalidateQueries({ queryKey: ["community_post"] });
+    },
+    onError: (error) => {
+      toast.error(`Could not add comment: ${error.message}`);
+    },
+  });
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (status !== "open") return;
-    send({
-      type: "add_comment",
-      postId,
-      body,
-      ...(author.trim() ? { author: author.trim() } : {}),
-    });
-    setBody("");
+    if (!body.trim()) return;
+    addComment.mutate();
   };
 
   return (
@@ -56,7 +71,7 @@ export function PostDiscussion({ postId, comments, send, status }: PostDiscussio
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <span className="text-xs text-foreground/70">— {comment.author}</span>
                 <span className="text-xs text-muted-foreground">
-                  {formatRelativeDate(comment.createdAt)}
+                  {formatRelativeDate(comment.created_at || comment.createdAt)}
                 </span>
               </div>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{comment.body}</p>
@@ -83,8 +98,8 @@ export function PostDiscussion({ postId, comments, send, status }: PostDiscussio
             className="bg-transparent sm:max-w-[220px]"
             aria-label="Display name"
           />
-          <Button type="submit" disabled={status !== "open"} className="sm:ml-auto">
-            {status === "open" ? "Send anonymously" : "Connecting…"}
+          <Button type="submit" disabled={addComment.isPending} className="sm:ml-auto">
+            {addComment.isPending ? "Sending…" : "Send anonymously"}
           </Button>
         </div>
       </form>

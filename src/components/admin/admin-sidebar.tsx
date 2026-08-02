@@ -1,6 +1,7 @@
-import { Link, useLocation } from "@tanstack/react-router";
-import { LayoutDashboard, Users, FileText, Mail, Settings, LogOut } from "lucide-react";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { LayoutDashboard, Users, FileText, Mail, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
 
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -11,6 +12,12 @@ const navigation = [
 
 export function AdminSidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate({ to: "/admin/login" });
+  };
 
   return (
     <div className="flex h-screen w-64 flex-col border-r bg-card text-card-foreground">
@@ -47,13 +54,13 @@ export function AdminSidebar() {
       </div>
 
       <div className="border-t p-4">
-        <Link
-          to="/"
-          className="group flex w-full items-center rounded-md px-2 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+        <button
+          onClick={handleLogout}
+          className="group flex w-full items-center rounded-md px-2 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground text-left"
         >
           <LogOut className="mr-3 h-5 w-5" aria-hidden="true" />
-          Exit Admin
-        </Link>
+          Logout
+        </button>
       </div>
     </div>
   );
