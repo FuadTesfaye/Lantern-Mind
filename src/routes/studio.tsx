@@ -35,6 +35,31 @@ function StudioPage() {
       }
       intro="Explore our library of evidence-based resources. Each section is written to help you understand your mind, rebuild your body, and navigate your daily life."
     >
+      <Link
+        to="/experiences"
+        className="liquid-glass mb-5 grid gap-6 rounded-3xl px-8 py-10 transition-transform hover:scale-[1.005] md:grid-cols-[6rem_1fr] md:px-12"
+      >
+        <span className="text-sm tracking-[0.28em] text-muted-foreground">
+          MAP
+        </span>
+        <span>
+          <span
+            className="block text-3xl leading-tight tracking-[-1px] text-foreground sm:text-4xl"
+            style={{ fontFamily: "'Instrument Serif', serif" }}
+          >
+            Lived Experiences{" "}
+            <em className="not-italic text-muted-foreground">atlas.</em>
+          </span>
+          <span className="mt-4 block max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            A detailed map of trauma and shared human wounds — named with felt sense,
+            not clinical boxes — so visitors can find the words they never had.
+          </span>
+          <span className="mt-6 block text-sm text-muted-foreground">
+            6 domains · childhood, relational, systemic, inner, faith, purpose
+          </span>
+        </span>
+      </Link>
+
       <div className="grid gap-5">
         {taxonomy.map((category, idx) => (
           <Link

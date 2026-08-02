@@ -169,6 +169,17 @@ function TaxonomyCategoryPage() {
                 </ul>
               </div>
             ) : null}
+
+            {topic.relatedLink ? (
+              <div className="mt-10">
+                <Link
+                  to={topic.relatedLink.to}
+                  className="liquid-glass inline-block rounded-full px-8 py-3.5 text-sm text-foreground transition-transform hover:scale-[1.03]"
+                >
+                  {topic.relatedLink.label}
+                </Link>
+              </div>
+            ) : null}
           </article>
         ))}
       </div>

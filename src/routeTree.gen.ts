@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as ExperiencesRouteImport } from './routes/experiences'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReachUsRouteImport } from './routes/reach-us'
 import { Route as StudioRouteImport } from './routes/studio'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
@@ -34,6 +37,16 @@ const CommunityRoute = CommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExperiencesRoute = ExperiencesRouteImport.update({
+  id: '/experiences',
+  path: '/experiences',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReachUsRoute = ReachUsRouteImport.update({
   id: '/reach-us',
   path: '/reach-us',
@@ -42,6 +55,11 @@ const ReachUsRoute = ReachUsRouteImport.update({
 const StudioRoute = StudioRouteImport.update({
   id: '/studio',
   path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsRoute = ToolsRouteImport.update({
@@ -69,8 +87,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/community': typeof CommunityRoute
+  '/experiences': typeof ExperiencesRoute
+  '/privacy': typeof PrivacyRoute
   '/reach-us': typeof ReachUsRoute
   '/studio': typeof StudioRoute
+  '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
@@ -80,8 +101,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/community': typeof CommunityRoute
+  '/experiences': typeof ExperiencesRoute
+  '/privacy': typeof PrivacyRoute
   '/reach-us': typeof ReachUsRoute
   '/studio': typeof StudioRoute
+  '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
@@ -92,8 +116,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/community': typeof CommunityRoute
+  '/experiences': typeof ExperiencesRoute
+  '/privacy': typeof PrivacyRoute
   '/reach-us': typeof ReachUsRoute
   '/studio': typeof StudioRoute
+  '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/taxonomy/$slug': typeof TaxonomySlugRoute
@@ -105,8 +132,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/community'
+    | '/experiences'
+    | '/privacy'
     | '/reach-us'
     | '/studio'
+    | '/terms'
     | '/tools'
     | '/journal/$slug'
     | '/taxonomy/$slug'
@@ -116,8 +146,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/community'
+    | '/experiences'
+    | '/privacy'
     | '/reach-us'
     | '/studio'
+    | '/terms'
     | '/tools'
     | '/journal/$slug'
     | '/taxonomy/$slug'
@@ -127,8 +160,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/community'
+    | '/experiences'
+    | '/privacy'
     | '/reach-us'
     | '/studio'
+    | '/terms'
     | '/tools'
     | '/journal/$slug'
     | '/taxonomy/$slug'
@@ -139,8 +175,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CommunityRoute: typeof CommunityRoute
+  ExperiencesRoute: typeof ExperiencesRoute
+  PrivacyRoute: typeof PrivacyRoute
   ReachUsRoute: typeof ReachUsRoute
   StudioRoute: typeof StudioRoute
+  TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRoute
   JournalSlugRoute: typeof JournalSlugRoute
   TaxonomySlugRoute: typeof TaxonomySlugRoute
@@ -170,6 +209,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/experiences': {
+      id: '/experiences'
+      path: '/experiences'
+      fullPath: '/experiences'
+      preLoaderRoute: typeof ExperiencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reach-us': {
       id: '/reach-us'
       path: '/reach-us'
@@ -182,6 +235,13 @@ declare module '@tanstack/react-router' {
       path: '/studio'
       fullPath: '/studio'
       preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools': {
@@ -219,8 +279,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CommunityRoute: CommunityRoute,
+  ExperiencesRoute: ExperiencesRoute,
+  PrivacyRoute: PrivacyRoute,
   ReachUsRoute: ReachUsRoute,
   StudioRoute: StudioRoute,
+  TermsRoute: TermsRoute,
   ToolsRoute: ToolsRoute,
   JournalSlugRoute: JournalSlugRoute,
   TaxonomySlugRoute: TaxonomySlugRoute,

@@ -7,6 +7,7 @@ export type TaxonomyTopic = {
   steps?: string[];
   islamicView?: string[];
   whenToSeekHelp?: string[];
+  relatedLink?: { label: string; to: "/experiences" | "/community" | "/tools" | "/journal" };
 };
 
 export type TaxonomyCategory = {
@@ -75,21 +76,36 @@ export const taxonomy: TaxonomyCategory[] = [
       },
       {
         slug: "trauma-ptsd",
-        title: "Trauma & PTSD",
-        feels: "Re-experiencing events (flashbacks), hyperarousal, avoidance, numbness. The body keeps answering a threat that has passed.",
+        title: "Trauma & Lived Experience",
+        feels: "Re-experiencing events (flashbacks), hyperarousal, avoidance, numbness. The body keeps answering a threat that has passed. Or quieter fractures: growing up too fast, emotional neglect, betrayal, displacement, spiritual wounding — experiences that never got a name until now.",
         why: [
-          "Acute events like accidents or violence.",
-          "The alarm system (amygdala) stays sensitized, overriding the logical brain."
+          "Acute events like accidents, violence, or assault — and chronic patterns like parentification, neglect, or gaslighting.",
+          "The alarm system (amygdala) stays sensitized, overriding the logical brain.",
+          "What was never named still lives in memory, attention, identity, and the body."
+        ],
+        body: [
+          "Clinical labels help professionals. Lived language helps humans. Velorah’s experience map names dozens of shared wounds — childhood adversity, relational rupture, systemic violence, inner crises, faith wounding, and work or purpose collapse — each with a felt sense so you can recognize yourself without a diagnosis.",
+          "On Voices, these become soft tags on stories. In Community, they become Support Circles by theme. In the Library, they grow into guides. Start with the map when you need words; stay with a circle when you need witnesses."
         ],
         steps: [
-          "Practice grounding techniques (e.g., 5-4-3-2-1 sensory method).",
-          "Ensure physical and emotional safety first.",
-          "Connect with safe, supportive people."
+          "Open the Lived Experiences map and find the language that fits — not every wound needs a clinical name.",
+          "Practice grounding when the body is loud (e.g., 5-4-3-2-1 sensory method).",
+          "Ensure physical and emotional safety first; then connect with safe people or a moderated circle.",
+          "If a story or tag overwhelms you, pause. Use content warnings. Seek crisis help when needed."
         ],
         whenToSeekHelp: [
           "If symptoms last longer than 1 month or severely impair daily life.",
-          "Seek trauma-focused CBT or EMDR (highly recommended by WHO)."
-        ]
+          "Seek trauma-focused CBT or EMDR (highly recommended by WHO).",
+          "If you are in crisis or thinking of harming yourself, contact emergency or crisis services immediately — this site cannot replace that care."
+        ],
+        islamicView: [
+          "Hardship is acknowledged in revelation; seeking healing (including professional care) is not a weakness of faith.",
+          "Being witnessed with dignity — without comparison of pain — reflects the mercy we owe one another."
+        ],
+        relatedLink: {
+          label: "Open the Lived Experiences atlas",
+          to: "/experiences",
+        },
       },
       {
         slug: "anxiety",

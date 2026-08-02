@@ -1,172 +1,240 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import { PageShell } from "@/components/page-shell";
+import { CareNote } from "@/components/care-note";
+import {
+  getUniqueStoryTags,
+  supportCircles,
+  voiceStories,
+} from "@/content/trauma";
 
 export const Route = createFileRoute("/community")({
   head: () => ({
     meta: [
-      { title: "Community & Stories — Velorah" },
+      { title: "Voices & Community — Velorah" },
       {
         name: "description",
         content:
-          "Anonymous stories of recovery, discussion forums, and community support.",
+          "Anonymous stories tagged by lived experience, support circles by theme, and a space to be witnessed — not fixed.",
+      },
+      { property: "og:title", content: "Voices & Community — Velorah" },
+      {
+        property: "og:description",
+        content:
+          "Human-sized stories, soft tags, and moderated circles. Say “I hear you” — or sit with a story in silence.",
       },
     ],
   }),
   component: CommunityPage,
 });
 
-const stories = [
-  {
-    id: 1,
-    title: "Ahmed's Journey – Burnout to Balance",
-    excerpt: "I thought it was just laziness. I couldn't focus on Salah, I couldn't read a page without my mind wandering. Turns out, it was severe burnout from working 60-hour weeks. Here is how I set boundaries...",
-    author: "Anonymous Brother",
-    tags: ["Burnout", "Faith"],
-    date: "2 days ago",
-  },
-  {
-    id: 2,
-    title: "Zahra's Story – Overcoming Trauma",
-    excerpt: "The nightmares wouldn't stop. I felt completely detached from my family. Taking the first step to speak to a counselor felt impossible, but reading the stories here gave me the courage...",
-    author: "Z.M.",
-    tags: ["Trauma", "Anxiety"],
-    date: "1 week ago",
-  },
-];
-
-const forumTopics = [
-  {
-    id: 1,
-    title: "How do you maintain focus during Tahajjud when exhausted?",
-    replies: 24,
-    category: "Faith & Practice",
-    lastActive: "Just now",
-  },
-  {
-    id: 2,
-    title: "Tips for dealing with brain fog at university?",
-    replies: 15,
-    category: "Cognitive Recovery",
-    lastActive: "1 hour ago",
-  },
-  {
-    id: 3,
-    title: "Finding a culturally competent therapist in the UK",
-    replies: 42,
-    category: "Resources",
-    lastActive: "3 hours ago",
-  },
-];
-
 function CommunityPage() {
+  const allTags = useMemo(() => getUniqueStoryTags(), []);
+  const [activeTag, setActiveTag] = useState<string | null>(null);
+
+  const stories = useMemo(() => {
+    if (!activeTag) return voiceStories;
+    return voiceStories.filter((s) => s.tags.includes(activeTag));
+  }, [activeTag]);
+
   return (
     <PageShell
-      eyebrow="Community & Support"
+      eyebrow="Voices & Community"
       title={
         <>
           You are not <em className="not-italic text-muted-foreground">alone.</em>
         </>
       }
-      intro="A safe, moderated space to share your journey and learn from others. All stories are anonymous. We enforce strict guidelines to ensure a supportive environment."
+      intro="A safe, moderated space for stories of recovery and circles of shared experience. Stories are anonymous. Tags come from the lived-experience map — not clinical labels. We witness; we do not diagnose."
     >
-      <div className="grid gap-12 lg:grid-cols-2">
-        
-        {/* Anonymous Stories */}
-        <section>
-          <div className="mb-6 flex items-center justify-between">
-            <h2
-              className="text-3xl text-foreground"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              Stories of Recovery
-            </h2>
-            <button className="text-sm text-[var(--color-primary)] hover:underline">
-              Submit a Story
-            </button>
-          </div>
-          
-          <div className="space-y-4">
-            {stories.map((story) => (
-              <article
-                key={story.id}
-                className="liquid-glass group rounded-2xl p-6 transition-transform hover:scale-[1.01]"
-              >
-                <div className="flex items-center justify-between">
-                  <p className="text-xs text-muted-foreground">{story.date}</p>
-                  <div className="flex gap-2">
-                    {story.tags.map((t) => (
-                      <span key={t} className="rounded-full bg-[var(--color-primary)]/10 px-2 py-0.5 text-xs text-[var(--color-primary)]">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <h3 className="mt-3 text-lg font-medium text-foreground/90 group-hover:text-[var(--color-primary)]">
-                  {story.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {story.excerpt}
-                </p>
-                <p className="mt-4 text-xs font-medium text-foreground/60">— {story.author}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* Discussion Forums */}
-        <section>
-          <div className="mb-6 flex items-center justify-between">
-            <h2
-              className="text-3xl text-foreground"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              Discussion Forums
-            </h2>
-            <button className="text-sm text-[var(--color-primary)] hover:underline">
-              View All Topics
-            </button>
-          </div>
-
-          <div className="liquid-glass rounded-3xl p-2">
-            <div className="divide-y divide-border/40">
-              {forumTopics.map((topic) => (
-                <div key={topic.id} className="group p-4 transition-colors hover:bg-foreground/5 sm:p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.1em] text-muted-foreground">
-                        {topic.category}
-                      </p>
-                      <h4 className="mt-1 text-base font-medium text-foreground/90 group-hover:text-[var(--color-primary)]">
-                        {topic.title}
-                      </h4>
-                    </div>
-                  </div>
-                  <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                      </svg>
-                      {topic.replies} replies
-                    </span>
-                    <span>Active {topic.lastActive}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            <div className="mt-2 p-4 text-center border-t border-border/40">
-              <button className="rounded-full bg-foreground/10 px-6 py-2 text-sm text-foreground hover:bg-foreground/20 transition-colors">
-                Start a Discussion
-              </button>
-            </div>
-          </div>
-          
-          <div className="mt-6 rounded-2xl border border-border/40 bg-foreground/5 p-5 text-sm text-muted-foreground">
-            <strong>Community Guidelines:</strong> No harassment, hate speech, or graphic details of self-harm. Disagreements must be civil. Do not post personal identifying information.
-          </div>
-        </section>
-
+      <div className="mb-10 flex flex-wrap items-center gap-3">
+        <Link
+          to="/experiences"
+          className="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03]"
+        >
+          Browse the experience map
+        </Link>
+        <Link
+          to="/reach-us"
+          className="rounded-full border border-destructive/25 bg-destructive/5 px-6 py-2.5 text-sm text-destructive/90 transition-colors hover:bg-destructive/10"
+        >
+          I need help now
+        </Link>
       </div>
+
+      {/* Voices */}
+      <section>
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
+              Voices
+            </p>
+            <h2
+              className="mt-3 text-3xl text-foreground sm:text-4xl"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              Stories of recovery
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              Human-sized tiles. Soft tags underneath. Click a tag to find every story
+              that carries that thread. Up to three tags per submission.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Submit a Story
+          </button>
+        </div>
+
+        <div className="mb-8 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setActiveTag(null)}
+            className={`rounded-full px-4 py-1.5 text-xs transition-colors ${
+              activeTag === null
+                ? "bg-foreground/15 text-foreground"
+                : "bg-foreground/5 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            All threads
+          </button>
+          {allTags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => setActiveTag(tag === activeTag ? null : tag)}
+              className={`rounded-full px-4 py-1.5 text-xs transition-colors ${
+                activeTag === tag
+                  ? "bg-foreground/15 text-foreground"
+                  : "bg-foreground/5 text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          {stories.map((story) => (
+            <article
+              key={story.id}
+              className="liquid-glass group flex flex-col rounded-3xl p-7 transition-transform hover:scale-[1.01]"
+            >
+              <p className="text-xs text-muted-foreground">{story.date}</p>
+              <h3
+                className="mt-4 text-2xl leading-snug tracking-[-0.5px] text-foreground"
+                style={{ fontFamily: "'Instrument Serif', serif" }}
+              >
+                {story.title}
+              </h3>
+              <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">
+                {story.excerpt}
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {story.tags.map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setActiveTag(t)}
+                    className="rounded-full bg-foreground/5 px-2.5 py-0.5 text-xs text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground"
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+              <div className="mt-6 flex items-center justify-between border-t border-border/40 pt-4">
+                <p className="text-xs text-foreground/60">— {story.author}</p>
+                <button
+                  type="button"
+                  className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  I hear you
+                </button>
+              </div>
+            </article>
+          ))}
+          {stories.length === 0 ? (
+            <p className="col-span-full text-sm text-muted-foreground">
+              No stories with that tag yet. The map is wider than the archive — yours
+              could be the first.
+            </p>
+          ) : null}
+        </div>
+      </section>
+
+      {/* Circles */}
+      <section id="circles" className="mt-20 scroll-mt-28">
+        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
+          Support Circles
+        </p>
+        <h2
+          className="mt-3 text-3xl text-foreground sm:text-4xl"
+          style={{ fontFamily: "'Instrument Serif', serif" }}
+        >
+          Gather by theme,{" "}
+          <em className="not-italic text-muted-foreground">not diagnosis.</em>
+        </h2>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          Moderated rooms. Not therapy. The tags help match people who carry similar
+          weight — parentification, displacement, burnout, return to faith, and more.
+        </p>
+
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {supportCircles.map((circle) => (
+            <article
+              key={circle.slug}
+              className="liquid-glass rounded-3xl px-6 py-7"
+            >
+              <h3
+                className="text-xl text-foreground"
+                style={{ fontFamily: "'Instrument Serif', serif" }}
+              >
+                {circle.title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {circle.description}
+              </p>
+              <button
+                type="button"
+                className="mt-6 text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Enter quietly
+              </button>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Guidelines */}
+      <div className="liquid-glass mt-16 rounded-3xl px-8 py-10 md:px-12">
+        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
+          How we stay safe
+        </p>
+        <ul className="mt-6 max-w-2xl space-y-4 text-sm leading-relaxed text-muted-foreground">
+          <li className="border-l border-border/60 pl-5">
+            Content warnings on graphic detail. Sensitive threads are moderated with
+            extra care.
+          </li>
+          <li className="border-l border-border/60 pl-5">
+            No open advice piles — respond with “I hear you,” or hold silence.
+          </li>
+          <li className="border-l border-border/60 pl-5">
+            No trauma comparison or invalidation. Pain is not a contest.
+          </li>
+          <li className="border-l border-border/60 pl-5">
+            No harassment, hate speech, or identifying information. Disagreements stay
+            civil.
+          </li>
+        </ul>
+      </div>
+
+      <CareNote>
+        This community is educational peer space, not therapy or crisis care. If you
+        are in immediate danger or thinking of harming yourself, contact local
+        emergency services or a crisis line now — don’t wait for a reply here.
+      </CareNote>
     </PageShell>
   );
 }

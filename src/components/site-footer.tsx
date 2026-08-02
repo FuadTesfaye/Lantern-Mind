@@ -16,7 +16,13 @@ export function SiteFooter() {
         </p>
         <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted-foreground">
           <Link to="/studio" className="transition-colors hover:text-foreground">
-            Studio
+            Library
+          </Link>
+          <Link to="/experiences" className="transition-colors hover:text-foreground">
+            Experiences
+          </Link>
+          <Link to="/community" className="transition-colors hover:text-foreground">
+            Community
           </Link>
           <Link to="/journal" className="transition-colors hover:text-foreground">
             Journal
@@ -26,6 +32,12 @@ export function SiteFooter() {
           </Link>
           <Link to="/reach-us" className="transition-colors hover:text-foreground">
             Reach Us
+          </Link>
+          <Link to="/terms" className="transition-colors hover:text-foreground">
+            Terms
+          </Link>
+          <Link to="/privacy" className="transition-colors hover:text-foreground">
+            Privacy
           </Link>
         </div>
         <p className="mt-8 text-xs leading-relaxed text-muted-foreground">
