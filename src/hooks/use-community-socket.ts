@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { voiceStories } from "@/content/trauma";
 import {
   COMMUNITY_WS_PATH,
   type ClientMessage,
@@ -28,6 +29,21 @@ function wsUrl() {
   if (typeof window === "undefined") return "";
   const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
   return `${proto}//${window.location.host}${COMMUNITY_WS_PATH}`;
+}
+
+function seedFallback(): CommunityPost[] {
+  return voiceStories.map((story) => ({
+    id: `seed_${story.id}`,
+    title: story.title,
+    body: story.excerpt,
+    excerpt: story.excerpt,
+    author: story.author,
+    tags: story.tags,
+    status: "published" as const,
+    createdAt: new Date(0).toISOString(),
+    publishedAt: new Date(0).toISOString(),
+    comments: [],
+  }));
 }
 
 function applySnapshot(
@@ -78,10 +94,10 @@ export function useCommunitySocket(
 ): UseCommunitySocketResult {
   const enabled = options.enabled ?? typeof window !== "undefined";
   const [status, setStatus] = useState<CommunityConnectionState>("connecting");
-  const [snapshot, setSnapshot] = useState<CommunitySnapshot>({
-    published: [],
+  const [snapshot, setSnapshot] = useState<CommunitySnapshot>(() => ({
+    published: seedFallback(),
     pending: [],
-  });
+  }));
   const [lastError, setLastError] = useState<string | null>(null);
   const socketRef = useRef<WebSocket | null>(null);
   const retryRef = useRef<ReturnType<typeof setTimeout> | null>(null);

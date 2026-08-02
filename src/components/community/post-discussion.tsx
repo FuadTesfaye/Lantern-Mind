@@ -31,7 +31,7 @@ export function PostDiscussion({
       type: "add_comment",
       postId,
       body,
-      author: author.trim() || undefined,
+      ...(author.trim() ? { author: author.trim() } : {}),
     });
     setBody("");
   };

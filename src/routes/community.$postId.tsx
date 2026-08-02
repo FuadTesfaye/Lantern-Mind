@@ -81,11 +81,7 @@ function CommunityPostPage() {
   }
 
   return (
-    <PageShell
-      eyebrow="Voices"
-      title={post.title}
-      intro={undefined}
-    >
+    <PageShell eyebrow="Voices" title={post.title}>
       <div className="mb-8 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
         <Link to="/community" className="transition-colors hover:text-foreground">
           ← Voices

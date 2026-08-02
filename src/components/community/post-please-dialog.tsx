@@ -58,13 +58,17 @@ export function PostPleaseDialog({ send, status }: PostPleaseDialogProps) {
       toast.error("Still connecting — try again in a second.");
       return;
     }
+    if (title.trim().length < 3 || body.trim().length < 20) {
+      toast.error("Add a short title and at least a few sentences.");
+      return;
+    }
     setSubmitting(true);
     send({
       type: "submit_post",
       title,
       body,
       tags,
-      author: author.trim() || undefined,
+      ...(author.trim() ? { author: author.trim() } : {}),
     });
     toast.success("Sent to moderators", {
       description: "If it’s a fit, it will appear on Voices after review.",

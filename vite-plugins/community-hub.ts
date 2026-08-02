@@ -1,7 +1,7 @@
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { voiceStories } from "../src/content/trauma";
+import { voiceStories } from "../src/content/trauma.ts";
 import {
   excerptFromBody,
   type ClientMessage,
@@ -9,7 +9,7 @@ import {
   type CommunityPost,
   type CommunitySnapshot,
   type ServerMessage,
-} from "../src/lib/community/types";
+} from "../src/lib/community/types.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA_DIR = join(ROOT, ".data");

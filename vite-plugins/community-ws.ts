@@ -2,8 +2,8 @@ import type { IncomingMessage } from "node:http";
 import type { Duplex } from "node:stream";
 import type { Plugin, ViteDevServer } from "vite";
 import { WebSocketServer, type WebSocket } from "ws";
-import { COMMUNITY_WS_PATH, type ServerMessage } from "../src/lib/community/types";
-import { createCommunityHub } from "./community-hub";
+import { COMMUNITY_WS_PATH, type ServerMessage } from "../src/lib/community/types.ts";
+import { createCommunityHub } from "./community-hub.ts";
 
 function send(socket: WebSocket, message: ServerMessage) {
   if (socket.readyState === socket.OPEN) {
