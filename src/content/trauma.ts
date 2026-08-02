@@ -1,5 +1,5 @@
 /**
- * Lived-experience taxonomy for Velorah.
+ * Lived-experience taxonomy for Lantern-Mind.
  * These are not diagnostic boxes — they name shared human experiences
  * so a visitor can think: “Yes. That’s exactly what happened to me.”
  */

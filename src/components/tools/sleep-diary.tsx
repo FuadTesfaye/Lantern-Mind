@@ -14,7 +14,7 @@ export function SleepDiary() {
 
   React.useEffect(() => {
     setIsClient(true);
-    const stored = localStorage.getItem("velorah-sleep-diary");
+    const stored = localStorage.getItem("lantern-mind-sleep-diary");
     if (stored) {
       try {
         setLogs(JSON.parse(stored));
@@ -35,13 +35,13 @@ export function SleepDiary() {
     const newLog: SleepLog = { date: today, hours, quality };
     const newLogs = [newLog, ...logs].slice(0, 7); // keep last 7 days
     setLogs(newLogs);
-    localStorage.setItem("velorah-sleep-diary", JSON.stringify(newLogs));
+    localStorage.setItem("lantern-mind-sleep-diary", JSON.stringify(newLogs));
   };
 
   const clearLogs = () => {
     if (confirm("Clear all your sleep data?")) {
       setLogs([]);
-      localStorage.removeItem("velorah-sleep-diary");
+      localStorage.removeItem("lantern-mind-sleep-diary");
     }
   };
 

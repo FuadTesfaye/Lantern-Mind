@@ -5,13 +5,13 @@ import { articles } from "@/content/articles";
 export const Route = createFileRoute("/journal/")({
   head: () => ({
     meta: [
-      { title: "Journal — Velorah writing on fog, focus and repair" },
+      { title: "Journal — Lantern-Mind writing on fog, focus and repair" },
       {
         name: "description",
         content:
           "Long-form pieces on brain fog, mental arithmetic, reading again, and the first week of real sleep. Feeling, science, and a practical path.",
       },
-      { property: "og:title", content: "Journal — Velorah" },
+      { property: "og:title", content: "Journal — Lantern-Mind" },
       {
         property: "og:description",
         content:

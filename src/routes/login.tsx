@@ -64,7 +64,7 @@ function AdminLogin() {
         <form onSubmit={handleLogin}>
           <CardHeader>
             <CardTitle className="text-2xl font-bold">Admin Access</CardTitle>
-            <CardDescription>Sign in to manage the Velorah community platform.</CardDescription>
+            <CardDescription>Sign in to manage the Lantern-Mind community platform.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -72,7 +72,7 @@ function AdminLogin() {
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@velorah.com"
+                placeholder="admin@lantern-mind.com"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

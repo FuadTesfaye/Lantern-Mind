@@ -89,7 +89,7 @@ export const taxonomy: TaxonomyCategory[] = [
           "What was never named still lives in memory, attention, identity, and the body.",
         ],
         body: [
-          "Clinical labels help professionals. Lived language helps humans. Velorah’s experience map names dozens of shared wounds — childhood adversity, relational rupture, systemic violence, inner crises, faith wounding, and work or purpose collapse — each with a felt sense so you can recognize yourself without a diagnosis.",
+          "Clinical labels help professionals. Lived language helps humans. Lantern-Mind’s experience map names dozens of shared wounds — childhood adversity, relational rupture, systemic violence, inner crises, faith wounding, and work or purpose collapse — each with a felt sense so you can recognize yourself without a diagnosis.",
           "On Voices, these become soft tags on stories. In Community, they become Support Circles by theme. In the Library, they grow into guides. Start with the map when you need words; stay with a circle when you need witnesses.",
         ],
         steps: [

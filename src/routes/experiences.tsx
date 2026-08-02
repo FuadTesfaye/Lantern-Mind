@@ -13,13 +13,13 @@ import {
 export const Route = createFileRoute("/experiences")({
   head: () => ({
     meta: [
-      { title: "Lived Experiences — Velorah" },
+      { title: "Lived Experiences — Lantern-Mind" },
       {
         name: "description",
         content:
           "A detailed map of trauma and lived experiences — named with felt sense, not clinical labels — so you can find the words for what happened.",
       },
-      { property: "og:title", content: "Lived Experiences — Velorah" },
+      { property: "og:title", content: "Lived Experiences — Lantern-Mind" },
       {
         property: "og:description",
         content:
@@ -249,7 +249,7 @@ function ExperiencesPage() {
           className="mt-4 max-w-2xl text-3xl leading-tight tracking-[-1px] text-foreground sm:text-4xl"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
-          How Velorah stays a <em className="not-italic text-muted-foreground">sanctuary.</em>
+          How Lantern-Mind stays a <em className="not-italic text-muted-foreground">sanctuary.</em>
         </h2>
         <div className="mt-10 grid gap-4 md:grid-cols-2">
           {safetyPrinciples.map((p) => (

@@ -66,7 +66,7 @@ export function SiteFooter() {
           className="text-2xl tracking-tight text-foreground"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
-          Velorah<sup className="text-xs">®</sup>
+          Lantern-Mind<sup className="text-xs">®</sup>
         </p>
         <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
           A quiet place for people rebuilding their attention, their memory, and their sense of

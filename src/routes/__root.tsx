@@ -78,14 +78,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Velorah® — Clarity for a tired mind" },
+      { title: "Lantern-Mind® — Clarity for a tired mind" },
       {
         name: "description",
         content:
           "A quiet, evidence-based guide out of brain fog: sleep, attention, memory, meaning and connection.",
       },
-      { name: "author", content: "Velorah" },
-      { property: "og:site_name", content: "Velorah" },
+      { name: "author", content: "Lantern-Mind" },
+      { property: "og:site_name", content: "Lantern-Mind" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

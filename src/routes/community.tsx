@@ -12,13 +12,13 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/community")({
   head: () => ({
     meta: [
-      { title: "Voices & Community — Velorah" },
+      { title: "Voices & Community — Lantern-Mind" },
       {
         name: "description",
         content:
           "Anonymous stories tagged by lived experience, support circles by theme, and a space to be witnessed — not fixed.",
       },
-      { property: "og:title", content: "Voices & Community — Velorah" },
+      { property: "og:title", content: "Voices & Community — Lantern-Mind" },
       {
         property: "og:description",
         content:

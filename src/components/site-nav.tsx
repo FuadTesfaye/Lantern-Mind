@@ -19,7 +19,7 @@ export function SiteNav() {
         className="text-3xl tracking-tight text-foreground"
         style={{ fontFamily: "'Instrument Serif', serif" }}
       >
-        Velorah<sup className="text-xs">®</sup>
+        Lantern-Mind<sup className="text-xs">®</sup>
       </Link>
 
       <div className="hidden items-center gap-8 md:flex">

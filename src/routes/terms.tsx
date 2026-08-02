@@ -4,7 +4,7 @@ import { PageShell } from "@/components/page-shell";
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "Terms of Service — Velorah" },
+      { title: "Terms of Service — Lantern-Mind" },
       { name: "description", content: "Terms of Service and Medical Disclaimer." },
     ],
   }),
@@ -20,7 +20,7 @@ function TermsPage() {
           Terms of <em className="not-italic text-muted-foreground">Service</em>
         </>
       }
-      intro="Please read these terms carefully. By using Velorah, you agree to these terms."
+      intro="Please read these terms carefully. By using Lantern-Mind, you agree to these terms."
     >
       <div className="prose-quiet liquid-glass max-w-4xl rounded-3xl p-8 md:p-12">
         <h2
@@ -30,7 +30,7 @@ function TermsPage() {
           1. Medical Disclaimer (Not Therapy)
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-          Velorah is an educational and peer-support platform.{" "}
+          Lantern-Mind is an educational and peer-support platform.{" "}
           <strong>
             It is not a substitute for professional medical advice, diagnosis, or treatment.
           </strong>{" "}
@@ -62,7 +62,7 @@ function TermsPage() {
           3. Community and User Conduct
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-          Velorah hosts community forums and anonymous story sharing. To maintain a safe
+          Lantern-Mind hosts community forums and anonymous story sharing. To maintain a safe
           environment, you agree not to:
         </p>
         <ul className="mt-4 list-inside list-disc space-y-2 text-sm text-muted-foreground">
@@ -100,7 +100,7 @@ function TermsPage() {
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           All original content, including articles, brain map designs, and taxonomy structures, are
-          the property of Velorah. You may not reproduce, distribute, or create derivative works
+          the property of Lantern-Mind. You may not reproduce, distribute, or create derivative works
           from our content without explicit permission.
         </p>
 
@@ -112,7 +112,7 @@ function TermsPage() {
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           We may update these terms periodically to reflect changes in our platform or legal
-          requirements. Continued use of Velorah after such changes constitutes acceptance of the
+          requirements. Continued use of Lantern-Mind after such changes constitutes acceptance of the
           new terms.
         </p>
 

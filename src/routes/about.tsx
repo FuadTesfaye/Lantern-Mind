@@ -4,13 +4,13 @@ import { PageShell } from "@/components/page-shell";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Velorah — a lantern for people lost in the fog" },
+      { title: "About Lantern-Mind — a lantern for people lost in the fog" },
       {
         name: "description",
         content:
-          "Why Velorah exists, how it is written, and what it promises: no quick fixes, no toxic positivity, no gatekeeping of anything essential.",
+          "Why Lantern-Mind exists, how it is written, and what it promises: no quick fixes, no toxic positivity, no gatekeeping of anything essential.",
       },
-      { property: "og:title", content: "About Velorah" },
+      { property: "og:title", content: "About Lantern-Mind" },
       {
         property: "og:description",
         content:
@@ -54,7 +54,7 @@ function AboutPage() {
           <em className="not-italic text-muted-foreground">lost in the fog.</em>
         </>
       }
-      intro="Velorah began as one person's attempt to understand why their own mind had gone quiet — why numbers slipped, why a page of a book felt like a mountain, why the memory of being sharp felt like it belonged to someone else."
+      intro="Lantern-Mind began as one person's attempt to understand why their own mind had gone quiet — why numbers slipped, why a page of a book felt like a mountain, why the memory of being sharp felt like it belonged to someone else."
     >
       <div className="liquid-glass rounded-3xl px-8 py-12 md:px-14 md:py-16">
         <div className="max-w-2xl space-y-6 text-base leading-loose text-muted-foreground">

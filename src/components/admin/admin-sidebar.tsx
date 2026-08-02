@@ -26,7 +26,7 @@ export function AdminSidebar() {
           <div className="h-6 w-6 rounded-md bg-primary text-primary-foreground flex items-center justify-center text-xs">
             V
           </div>
-          <span>Velorah Admin</span>
+          <span>Lantern-Mind Admin</span>
         </Link>
       </div>
 

@@ -12,7 +12,7 @@ const VIDEO_SRC =
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Velorah® — You are not broken. You are not alone." },
+      { title: "Lantern-Mind® — You are not broken. You are not alone." },
       {
         name: "description",
         content:
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "Velorah® — Your mind isn't your enemy.",
+        content: "Lantern-Mind® — Your mind isn't your enemy.",
       },
       {
         property: "og:description",

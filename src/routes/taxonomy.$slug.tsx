@@ -14,11 +14,11 @@ export const Route = createFileRoute("/taxonomy/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Unavailable — Velorah" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Unavailable — Lantern-Mind" }, { name: "robots", content: "noindex" }],
       };
     }
     const { category } = loaderData;
-    const title = `${category.title} — Velorah`;
+    const title = `${category.title} — Lantern-Mind`;
     return {
       meta: [
         { title },

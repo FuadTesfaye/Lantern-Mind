@@ -10,7 +10,7 @@ import { supabase } from "@/lib/supabase";
 export const Route = createFileRoute("/community/$slug")({
   head: ({ params }) => ({
     meta: [
-      { title: "Voice — Velorah" },
+      { title: "Voice — Lantern-Mind" },
       {
         name: "description",
         content: `Anonymous story and discussion: ${params.slug}.`,

@@ -6,13 +6,13 @@ import { taxonomy } from "@/content/taxonomy";
 export const Route = createFileRoute("/studio")({
   head: () => ({
     meta: [
-      { title: "The Studio — Velorah's Library of Clarity" },
+      { title: "The Studio — Lantern-Mind's Library of Clarity" },
       {
         name: "description",
         content:
           "The full framework: understand what's happening, rebuild the body, structure the day, and navigate your emotions.",
       },
-      { property: "og:title", content: "The Studio — Velorah's Library of Clarity" },
+      { property: "og:title", content: "The Studio — Lantern-Mind's Library of Clarity" },
       {
         property: "og:description",
         content:

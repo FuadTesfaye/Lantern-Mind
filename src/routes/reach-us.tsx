@@ -11,13 +11,13 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/reach-us")({
   head: () => ({
     meta: [
-      { title: "Reach Us — write to Velorah" },
+      { title: "Reach Us — write to Lantern-Mind" },
       {
         name: "description",
         content:
-          "Write to Velorah with a question, a correction, or your own story. Replies are slow and human. Urgent distress needs a doctor or a crisis line.",
+          "Write to Lantern-Mind with a question, a correction, or your own story. Replies are slow and human. Urgent distress needs a doctor or a crisis line.",
       },
-      { property: "og:title", content: "Reach Us — write to Velorah" },
+      { property: "og:title", content: "Reach Us — write to Lantern-Mind" },
       {
         property: "og:description",
         content:

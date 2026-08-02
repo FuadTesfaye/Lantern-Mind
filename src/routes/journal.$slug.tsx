@@ -13,11 +13,11 @@ export const Route = createFileRoute("/journal/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Not found — Velorah" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Not found — Lantern-Mind" }, { name: "robots", content: "noindex" }],
       };
     }
     const { article } = loaderData;
-    const title = `${article.title} ${article.em ?? ""} — Velorah`.replace(/\s+/g, " ");
+    const title = `${article.title} ${article.em ?? ""} — Lantern-Mind`.replace(/\s+/g, " ");
     return {
       meta: [
         { title },

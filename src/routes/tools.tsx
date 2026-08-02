@@ -10,7 +10,7 @@ import { RecoveryPlanner } from "@/components/tools/recovery-planner";
 export const Route = createFileRoute("/tools")({
   head: () => ({
     meta: [
-      { title: "Tools & Assessments — Velorah" },
+      { title: "Tools & Assessments — Lantern-Mind" },
       {
         name: "description",
         content:
