@@ -88,6 +88,24 @@ function Index() {
             Begin Journey
           </Link>
         </div>
+
+        {/* Animated Wavy Divider */}
+        <div className="absolute bottom-0 left-0 right-0 z-20 w-full overflow-hidden leading-none pointer-events-none">
+          <svg
+            className="relative block w-full h-16 sm:h-24 md:h-32 text-background"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M0,0 C150,90 350,-40 500,45 C650,130 900,10 1200,50 L1200,120 L0,120 Z"
+              className="fill-current opacity-50 animate-pulse"
+            ></path>
+            <path
+              d="M0,20 C200,100 450,10 700,70 C950,130 1100,30 1200,60 L1200,120 L0,120 Z"
+              className="fill-current"
+            ></path>
+          </svg>
+        </div>
       </section>
 
       {/* Bold Artistic Quote Section */}

@@ -90,6 +90,25 @@ function AdminLogin() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+
+            {/* Demo Credentials Helper */}
+            <div className="rounded-lg border border-border/50 bg-muted/30 p-3 text-xs space-y-1">
+              <div className="flex items-center justify-between font-medium text-foreground">
+                <span>Demo Admin Credentials:</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail("admin@lantern-mind.com");
+                    setPassword("LanternAdmin123!");
+                  }}
+                  className="text-[11px] text-blue-400 hover:underline font-normal"
+                >
+                  Auto-fill
+                </button>
+              </div>
+              <p className="text-muted-foreground font-mono">Email: admin@lantern-mind.com</p>
+              <p className="text-muted-foreground font-mono">Password: LanternAdmin123!</p>
+            </div>
           </CardContent>
           <CardFooter className="flex justify-between gap-4">
             <Button
