@@ -4,6 +4,7 @@ const links = [
   { to: "/", label: "Home" },
   { to: "/studio", label: "Library" },
   { to: "/tools", label: "Tools" },
+  { to: "/community", label: "Community" },
   { to: "/about", label: "About" },
   { to: "/journal", label: "Journal" },
   { to: "/reach-us", label: "Reach Us" },
@@ -34,12 +35,24 @@ export function SiteNav() {
         ))}
       </div>
 
-      <Link
-        to="/studio"
-        className="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03]"
-      >
-        Begin Journey
-      </Link>
+      <div className="flex items-center gap-4">
+        {/* Language Switcher Placeholder */}
+        <button className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            <path d="M2 12h20"/>
+          </svg>
+          English
+        </button>
+
+        <Link
+          to="/studio"
+          className="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03]"
+        >
+          Begin Journey
+        </Link>
+      </div>
     </nav>
   );
 }

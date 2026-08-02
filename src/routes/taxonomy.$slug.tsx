@@ -138,6 +138,22 @@ function TaxonomyCategoryPage() {
               </div>
             ) : null}
 
+            {topic.islamicView ? (
+              <div className="mt-10 rounded-2xl border border-[var(--color-primary)]/20 bg-[var(--color-primary)]/5 p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/90">
+                  Islamic Perspective
+                </p>
+                <ul className="mt-4 space-y-3 text-sm text-foreground/80">
+                  {topic.islamicView.map((item, idx) => (
+                    <li key={idx} className="flex gap-3">
+                      <span className="shrink-0 text-primary/70">✦</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
             {topic.whenToSeekHelp ? (
               <div className="mt-10 rounded-2xl border border-destructive/20 bg-destructive/5 p-6">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-destructive/80">

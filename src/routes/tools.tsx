@@ -4,6 +4,8 @@ import { CareNote } from "@/components/care-note";
 import { BurnoutQuiz } from "@/components/tools/burnout-quiz";
 import { SleepDiary } from "@/components/tools/sleep-diary";
 import { FocusTimer } from "@/components/focus-timer";
+import { BrainMapInteractive } from "@/components/tools/brain-map";
+import { RecoveryPlanner } from "@/components/tools/recovery-planner";
 
 export const Route = createFileRoute("/tools")({
   head: () => ({
@@ -32,6 +34,14 @@ function ToolsPage() {
       intro="None of these are clever. They exist so that the work has somewhere to happen. Use one; ignore the rest until you need them. All data stays locally on your device."
     >
       <div className="grid gap-10">
+        <section id="brain-map">
+          <BrainMapInteractive />
+        </section>
+
+        <section id="recovery-planner">
+          <RecoveryPlanner />
+        </section>
+
         <section id="burnout-assessment">
           <BurnoutQuiz />
         </section>

@@ -5,6 +5,7 @@ export type TaxonomyTopic = {
   why?: string[];
   body?: string[];
   steps?: string[];
+  islamicView?: string[];
   whenToSeekHelp?: string[];
 };
 
@@ -43,6 +44,10 @@ export const taxonomy: TaxonomyCategory[] = [
         whenToSeekHelp: [
           "If the fog is new, severe, or accompanied by other physical symptoms.",
           "To rule out medical causes like thyroid issues or vitamin deficiencies."
+        ],
+        islamicView: [
+          "Allah created forgetfulness as a test; starting the day with intentional worship (like Fajr) can improve focus and frame the day.",
+          "The Prophet (pbuh) often made dua seeking refuge from laziness and incapacity, acknowledging these human struggles."
         ]
       },
       {
@@ -62,6 +67,10 @@ export const taxonomy: TaxonomyCategory[] = [
         whenToSeekHelp: [
           "If exhaustion persists despite rest.",
           "If accompanied by deep hopelessness or depression (burnout often overlaps with depression)."
+        ],
+        islamicView: [
+          "Rest is an act of worship when intended to strengthen the body for good deeds.",
+          "Recognize the balance (mizan) in life; your body has a right over you, as emphasized in the Sunnah."
         ]
       },
       {
@@ -125,6 +134,10 @@ export const taxonomy: TaxonomyCategory[] = [
         whenToSeekHelp: [
           "If insomnia persists for more than 2 weeks.",
           "Consider CBT-I (Cognitive Behavioral Therapy for Insomnia)."
+        ],
+        islamicView: [
+          "Recite protective duas (like Ayat al-Kursi) or short Quranic verses to calm the mind before sleep.",
+          "Following the Sunnah of sleeping early and waking for Tahajjud or Fajr provides structure and peace."
         ]
       },
       {
@@ -196,6 +209,10 @@ export const taxonomy: TaxonomyCategory[] = [
           "Schedule 90-minute uninterrupted deep work blocks.",
           "Take lunch away from screens.",
           "Schedule 'buffer times' between tasks to avoid context-switching penalties."
+        ],
+        islamicView: [
+          "Use the 5 daily prayers (Salah) as natural, mindful breaks throughout your workday.",
+          "Wudu (ablution) acts as a physical and spiritual refresh between tasks."
         ]
       },
       {
@@ -227,6 +244,11 @@ export const taxonomy: TaxonomyCategory[] = [
         ],
         whenToSeekHelp: [
           "If grief is prolonged, intense, or accompanied by suicidal thoughts."
+        ],
+        islamicView: [
+          "Grief is natural—even the Prophet (pbuh) cried. The Qur’an acknowledges loss but assures mercy.",
+          "Offer Sadaqah (charity) in honor of the deceased for solace.",
+          "Find peace in Tawakkul (trust in God) and the promise of reunion in the Hereafter."
         ]
       },
       {
@@ -236,6 +258,41 @@ export const taxonomy: TaxonomyCategory[] = [
         steps: [
           "Find healthy physical outlets (exercise).",
           "Talk it out when calm; pause before reacting."
+        ]
+      }
+    ]
+  },
+  {
+    slug: "faith",
+    name: "Faith & Meaning",
+    title: "Find strength in your",
+    summary: "Integrate Islamic spirituality into your recovery journey for meaning and resilience.",
+    intro: "Faith is woven throughout recovery. Believers are tested, but solace is found through worship. Here we explore how Islamic practices complement evidence-based mental health care.",
+    topics: [
+      {
+        slug: "faith-and-wellness",
+        title: "Faith & Mental Health",
+        why: [
+          "A misconception exists that seeking therapy means weak faith.",
+          "The Prophet (pbuh) consulted healers, and scholars like Ibn al-Qayyim wrote extensively on treating emotional ailments."
+        ],
+        steps: [
+          "Practice gratitude journaling (Shukr) to combat negative thinking.",
+          "Make constant Dua for healing, knowing Allah hears you.",
+          "Join a mosque community for social support and shared spiritual goals."
+        ],
+        islamicView: [
+          "Submission (Taslim) to Divine decree shifts perspective from 'Why me?' to hopeful resilience.",
+          "Seeking medical treatment is supported by the hadith: 'For every disease there is a cure'."
+        ]
+      },
+      {
+        slug: "spiritual-routines",
+        title: "Healing Spiritual Routines",
+        steps: [
+          "Tahajjud (prayer at dawn) improves discipline & calm in the quietest hours.",
+          "Dhikr (remembrance) actively reduces anxiety and grounds the mind.",
+          "Participating in community events (like breaking fast) provides vital social scaffolding."
         ]
       }
     ]
