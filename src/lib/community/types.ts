@@ -69,15 +69,15 @@ export function slugifyTitle(title: string): string {
 }
 
 /** Prefer a clean title slug; collide → append a short id tail. */
-export function uniquePostSlug(
-  title: string,
-  id: string,
-  taken: Iterable<string>,
-): string {
+export function uniquePostSlug(title: string, id: string, taken: Iterable<string>): string {
   const used = new Set(taken);
   const base = slugifyTitle(title);
   if (!used.has(base)) return base;
-  const tail = id.replace(/[^a-z0-9]/gi, "").slice(-6).toLowerCase() || "x";
+  const tail =
+    id
+      .replace(/[^a-z0-9]/gi, "")
+      .slice(-6)
+      .toLowerCase() || "x";
   let candidate = `${base}-${tail}`;
   let n = 2;
   while (used.has(candidate)) {

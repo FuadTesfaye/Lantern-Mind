@@ -29,9 +29,7 @@ function JournalIndex() {
       title={
         <>
           Written for the person{" "}
-          <em className="not-italic text-muted-foreground">
-            who finds this at 2am.
-          </em>
+          <em className="not-italic text-muted-foreground">who finds this at 2am.</em>
         </>
       }
       intro="One piece at a time, written slowly. Each begins with how it feels, explains what is actually happening in plain language, and ends with something you can do tomorrow."

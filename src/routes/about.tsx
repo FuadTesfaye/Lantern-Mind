@@ -59,22 +59,19 @@ function AboutPage() {
       <div className="liquid-glass rounded-3xl px-8 py-12 md:px-14 md:py-16">
         <div className="max-w-2xl space-y-6 text-base leading-loose text-muted-foreground">
           <p>
-            What followed was months of reading — sleep science, working memory,
-            stress physiology, habit formation — and then, slowly, of practice. Five
-            pages a day. A fixed wake time. Ten minutes of sunlight. Sums done in the
-            head at the supermarket. Prayer treated as an anchor rather than an
-            obligation.
+            What followed was months of reading — sleep science, working memory, stress physiology,
+            habit formation — and then, slowly, of practice. Five pages a day. A fixed wake time.
+            Ten minutes of sunlight. Sums done in the head at the supermarket. Prayer treated as an
+            anchor rather than an obligation.
           </p>
           <p>
-            The fog thinned. Not because of one thing, and never all at once, but
-            because a body that sleeps and moves and is spoken to kindly begins, in
-            time, to work again.
+            The fog thinned. Not because of one thing, and never all at once, but because a body
+            that sleeps and moves and is spoken to kindly begins, in time, to work again.
           </p>
           <p>
-            This site is that path written down. The voice is meant to be a mentor's:
-            factual but gentle, never hurried, never assuming you have energy you do
-            not have. Every claim is kept close to the evidence, and where the evidence
-            is thin, it says so.
+            This site is that path written down. The voice is meant to be a mentor's: factual but
+            gentle, never hurried, never assuming you have energy you do not have. Every claim is
+            kept close to the evidence, and where the evidence is thin, it says so.
           </p>
           <p className="text-foreground/90">
             You are not broken. You are not alone. There is a way forward, step by step.
@@ -99,9 +96,7 @@ function AboutPage() {
               >
                 {p.title}
               </h3>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                {p.body}
-              </p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
             </div>
           ))}
         </div>

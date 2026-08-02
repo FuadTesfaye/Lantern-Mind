@@ -52,12 +52,14 @@ function Index() {
             className="animate-fade-rise max-w-7xl text-5xl font-normal leading-[0.95] tracking-[-2.46px] sm:text-7xl md:text-8xl"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
-            Your mind isn't your <em className="not-italic text-muted-foreground">enemy.</em> You're not broken – you're just{" "}
+            Your mind isn't your <em className="not-italic text-muted-foreground">enemy.</em> You're
+            not broken – you're just{" "}
             <em className="not-italic text-muted-foreground">overwhelmed.</em>
           </h1>
 
           <p className="animate-fade-rise-delay mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Learn why you feel foggy, anxious or tired, and discover evidence-based ways to recover focus, memory, and motivation.
+            Learn why you feel foggy, anxious or tired, and discover evidence-based ways to recover
+            focus, memory, and motivation.
           </p>
 
           <Link
@@ -70,17 +72,13 @@ function Index() {
       </section>
 
       <section className="relative z-10 mx-auto max-w-7xl px-8 py-28">
-        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
-          Your Journey
-        </p>
+        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Your Journey</p>
         <h2
           className="mt-6 max-w-3xl text-4xl font-normal leading-[1.02] tracking-[-1.4px] sm:text-5xl"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
           Evidence-based ways to{" "}
-          <em className="not-italic text-muted-foreground">
-            rebuild and recover.
-          </em>
+          <em className="not-italic text-muted-foreground">rebuild and recover.</em>
         </h2>
 
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -99,7 +97,9 @@ function Index() {
                 style={{ fontFamily: "'Instrument Serif', serif" }}
               >
                 {category.title.split(" ").slice(0, -1).join(" ")}{" "}
-                <em className="not-italic text-muted-foreground">{category.title.split(" ").slice(-1)[0]}</em>
+                <em className="not-italic text-muted-foreground">
+                  {category.title.split(" ").slice(-1)[0]}
+                </em>
               </span>
               <span className="mt-4 text-sm leading-relaxed text-muted-foreground">
                 {category.summary}
@@ -116,9 +116,7 @@ function Index() {
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
             Start with one night of sleep.{" "}
-            <em className="not-italic text-muted-foreground">
-              The rest can wait until morning.
-            </em>
+            <em className="not-italic text-muted-foreground">The rest can wait until morning.</em>
           </h2>
           <Link
             to="/taxonomy/$slug"

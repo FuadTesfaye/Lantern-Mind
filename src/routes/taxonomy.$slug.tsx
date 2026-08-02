@@ -37,8 +37,7 @@ function CategoryNotFound() {
     <PageShell
       title={
         <>
-          That chapter{" "}
-          <em className="not-italic text-muted-foreground">isn't written yet.</em>
+          That chapter <em className="not-italic text-muted-foreground">isn't written yet.</em>
         </>
       }
       intro="The section you were looking for doesn't exist. The rest of the library is waiting in the Studio."
@@ -64,7 +63,9 @@ function TaxonomyCategoryPage() {
       title={
         <>
           {category.title.split(" ").slice(0, -1).join(" ")}{" "}
-          <em className="not-italic text-muted-foreground">{category.title.split(" ").slice(-1)[0]}</em>
+          <em className="not-italic text-muted-foreground">
+            {category.title.split(" ").slice(-1)[0]}
+          </em>
         </>
       }
       intro={category.intro}

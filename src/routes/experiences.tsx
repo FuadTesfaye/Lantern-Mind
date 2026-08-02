@@ -58,18 +58,18 @@ function ExperiencesPage() {
         <div className="mt-6 grid gap-6 md:grid-cols-3">
           <p className="text-sm leading-relaxed text-muted-foreground">
             <span className="block text-foreground/90">In the Library</span>
-            Each experience can grow into an educational guide — what it is, how it
-            touches memory and the body, and when to seek help.
+            Each experience can grow into an educational guide — what it is, how it touches memory
+            and the body, and when to seek help.
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
             <span className="block text-foreground/90">In Voices</span>
-            Stories carry up to three soft tags from this list. Click a tag to find
-            others walking a similar thread.
+            Stories carry up to three soft tags from this list. Click a tag to find others walking a
+            similar thread.
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
             <span className="block text-foreground/90">In Circles</span>
-            Community spaces gather around themes, not diagnoses — moderated rooms
-            for being witnessed, not fixed.
+            Community spaces gather around themes, not diagnoses — moderated rooms for being
+            witnessed, not fixed.
           </p>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
@@ -152,8 +152,8 @@ function ExperiencesPage() {
                   </p>
                   {exp.sensitive ? (
                     <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                      Heavily moderated on Voices. Stories here carry warnings and a
-                      path to crisis resources.{" "}
+                      Heavily moderated on Voices. Stories here carry warnings and a path to crisis
+                      resources.{" "}
                       <Link
                         to="/reach-us"
                         className="text-foreground/80 underline-offset-4 hover:underline"
@@ -190,9 +190,7 @@ function ExperiencesPage() {
               >
                 {c.title}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {c.description}
-              </p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.description}</p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {c.tags.map((t) => (
                   <span
@@ -209,9 +207,7 @@ function ExperiencesPage() {
       </section>
 
       <section className="mt-20">
-        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
-          Support Circles
-        </p>
+        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Support Circles</p>
         <h2
           className="mt-4 max-w-2xl text-3xl leading-tight tracking-[-1px] text-foreground sm:text-4xl"
           style={{ fontFamily: "'Instrument Serif', serif" }}
@@ -220,8 +216,8 @@ function ExperiencesPage() {
           <em className="not-italic text-muted-foreground">not diagnoses.</em>
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-          Safe, moderated spaces. They are not therapy rooms. The tags help match
-          people who carry similar weight.
+          Safe, moderated spaces. They are not therapy rooms. The tags help match people who carry
+          similar weight.
         </p>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {supportCircles.map((circle) => (
@@ -253,28 +249,23 @@ function ExperiencesPage() {
           className="mt-4 max-w-2xl text-3xl leading-tight tracking-[-1px] text-foreground sm:text-4xl"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
-          How Velorah stays a{" "}
-          <em className="not-italic text-muted-foreground">sanctuary.</em>
+          How Velorah stays a <em className="not-italic text-muted-foreground">sanctuary.</em>
         </h2>
         <div className="mt-10 grid gap-4 md:grid-cols-2">
           {safetyPrinciples.map((p) => (
             <div key={p.title} className="liquid-glass rounded-3xl px-7 py-8">
-              <h3 className="text-sm font-medium tracking-wide text-foreground/90">
-                {p.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {p.body}
-              </p>
+              <h3 className="text-sm font-medium tracking-wide text-foreground/90">{p.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
             </div>
           ))}
         </div>
       </section>
 
       <CareNote>
-        These categories name lived experience — they are not diagnoses, and reading
-        yourself in them is not a clinical conclusion. Persistent distress, flashbacks,
-        or thoughts of harm deserve a real conversation with a clinician or crisis
-        service. Asking for help is part of dignity, not a failure of it.
+        These categories name lived experience — they are not diagnoses, and reading yourself in
+        them is not a clinical conclusion. Persistent distress, flashbacks, or thoughts of harm
+        deserve a real conversation with a clinician or crisis service. Asking for help is part of
+        dignity, not a failure of it.
       </CareNote>
 
       <div className="mt-12 flex flex-wrap gap-4 pb-8">

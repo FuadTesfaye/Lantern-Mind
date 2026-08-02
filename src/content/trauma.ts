@@ -250,8 +250,7 @@ export const traumaDomains: TraumaDomain[] = [
         slug: "homelessness",
         title: "Homelessness / Housing Insecurity",
         tag: "Housing Insecurity",
-        feeling:
-          "The ground never felt solid. You learned survival mode as a baseline state.",
+        feeling: "The ground never felt solid. You learned survival mode as a baseline state.",
       },
     ],
   },
@@ -427,20 +426,23 @@ export const supportCircles: SupportCircle[] = [
     title: "Growing up too fast",
     description:
       "Parentification, eldest-child weight, becoming the family provider before you were ready.",
-    related: ["parentification", "perfect-child-pressure", "family-addiction", "poverty-instability"],
+    related: [
+      "parentification",
+      "perfect-child-pressure",
+      "family-addiction",
+      "poverty-instability",
+    ],
   },
   {
     slug: "abandoned-or-left-behind",
     title: "Abandoned or left behind",
-    description:
-      "Absent parents, rejection, and the fear that love will not stay.",
+    description: "Absent parents, rejection, and the fear that love will not stay.",
     related: ["parental-loss-abandonment", "abandonment-rejection", "sibling-comparison"],
   },
   {
     slug: "war-displacement",
     title: "War, displacement, refugee journey",
-    description:
-      "Conflict, migration, and the long search for a place that feels like home.",
+    description: "Conflict, migration, and the long search for a place that feels like home.",
     related: ["war-conflict", "refugee-asylum", "family-separation-migration"],
   },
   {
@@ -453,22 +455,19 @@ export const supportCircles: SupportCircle[] = [
   {
     slug: "brain-fog-memory",
     title: "Brain fog & memory loss",
-    description:
-      "Cognitive grief — when the sharp mind you remember feels wrapped in cotton.",
+    description: "Cognitive grief — when the sharp mind you remember feels wrapped in cotton.",
     related: ["brain-fog", "burnout-collapse", "deep-depression"],
   },
   {
     slug: "burnout-recovery",
     title: "Burnout recovery",
-    description:
-      "Collapse after giving everything. Rest without shame. Reclaiming care.",
+    description: "Collapse after giving everything. Rest without shame. Reclaiming care.",
     related: ["burnout-collapse", "perfectionism-prison", "people-pleasing", "feeling-numb"],
   },
   {
     slug: "grief-loss",
     title: "Grief & loss",
-    description:
-      "Death, divorce, friendship endings, and the identities that leave with them.",
+    description: "Death, divorce, friendship endings, and the identities that leave with them.",
     related: ["parental-loss-abandonment", "divorce-family-breakdown", "losing-best-friend"],
   },
 ];

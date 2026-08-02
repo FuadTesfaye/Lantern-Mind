@@ -15,7 +15,8 @@ const regions: BrainRegion[] = [
     id: "prefrontal-cortex",
     name: "Prefrontal Cortex",
     role: "Responsible for complex decision making, focus, and emotional regulation. It is the 'CEO' of the brain.",
-    stressEffect: "Chronic stress and trauma can thin connections here, leading to 'brain fog' and difficulty concentrating.",
+    stressEffect:
+      "Chronic stress and trauma can thin connections here, leading to 'brain fog' and difficulty concentrating.",
     path: "M 20 60 Q 30 10 90 20 Q 95 60 70 90 Q 30 100 20 60 Z",
     cx: "50",
     cy: "50",
@@ -24,7 +25,8 @@ const regions: BrainRegion[] = [
     id: "amygdala",
     name: "Amygdala",
     role: "The brain's alarm system. It detects threats and triggers the fight-or-flight response.",
-    stressEffect: "Trauma can cause the amygdala to become hyperactive, staying 'on' even when you are safe, leading to panic and hyperarousal.",
+    stressEffect:
+      "Trauma can cause the amygdala to become hyperactive, staying 'on' even when you are safe, leading to panic and hyperarousal.",
     path: "M 100 110 A 15 15 0 1 1 130 110 A 15 15 0 1 1 100 110 Z",
     cx: "115",
     cy: "110",
@@ -33,7 +35,8 @@ const regions: BrainRegion[] = [
     id: "hippocampus",
     name: "Hippocampus",
     role: "Critical for learning and memory consolidation. It helps convert short-term memory to long-term memory.",
-    stressEffect: "High cortisol levels from chronic stress can actually shrink the hippocampus, causing memory lapses and forgetfulness.",
+    stressEffect:
+      "High cortisol levels from chronic stress can actually shrink the hippocampus, causing memory lapses and forgetfulness.",
     path: "M 130 110 Q 150 130 160 110 Q 140 90 130 110 Z",
     cx: "145",
     cy: "110",
@@ -55,7 +58,8 @@ export function BrainMapInteractive() {
           Interactive Brain Map
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Click on the highlighted regions to understand how stress, burnout, and trauma affect your biology.
+          Click on the highlighted regions to understand how stress, burnout, and trauma affect your
+          biology.
         </p>
       </div>
 
@@ -120,9 +124,7 @@ export function BrainMapInteractive() {
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-primary)]">
                     Role in Wellbeing
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/80">
-                    {selected.role}
-                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground/80">{selected.role}</p>
                 </div>
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-destructive/80">

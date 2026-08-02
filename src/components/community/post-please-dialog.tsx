@@ -32,10 +32,7 @@ export function PostPleaseDialog({ send, status }: PostPleaseDialogProps) {
   const [tags, setTags] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
-  const tagLabels = useMemo(
-    () => [...new Set(storyTagOptions.map((t) => t.label))].sort(),
-    [],
-  );
+  const tagLabels = useMemo(() => [...new Set(storyTagOptions.map((t) => t.label))].sort(), []);
 
   const toggleTag = (label: string) => {
     setTags((prev) => {
@@ -97,8 +94,8 @@ export function PostPleaseDialog({ send, status }: PostPleaseDialogProps) {
             Post please
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Your story goes to the admin queue first. Nothing is published until it’s
-            reviewed. Stay anonymous — a soft label is enough.
+            Your story goes to the admin queue first. Nothing is published until it’s reviewed. Stay
+            anonymous — a soft label is enough.
           </DialogDescription>
         </DialogHeader>
 

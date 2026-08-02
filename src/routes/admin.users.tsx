@@ -1,5 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { createFileRoute } from "@tanstack/react-router";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -7,29 +7,33 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { MoreHorizontal } from 'lucide-react'
-import { useQuery } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
 
-export const Route = createFileRoute('/admin/users')({
+export const Route = createFileRoute("/admin/users")({
   component: AdminUsers,
-})
+});
 
 function AdminUsers() {
-  const { data: users, isLoading, error } = useQuery({
-    queryKey: ['admin-users'],
+  const {
+    data: users,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["admin-users"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .order('join_date', { ascending: false });
-      
+        .from("profiles")
+        .select("*")
+        .order("join_date", { ascending: false });
+
       if (error) throw error;
       return data;
-    }
+    },
   });
 
   return (
@@ -41,9 +45,7 @@ function AdminUsers() {
       <Card>
         <CardHeader>
           <CardTitle>All Users</CardTitle>
-          <CardDescription>
-            Manage all registered users on the platform.
-          </CardDescription>
+          <CardDescription>Manage all registered users on the platform.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border">
@@ -61,17 +63,23 @@ function AdminUsers() {
               <TableBody>
                 {isLoading && (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center h-24">Loading users...</TableCell>
+                    <TableCell colSpan={6} className="text-center h-24">
+                      Loading users...
+                    </TableCell>
                   </TableRow>
                 )}
                 {error && (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center h-24 text-destructive">Error loading users. Did you run the SQL schema?</TableCell>
+                    <TableCell colSpan={6} className="text-center h-24 text-destructive">
+                      Error loading users. Did you run the SQL schema?
+                    </TableCell>
                   </TableRow>
                 )}
                 {!isLoading && !error && users?.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center h-24 text-muted-foreground">No users found.</TableCell>
+                    <TableCell colSpan={6} className="text-center h-24 text-muted-foreground">
+                      No users found.
+                    </TableCell>
                   </TableRow>
                 )}
                 {users?.map((user) => (
@@ -79,12 +87,20 @@ function AdminUsers() {
                     <TableCell className="font-medium">{user.name}</TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
-                      <Badge variant={user.role === 'Admin' ? 'default' : user.role === 'Moderator' ? 'secondary' : 'outline'}>
+                      <Badge
+                        variant={
+                          user.role === "Admin"
+                            ? "default"
+                            : user.role === "Moderator"
+                              ? "secondary"
+                              : "outline"
+                        }
+                      >
                         {user.role}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={user.status === 'Active' ? 'default' : 'destructive'}>
+                      <Badge variant={user.status === "Active" ? "default" : "destructive"}>
                         {user.status}
                       </Badge>
                     </TableCell>
@@ -103,5 +119,5 @@ function AdminUsers() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

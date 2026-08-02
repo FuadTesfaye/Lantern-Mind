@@ -37,8 +37,7 @@ function ArticleNotFound() {
     <PageShell
       title={
         <>
-          This piece{" "}
-          <em className="not-italic text-muted-foreground">isn't here.</em>
+          This piece <em className="not-italic text-muted-foreground">isn't here.</em>
         </>
       }
       intro="The article you were looking for doesn't exist, or hasn't been written yet."
@@ -62,9 +61,7 @@ function ArticlePage() {
       title={
         <>
           {article.title}{" "}
-          {article.em ? (
-            <em className="not-italic text-muted-foreground">{article.em}</em>
-          ) : null}
+          {article.em ? <em className="not-italic text-muted-foreground">{article.em}</em> : null}
         </>
       }
       intro={article.dek}

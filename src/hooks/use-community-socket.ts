@@ -57,10 +57,7 @@ function seedFallback(): CommunityPost[] {
   });
 }
 
-function applySnapshot(
-  prev: CommunitySnapshot,
-  message: ServerMessage,
-): CommunitySnapshot {
+function applySnapshot(prev: CommunitySnapshot, message: ServerMessage): CommunitySnapshot {
   switch (message.type) {
     case "snapshot":
       return message.data;
@@ -70,10 +67,7 @@ function applySnapshot(
     }
     case "post_approved": {
       const pending = prev.pending.filter((p) => p.id !== message.post.id);
-      const published = [
-        message.post,
-        ...prev.published.filter((p) => p.id !== message.post.id),
-      ];
+      const published = [message.post, ...prev.published.filter((p) => p.id !== message.post.id)];
       return { pending, published };
     }
     case "post_rejected": {

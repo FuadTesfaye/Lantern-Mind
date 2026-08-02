@@ -39,8 +39,7 @@ function CommunityPostPage() {
         eyebrow="Voices"
         title={
           <>
-            This thread isn’t{" "}
-            <em className="not-italic text-muted-foreground">here.</em>
+            This thread isn’t <em className="not-italic text-muted-foreground">here.</em>
           </>
         }
         intro="It may still be under review, or it was removed. You can return to Voices anytime."
@@ -73,8 +72,7 @@ function CommunityPostPage() {
         eyebrow="Voices"
         title={
           <>
-            Still with the{" "}
-            <em className="not-italic text-muted-foreground">moderators.</em>
+            Still with the <em className="not-italic text-muted-foreground">moderators.</em>
           </>
         }
         intro="This submission hasn’t been published yet. When it’s approved, the discussion will open here."
@@ -102,10 +100,7 @@ function CommunityPostPage() {
         {post.comments.length > 0 ? (
           <>
             <span aria-hidden>·</span>
-            <a
-              href="#discussion"
-              className="transition-colors hover:text-foreground"
-            >
+            <a href="#discussion" className="transition-colors hover:text-foreground">
               {post.comments.length} in discussion
             </a>
           </>
@@ -132,17 +127,12 @@ function CommunityPostPage() {
       </article>
 
       <div id="discussion" className="scroll-mt-28">
-        <PostDiscussion
-          postId={post.id}
-          comments={post.comments}
-          send={send}
-          status={status}
-        />
+        <PostDiscussion postId={post.id} comments={post.comments} send={send} status={status} />
       </div>
 
       <CareNote>
-        Peer witnessing only — not crisis care. If you need urgent help, contact local
-        emergency services or a crisis line.
+        Peer witnessing only — not crisis care. If you need urgent help, contact local emergency
+        services or a crisis line.
       </CareNote>
     </PageShell>
   );

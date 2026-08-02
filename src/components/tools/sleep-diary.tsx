@@ -75,9 +75,7 @@ export function SleepDiary() {
         {/* Input form */}
         <div className="space-y-6">
           <div>
-            <label className="text-sm font-medium text-foreground/90">
-              Hours Slept Last Night
-            </label>
+            <label className="text-sm font-medium text-foreground/90">Hours Slept Last Night</label>
             <div className="mt-2 flex items-center gap-4">
               <input
                 type="range"
@@ -88,16 +86,12 @@ export function SleepDiary() {
                 onChange={(e) => setHours(parseFloat(e.target.value))}
                 className="flex-1 accent-foreground"
               />
-              <span className="w-12 text-sm text-muted-foreground">
-                {hours}h
-              </span>
+              <span className="w-12 text-sm text-muted-foreground">{hours}h</span>
             </div>
           </div>
 
           <div>
-            <label className="text-sm font-medium text-foreground/90">
-              Sleep Quality
-            </label>
+            <label className="text-sm font-medium text-foreground/90">Sleep Quality</label>
             <div className="mt-2 flex gap-2">
               {[1, 2, 3, 4, 5].map((q) => (
                 <button
@@ -129,9 +123,7 @@ export function SleepDiary() {
 
         {/* Chart / History */}
         <div>
-          <h4 className="mb-4 text-sm font-medium text-foreground/90">
-            Recent Log
-          </h4>
+          <h4 className="mb-4 text-sm font-medium text-foreground/90">Recent Log</h4>
           {logs.length === 0 ? (
             <div className="flex h-32 items-center justify-center rounded-2xl border border-dashed border-border/60 text-sm text-muted-foreground">
               No entries yet. Log tonight's sleep.
@@ -148,10 +140,7 @@ export function SleepDiary() {
                     <span>{log.hours}h</span>
                     <span className="flex gap-1 text-xs text-foreground/40">
                       {Array.from({ length: 5 }).map((_, i) => (
-                        <span
-                          key={i}
-                          className={i < log.quality ? "text-foreground" : ""}
-                        >
+                        <span key={i} className={i < log.quality ? "text-foreground" : ""}>
                           ★
                         </span>
                       ))}

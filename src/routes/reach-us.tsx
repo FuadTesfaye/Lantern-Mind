@@ -28,18 +28,14 @@ function ReachUsPage() {
       title={
         <>
           Say what you need to say.{" "}
-          <em className="not-italic text-muted-foreground">
-            There is no rush here.
-          </em>
+          <em className="not-italic text-muted-foreground">There is no rush here.</em>
         </>
       }
       intro="One inbox, read by a person. Questions about a pillar, a correction to something we got wrong, or just an account of your own fog — all of it is welcome, and none of it is stored anywhere else."
     >
       <div className="grid gap-5 md:grid-cols-2">
         <div className="liquid-glass rounded-3xl px-8 py-12 md:px-12">
-          <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
-            Write to
-          </p>
+          <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Write to</p>
           <a
             href="mailto:hello@velorah.studio"
             className="mt-6 block text-3xl leading-tight tracking-[-1px] text-foreground transition-opacity hover:opacity-80 sm:text-4xl"
@@ -48,8 +44,8 @@ function ReachUsPage() {
             hello@velorah.studio
           </a>
           <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
-            Replies usually take a few days. Nothing you send is added to a list, sold,
-            or answered by a machine.
+            Replies usually take a few days. Nothing you send is added to a list, sold, or answered
+            by a machine.
           </p>
         </div>
 
@@ -64,10 +60,9 @@ function ReachUsPage() {
             Please don't wait for an email.
           </p>
           <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-            If you are in crisis, or thinking about harming yourself, contact your local
-            emergency number or a crisis line in your country now. This site is
-            educational writing; it cannot see you, and it cannot help quickly enough.
-            A doctor or a crisis counsellor can.
+            If you are in crisis, or thinking about harming yourself, contact your local emergency
+            number or a crisis line in your country now. This site is educational writing; it cannot
+            see you, and it cannot help quickly enough. A doctor or a crisis counsellor can.
           </p>
         </div>
       </div>
@@ -84,8 +79,7 @@ function ReachUsPage() {
             What you have already tried, and for how long.
           </li>
           <li className="border-l border-border/60 pl-5">
-            What you are actually hoping for — an answer, a correction, or simply to be
-            read.
+            What you are actually hoping for — an answer, a correction, or simply to be read.
           </li>
         </ul>
       </div>

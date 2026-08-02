@@ -54,7 +54,8 @@ export function BurnoutQuiz() {
           Burnout & Stress Assessment
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          This is a self-assessment tool, not a diagnostic instrument. Answer how often you've felt this way in the past month.
+          This is a self-assessment tool, not a diagnostic instrument. Answer how often you've felt
+          this way in the past month.
         </p>
       </div>
 
@@ -94,18 +95,14 @@ export function BurnoutQuiz() {
       ) : (
         <div className="animate-in fade-in slide-in-from-bottom-4 space-y-6 duration-700">
           <div className="rounded-2xl border border-border/40 bg-foreground/5 p-8 text-center">
-            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
-              Your Result
-            </p>
+            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Your Result</p>
             <h4
               className="mt-2 text-4xl text-foreground"
               style={{ fontFamily: "'Instrument Serif', serif" }}
             >
               {getResult().level}
             </h4>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              {getResult().desc}
-            </p>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{getResult().desc}</p>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">

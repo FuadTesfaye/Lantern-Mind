@@ -1,11 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Users, FileText, MousePointerClick } from 'lucide-react'
-import { VisitorsChart } from '@/components/admin/dashboard-charts'
+import { createFileRoute } from "@tanstack/react-router";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Users, FileText, MousePointerClick } from "lucide-react";
+import { VisitorsChart } from "@/components/admin/dashboard-charts";
 
-export const Route = createFileRoute('/admin/')({
+export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
-})
+});
 
 function AdminDashboard() {
   return (
@@ -57,7 +57,7 @@ function AdminDashboard() {
             <VisitorsChart />
           </CardContent>
         </Card>
-        
+
         <Card className="col-span-3">
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
@@ -86,5 +86,5 @@ function AdminDashboard() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

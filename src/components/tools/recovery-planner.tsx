@@ -25,7 +25,8 @@ export function RecoveryPlanner() {
         time: "Tonight (8:00 PM)",
         title: "Early Lights Out",
         desc: "You slept less than 7 hours. Aim for lights out at 9:30 PM. No screens 1 hour before.",
-        faith: "Read Ayat al-Kursi and the last two ayats of Surah Al-Baqarah for protection and peace.",
+        faith:
+          "Read Ayat al-Kursi and the last two ayats of Surah Al-Baqarah for protection and peace.",
       });
     }
 
@@ -146,7 +147,9 @@ export function RecoveryPlanner() {
                     max="12"
                     step="0.5"
                     value={inputs.sleepHours}
-                    onChange={(e) => setInputs({ ...inputs, sleepHours: parseFloat(e.target.value) })}
+                    onChange={(e) =>
+                      setInputs({ ...inputs, sleepHours: parseFloat(e.target.value) })
+                    }
                     className="flex-1 accent-[var(--color-primary)]"
                   />
                   <span className="w-12 text-sm text-muted-foreground">{inputs.sleepHours}h</span>
@@ -164,10 +167,14 @@ export function RecoveryPlanner() {
                     max="10"
                     step="1"
                     value={inputs.stressLevel}
-                    onChange={(e) => setInputs({ ...inputs, stressLevel: parseInt(e.target.value) })}
+                    onChange={(e) =>
+                      setInputs({ ...inputs, stressLevel: parseInt(e.target.value) })
+                    }
                     className="flex-1 accent-destructive"
                   />
-                  <span className="w-12 text-sm text-muted-foreground">{inputs.stressLevel}/10</span>
+                  <span className="w-12 text-sm text-muted-foreground">
+                    {inputs.stressLevel}/10
+                  </span>
                 </div>
               </div>
 
@@ -213,16 +220,22 @@ export function RecoveryPlanner() {
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
           <div className="mb-6 rounded-2xl bg-[var(--color-primary)]/10 p-6 text-primary">
             <p className="text-sm">
-              Your plan is ready. Focus on consistency, not perfection. If you miss a task, just pick it up tomorrow.
+              Your plan is ready. Focus on consistency, not perfection. If you miss a task, just
+              pick it up tomorrow.
             </p>
           </div>
 
           <div className="space-y-4">
             {plan.map((task, idx) => (
-              <div key={idx} className="flex gap-4 rounded-2xl border border-border/40 bg-foreground/5 p-6">
+              <div
+                key={idx}
+                className="flex gap-4 rounded-2xl border border-border/40 bg-foreground/5 p-6"
+              >
                 <div className="mt-1 h-5 w-5 shrink-0 rounded border border-muted-foreground/40" />
                 <div>
-                  <p className="text-xs uppercase tracking-[0.1em] text-muted-foreground">{task.time}</p>
+                  <p className="text-xs uppercase tracking-[0.1em] text-muted-foreground">
+                    {task.time}
+                  </p>
                   <p className="mt-1 font-medium text-foreground/90">{task.title}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{task.desc}</p>
                   {task.faith && (

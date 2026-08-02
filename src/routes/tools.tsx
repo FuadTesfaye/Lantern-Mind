@@ -27,8 +27,7 @@ function ToolsPage() {
       eyebrow="Interactive Tools"
       title={
         <>
-          Small instruments for{" "}
-          <em className="not-italic text-muted-foreground">the long walk.</em>
+          Small instruments for <em className="not-italic text-muted-foreground">the long walk.</em>
         </>
       }
       intro="None of these are clever. They exist so that the work has somewhere to happen. Use one; ignore the rest until you need them. All data stays locally on your device."

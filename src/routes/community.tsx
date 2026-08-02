@@ -70,9 +70,7 @@ function CommunityPage() {
       <section>
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
-              Voices
-            </p>
+            <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Voices</p>
             <h2
               className="mt-3 text-3xl text-foreground sm:text-4xl"
               style={{ fontFamily: "'Instrument Serif', serif" }}
@@ -80,9 +78,9 @@ function CommunityPage() {
               Stories of recovery
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Human-sized tiles. Soft tags underneath. Click a story to read the full
-              text and join the anonymous discussion. Use Post please to send a story
-              for review before it appears here.
+              Human-sized tiles. Soft tags underneath. Click a story to read the full text and join
+              the anonymous discussion. Use Post please to send a story for review before it appears
+              here.
             </p>
           </div>
           <p
@@ -90,11 +88,7 @@ function CommunityPage() {
             aria-live="polite"
             title="Realtime connection"
           >
-            {status === "open"
-              ? "Live"
-              : status === "connecting"
-                ? "Connecting…"
-                : "Reconnecting…"}
+            {status === "open" ? "Live" : status === "connecting" ? "Connecting…" : "Reconnecting…"}
           </p>
         </div>
 
@@ -168,8 +162,8 @@ function CommunityPage() {
           ))}
           {status === "open" && stories.length === 0 ? (
             <p className="col-span-full text-sm text-muted-foreground">
-              No stories with that tag yet. The map is wider than the archive — yours
-              could be the first.
+              No stories with that tag yet. The map is wider than the archive — yours could be the
+              first.
             </p>
           ) : null}
           {status !== "open" && stories.length === 0 ? (
@@ -182,27 +176,21 @@ function CommunityPage() {
 
       {/* Circles */}
       <section id="circles" className="mt-20 scroll-mt-28">
-        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
-          Support Circles
-        </p>
+        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Support Circles</p>
         <h2
           className="mt-3 text-3xl text-foreground sm:text-4xl"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
-          Gather by theme,{" "}
-          <em className="not-italic text-muted-foreground">not diagnosis.</em>
+          Gather by theme, <em className="not-italic text-muted-foreground">not diagnosis.</em>
         </h2>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Moderated rooms. Not therapy. The tags help match people who carry similar
-          weight — parentification, displacement, burnout, return to faith, and more.
+          Moderated rooms. Not therapy. The tags help match people who carry similar weight —
+          parentification, displacement, burnout, return to faith, and more.
         </p>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {supportCircles.map((circle) => (
-            <article
-              key={circle.slug}
-              className="liquid-glass rounded-3xl px-6 py-7"
-            >
+            <article key={circle.slug} className="liquid-glass rounded-3xl px-6 py-7">
               <h3
                 className="text-xl text-foreground"
                 style={{ fontFamily: "'Instrument Serif', serif" }}
@@ -230,8 +218,7 @@ function CommunityPage() {
         </p>
         <ul className="mt-6 max-w-2xl space-y-4 text-sm leading-relaxed text-muted-foreground">
           <li className="border-l border-border/60 pl-5">
-            New stories use Post please — they wait in the admin queue before going
-            public.
+            New stories use Post please — they wait in the admin queue before going public.
           </li>
           <li className="border-l border-border/60 pl-5">
             Discussions stay anonymous. Witness; don’t diagnose or pile on advice.
@@ -240,16 +227,15 @@ function CommunityPage() {
             No trauma comparison or invalidation. Pain is not a contest.
           </li>
           <li className="border-l border-border/60 pl-5">
-            No harassment, hate speech, or identifying information. Disagreements stay
-            civil.
+            No harassment, hate speech, or identifying information. Disagreements stay civil.
           </li>
         </ul>
       </div>
 
       <CareNote>
-        This community is educational peer space, not therapy or crisis care. If you
-        are in immediate danger or thinking of harming yourself, contact local
-        emergency services or a crisis line now — don’t wait for a reply here.
+        This community is educational peer space, not therapy or crisis care. If you are in
+        immediate danger or thinking of harming yourself, contact local emergency services or a
+        crisis line now — don’t wait for a reply here.
       </CareNote>
     </PageShell>
   );
