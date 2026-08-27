@@ -7,9 +7,6 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
-  nitro: {
-    preset: "node-server",
-  },
   plugins: [
     {
       name: "dev-ssr-handler",
