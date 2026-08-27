@@ -5,11 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Lantern-Mind design system.
- *
- * Dark navy field, Instrument Serif display type, Inter body type,
- * liquid-glass surfaces. Depth comes from the video and typography only:
- * no blobs, no radial gradients, no decorative overlays.
+ * Lantern-Mind & Unlumen UI Design System
+ * Crisp tactile surfaces, deliberate motion, Instrument Serif display, Inter body.
  */
 
 @theme inline {
@@ -20,10 +17,11 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-3xl: calc(var(--radius) + 14px);
+  --radius-4xl: calc(var(--radius) + 20px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -36,6 +34,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-pro: var(--accent-pro);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -58,48 +57,51 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.875rem;
   --font-display-family: "Instrument Serif", serif;
   --font-body-family: "Inter", sans-serif;
 
-  /* Peaceful Dusk Blue theme */
-  --background: hsl(215 25% 18%);
-  --foreground: hsl(40 30% 95%);
-  --card: hsl(215 25% 22%);
-  --card-foreground: hsl(40 30% 95%);
-  --popover: hsl(215 25% 18%);
-  --popover-foreground: hsl(40 30% 95%);
-  --primary: hsl(35 85% 65%);
-  --primary-foreground: hsl(215 25% 18%);
-  --secondary: hsl(215 20% 28%);
+  /* Refined Unlumen Dusk Palette */
+  --background: hsl(218 28% 14%);
+  --surface: hsl(217 26% 18%);
+  --foreground: hsl(40 30% 96%);
+  --card: hsl(217 26% 19%);
+  --card-foreground: hsl(40 30% 96%);
+  --popover: hsl(218 28% 15%);
+  --popover-foreground: hsl(40 30% 96%);
+  --primary: hsl(38 90% 64%);
+  --primary-foreground: hsl(218 28% 12%);
+  --secondary: hsl(217 20% 24%);
   --secondary-foreground: hsl(40 30% 95%);
-  --muted: hsl(215 20% 28%);
-  --muted-foreground: hsl(215 20% 75%);
-  --accent: hsl(215 20% 28%);
-  --accent-foreground: hsl(35 85% 65%);
-  --destructive: hsl(0 62% 55%);
-  --destructive-foreground: hsl(40 30% 95%);
-  --border: hsl(215 20% 32%);
-  --input: hsl(215 20% 32%);
-  --ring: hsl(35 85% 65%);
-  --chart-1: hsl(35 85% 65%);
+  --muted: hsl(217 20% 22%);
+  --muted-foreground: hsl(215 20% 72%);
+  --accent: hsl(217 22% 23%);
+  --accent-foreground: hsl(38 90% 64%);
+  --accent-pro: hsl(210 95% 65%);
+  --destructive: hsl(0 72% 58%);
+  --destructive-foreground: hsl(40 30% 98%);
+  --border: hsl(217 20% 26%);
+  --input: hsl(217 20% 26%);
+  --ring: hsl(38 90% 64%);
+  --chart-1: hsl(38 90% 64%);
   --chart-2: hsl(25 80% 60%);
-  --chart-3: hsl(215 45% 50%);
-  --chart-4: hsl(190 35% 70%);
-  --chart-5: hsl(230 25% 75%);
-  --sidebar: hsl(215 25% 18%);
-  --sidebar-foreground: hsl(40 30% 95%);
-  --sidebar-primary: hsl(35 85% 65%);
-  --sidebar-primary-foreground: hsl(215 25% 18%);
-  --sidebar-accent: hsl(215 20% 28%);
-  --sidebar-accent-foreground: hsl(40 30% 95%);
-  --sidebar-border: hsl(215 20% 32%);
-  --sidebar-ring: hsl(35 85% 65%);
+  --chart-3: hsl(215 50% 55%);
+  --chart-4: hsl(190 40% 70%);
+  --chart-5: hsl(230 30% 75%);
+  --sidebar: hsl(218 28% 14%);
+  --sidebar-foreground: hsl(40 30% 96%);
+  --sidebar-primary: hsl(38 90% 64%);
+  --sidebar-primary-foreground: hsl(218 28% 14%);
+  --sidebar-accent: hsl(217 20% 22%);
+  --sidebar-accent-foreground: hsl(40 30% 96%);
+  --sidebar-border: hsl(217 20% 26%);
+  --sidebar-ring: hsl(38 90% 64%);
 }
 
 .dark {
-  --background: hsl(215 25% 18%);
-  --foreground: hsl(40 30% 95%);
+  --background: hsl(218 28% 14%);
+  --surface: hsl(217 26% 18%);
+  --foreground: hsl(40 30% 96%);
 }
 
 @layer base {
@@ -116,10 +118,11 @@
     color: var(--color-foreground);
     font-family: var(--font-body-family);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
   ::selection {
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 200, 120, 0.25);
   }
 }
 
@@ -129,44 +132,22 @@
   line-height: 1.95;
 }
 
+/* Unlumen tactile card fallback for backward-compat */
 .liquid-glass {
-  background: rgba(255, 255, 255, 0.01);
-  background-blend-mode: luminosity;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: none;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   position: relative;
-  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.liquid-glass::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.4px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.45) 0%,
-    rgba(255, 255, 255, 0.15) 20%,
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0) 60%,
-    rgba(255, 255, 255, 0.15) 80%,
-    rgba(255, 255, 255, 0.45) 100%
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+.liquid-glass:hover {
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 @keyframes fade-rise {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -175,13 +156,13 @@
 }
 
 .animate-fade-rise {
-  animation: fade-rise 0.8s ease-out both;
+  animation: fade-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .animate-fade-rise-delay {
-  animation: fade-rise 0.8s ease-out 0.2s both;
+  animation: fade-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 .animate-fade-rise-delay-2 {
-  animation: fade-rise 0.8s ease-out 0.4s both;
+  animation: fade-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
 @media (prefers-reduced-motion: reduce) {

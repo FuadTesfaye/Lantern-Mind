@@ -1,11 +1,13 @@
 import { useState, type FormEvent } from "react";
-import { formatRelativeDate, type CommunityComment } from "@/lib/community/types";
+import { formatRelativeDate } from "@/lib/community/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
+import { MessageCircle, Send } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 type PostDiscussionProps = {
   postId: string;
@@ -48,58 +50,78 @@ export function PostDiscussion({ postId, comments }: PostDiscussionProps) {
 
   return (
     <section className="mt-14 border-t border-border/40 pt-12">
-      <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Discussion</p>
+      <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-0.5 text-xs font-mono uppercase tracking-widest text-primary mb-3">
+        <MessageCircle className="size-3.5" />
+        <span>Discussion</span>
+      </div>
       <h2
-        className="mt-3 text-3xl text-foreground sm:text-4xl"
+        className="text-3xl text-foreground sm:text-4xl font-normal tracking-tight"
         style={{ fontFamily: "'Instrument Serif', serif" }}
       >
         Talk quietly, <em className="not-italic text-muted-foreground">anonymously.</em>
       </h2>
-      <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
+      <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
         Witness each other. No advice piles, no ranking pain. Messages appear live for everyone in
         this thread.
       </p>
 
-      <ul className="mt-10 space-y-6">
+      <div className="mt-8 space-y-4 max-w-2xl">
         {comments.length === 0 ? (
-          <li className="text-sm text-muted-foreground">
+          <div className="rounded-2xl border border-border/60 bg-surface/50 p-6 text-center text-sm text-muted-foreground">
             No one has spoken yet. You can be the first gentle voice.
-          </li>
+          </div>
         ) : (
           comments.map((comment) => (
-            <li key={comment.id} className="animate-fade-rise border-l border-border/50 pl-5">
-              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="text-xs text-foreground/70">— {comment.author}</span>
-                <span className="text-xs text-muted-foreground">
+            <div
+              key={comment.id}
+              className="rounded-2xl border border-border/60 bg-surface p-5 sm:p-6 space-y-2.5"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Avatar className="h-6 w-6 border border-border">
+                    <AvatarFallback className="text-[10px] bg-primary/10 text-primary font-semibold">
+                      {comment.author?.charAt(0)?.toUpperCase() || "A"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="text-xs font-medium text-foreground">{comment.author}</span>
+                </div>
+                <span className="text-xs font-mono text-muted-foreground">
                   {formatRelativeDate(comment.created_at || comment.createdAt)}
                 </span>
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{comment.body}</p>
-            </li>
+              <p className="text-sm leading-relaxed text-foreground/85 whitespace-pre-wrap pl-8">
+                {comment.body}
+              </p>
+            </div>
           ))
         )}
-      </ul>
+      </div>
 
-      <form onSubmit={onSubmit} className="mt-10 max-w-xl space-y-4">
+      <form onSubmit={onSubmit} className="mt-8 max-w-2xl space-y-4 rounded-3xl border border-border bg-surface p-6 sm:p-7">
         <Textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          placeholder="Share a quiet response…"
-          className="min-h-28 bg-transparent"
+          placeholder="Share a gentle reflection or note of solidarity…"
+          className="min-h-28 rounded-xl border-border bg-background/60 text-foreground"
           maxLength={2000}
           required
         />
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center justify-between">
           <Input
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            placeholder="Anonymous"
+            placeholder="Display name (or Anonymous)"
             maxLength={40}
-            className="bg-transparent sm:max-w-[220px]"
+            className="rounded-xl border-border bg-background/60 sm:max-w-[220px]"
             aria-label="Display name"
           />
-          <Button type="submit" disabled={addComment.isPending} className="sm:ml-auto">
-            {addComment.isPending ? "Sending…" : "Send anonymously"}
+          <Button
+            type="submit"
+            disabled={addComment.isPending}
+            className="rounded-full px-6 py-2 bg-primary text-primary-foreground font-medium hover:opacity-90 gap-1.5 self-end sm:self-auto"
+          >
+            <Send className="size-3.5" />
+            <span>{addComment.isPending ? "Posting…" : "Post Anonymously"}</span>
           </Button>
         </div>
       </form>

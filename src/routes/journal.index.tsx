@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/page-shell";
 import { articles } from "@/content/articles";
+import { TiltCard } from "@/components/unlumen-ui/tilt-card";
+import { ArrowRight, BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/journal/")({
   head: () => ({
@@ -25,7 +28,7 @@ export const Route = createFileRoute("/journal/")({
 function JournalIndex() {
   return (
     <PageShell
-      eyebrow="Journal"
+      eyebrow="The Journal"
       title={
         <>
           Written for the person{" "}
@@ -34,31 +37,36 @@ function JournalIndex() {
       }
       intro="One piece at a time, written slowly. Each begins with how it feels, explains what is actually happening in plain language, and ends with something you can do tomorrow."
     >
-      <div className="grid gap-5">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {articles.map((article) => (
-          <Link
+          <TiltCard
             key={article.slug}
-            to="/journal/$slug"
-            params={{ slug: article.slug }}
-            className="liquid-glass rounded-3xl px-8 py-10 transition-transform hover:scale-[1.005] md:px-12"
-          >
-            <div className="flex flex-wrap gap-x-6 text-xs uppercase tracking-[0.28em] text-muted-foreground">
-              <span>{article.section}</span>
-              <span>{article.readingTime}</span>
-            </div>
-            <h2
-              className="mt-6 max-w-3xl text-3xl leading-tight tracking-[-1px] text-foreground sm:text-4xl"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              {article.title}{" "}
-              {article.em ? (
-                <em className="not-italic text-muted-foreground">{article.em}</em>
-              ) : null}
-            </h2>
-            <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              {article.dek}
-            </p>
-          </Link>
+            price={article.section}
+            badgeLabel={article.readingTime}
+            badgeVariant="primary"
+            title={
+              <span>
+                {article.title}{" "}
+                {article.em ? (
+                  <em className="not-italic text-muted-foreground">{article.em}</em>
+                ) : null}
+              </span>
+            }
+            description={article.dek}
+            footerSlot={
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className="w-full justify-between px-2 text-xs uppercase tracking-wider text-foreground font-semibold hover:bg-primary/10"
+              >
+                <Link to="/journal/$slug" params={{ slug: article.slug }}>
+                  <span>Read full piece</span>
+                  <ArrowRight className="size-3.5" />
+                </Link>
+              </Button>
+            }
+          />
         ))}
       </div>
     </PageShell>

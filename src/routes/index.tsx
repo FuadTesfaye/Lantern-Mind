@@ -5,20 +5,19 @@ import { taxonomy } from "@/content/taxonomy";
 import { articles } from "@/content/articles";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import { Separator } from "@/components/ui/separator";
+import {
+  Tilt,
+  TiltCard,
+  ClippedCircle,
+  AnimatedList,
+  MotionAccordion,
+  GradualBlur,
+} from "@/components/unlumen-ui";
 import {
   BrainCircuit,
   Moon,
@@ -31,6 +30,9 @@ import {
   Microscope,
   HeartHandshake,
   Quote,
+  Compass,
+  CheckCircle2,
+  BookOpen,
 } from "lucide-react";
 
 const VIDEO_SRC =
@@ -75,9 +77,32 @@ function Index() {
     },
   });
 
+  const philosophyItems = [
+    {
+      icon: <ShieldCheck className="size-5 text-primary" />,
+      question: "No Quick Fixes or False Promises",
+      answer:
+        "We do not promise overnight recovery or magic supplements. True cognitive recovery is biological, gradual, and built primarily through consistent sleep, low-pressure focus, and pacing.",
+    },
+    {
+      icon: <Microscope className="size-5 text-primary" />,
+      question: "Evidence-Based & Trauma-Informed",
+      answer:
+        "All our instruments and essays are grounded in neuroscience, somatic physiology, and established clinical recovery guidelines. We explain why your brain responds the way it does in plain language.",
+    },
+    {
+      icon: <HeartHandshake className="size-5 text-primary" />,
+      question: "100% Free, Private & Zero Cloud Tracking",
+      answer:
+        "Essential mental health education must never be gated behind paywalls or sold to ad networks. Your interactive assessments and logs stay strictly on your local device.",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/25">
+      <GradualBlur position="top" />
+
+      {/* Hero Section — Preserved intact */}
       <section className="relative min-h-screen overflow-hidden">
         <video
           className="absolute inset-0 z-0 h-full w-full object-cover"
@@ -135,121 +160,110 @@ function Index() {
         </div>
       </section>
 
-      {/* Bold Artistic Quote Section */}
+      {/* Unlumen Core Principle Tilt Spotlight Card */}
       <section className="relative z-10 mx-auto w-full max-w-5xl px-6 py-20 md:py-28">
-        <Card className="liquid-glass relative overflow-hidden rounded-[2.5rem] p-8 md:p-20 text-center border-border/40 shadow-[0_40px_100px_-20px_rgba(14,165,233,0.08)]">
+        <Tilt
+          rotationFactor={6}
+          className="group relative overflow-hidden rounded-3xl border border-border bg-surface p-8 sm:p-14 md:p-16 text-center shadow-2xl transition-all duration-300 hover:border-foreground/20"
+        >
           <div className="relative z-10 flex flex-col items-center">
-            <Badge
-              variant="outline"
-              className="mb-8 rounded-full border-border/60 bg-background/40 px-4 py-1 text-xs tracking-widest text-muted-foreground uppercase"
-            >
-              Core Principle
-            </Badge>
-            <Quote className="h-10 w-10 text-primary/30 mb-6" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-4 py-1 text-xs font-mono tracking-widest text-primary uppercase mb-8">
+              <span className="size-1.5 rounded-full bg-primary" />
+              <span>Core Principle</span>
+            </div>
+
+            <Quote className="h-9 w-9 text-primary/40 mb-6 group-hover:scale-110 transition-transform" />
+
             <blockquote
-              className="text-2xl sm:text-4xl md:text-5xl font-normal leading-[1.2] tracking-tight text-foreground"
+              className="text-2xl sm:text-4xl md:text-5xl font-normal leading-[1.22] tracking-tight text-foreground max-w-3xl"
               style={{ fontFamily: "'Instrument Serif', serif" }}
             >
               The people who help others for decades aren't the ones who ignore their own wounds.
               <br />
               <br />
-              <span className="italic text-primary/90">
+              <span className="italic text-primary">
                 They're the ones who gradually heal enough that their wounds stop controlling them.
               </span>
             </blockquote>
           </div>
-        </Card>
+
+          <ClippedCircle circleClassName="bg-primary/20" circleSize={700} />
+        </Tilt>
       </section>
 
-      {/* Featured Journal Cards */}
-      <section className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-8 pb-16">
+      {/* The Journal Section — Redesigned with Unlumen TiltCards */}
+      <section className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-8 pb-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <Badge
-              variant="outline"
-              className="rounded-full px-3 py-0.5 text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3"
-            >
-              The Journal
-            </Badge>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-mono uppercase tracking-widest text-primary mb-3">
+              <BookOpen className="size-3.5" />
+              <span>The Journal</span>
+            </div>
             <h2
               className="text-4xl font-normal leading-[1.02] tracking-[-1.4px] sm:text-5xl"
               style={{ fontFamily: "'Instrument Serif', serif" }}
             >
               Notes on <em className="not-italic text-muted-foreground">living.</em>
             </h2>
-            <p className="mt-3 text-sm text-muted-foreground max-w-xl">
+            <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl">
               Slow, compassionate explorations of feeling, neuroscience, and actionable daily
               recovery.
             </p>
           </div>
           <Button
             asChild
-            variant="ghost"
-            className="self-start md:self-auto group gap-2 text-muted-foreground hover:text-foreground"
+            variant="outline"
+            className="self-start md:self-auto rounded-full border-border bg-surface hover:bg-card gap-2 text-foreground font-medium"
           >
             <Link to="/journal">
-              Read all entries{" "}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <span>Read all entries</span>
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
-            <Card
+            <TiltCard
               key={article.slug}
-              className="liquid-glass group rounded-3xl border-border/40 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:bg-foreground/5 flex flex-col justify-between"
-            >
-              <CardHeader className="pb-4">
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <Badge variant="secondary" className="rounded-full text-xs font-normal">
-                    {article.section}
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">{article.readingTime} read</span>
-                </div>
-                <CardTitle
-                  className="text-2xl text-foreground font-normal leading-snug tracking-tight group-hover:text-primary transition-colors"
-                  style={{ fontFamily: "'Instrument Serif', serif" }}
-                >
+              title={
+                <span>
                   {article.title}{" "}
                   {article.em ? (
                     <em className="not-italic text-muted-foreground">{article.em}</em>
                   ) : null}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pb-6 flex-1">
-                <CardDescription className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
-                  {article.dek}
-                </CardDescription>
-              </CardContent>
-              <CardFooter className="pt-0">
+                </span>
+              }
+              description={article.dek}
+              price={article.section}
+              badgeLabel={article.readingTime}
+              badgeVariant="primary"
+              footerSlot={
                 <Button
                   asChild
                   variant="ghost"
                   size="sm"
-                  className="w-full justify-between px-2 text-xs uppercase tracking-widest text-foreground font-medium group-hover:bg-primary/10"
+                  className="w-full justify-between px-2 text-xs uppercase tracking-wider text-foreground font-semibold hover:bg-primary/10"
                 >
                   <Link to="/journal/$slug" params={{ slug: article.slug }}>
                     <span>Read piece</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
-              </CardFooter>
-            </Card>
+              }
+            />
           ))}
         </div>
       </section>
 
-      {/* Your Journey Taxonomy Section */}
-      <section className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-8 py-20">
+      {/* Your Journey Framework Section — Unlumen Cards */}
+      <section className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-8 py-20 border-t border-border/40">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <Badge
-              variant="outline"
-              className="rounded-full px-3 py-0.5 text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3"
-            >
-              Your Journey
-            </Badge>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-mono uppercase tracking-widest text-primary mb-3">
+              <Compass className="size-3.5" />
+              <span>Your Framework</span>
+            </div>
             <h2
               className="text-4xl font-normal leading-[1.02] tracking-[-1.4px] sm:text-5xl"
               style={{ fontFamily: "'Instrument Serif', serif" }}
@@ -257,536 +271,422 @@ function Index() {
               Evidence-based ways to{" "}
               <em className="not-italic text-muted-foreground">rebuild and recover.</em>
             </h2>
-            <p className="mt-3 text-sm text-muted-foreground max-w-xl">
-              A structured framework mapping out how the mind, body, and daily rhythms interact.
+            <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl">
+              A structured roadmap mapping out how the mind, body, and daily rhythms interact.
             </p>
           </div>
           <Button
             asChild
-            variant="ghost"
-            className="self-start md:self-auto group gap-2 text-muted-foreground hover:text-foreground"
+            variant="outline"
+            className="self-start md:self-auto rounded-full border-border bg-surface hover:bg-card gap-2 text-foreground font-medium"
           >
             <Link to="/experiences">
-              View experience atlas{" "}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <span>View experience atlas</span>
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {taxonomy.map((category, idx) => (
-            <Card
+            <TiltCard
               key={category.slug}
-              className="liquid-glass group rounded-3xl border-border/40 transition-all duration-300 hover:scale-[1.01] hover:border-primary/40 hover:bg-foreground/5 flex flex-col justify-between"
-            >
-              <CardHeader className="pb-4">
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <Badge
-                    variant="outline"
-                    className="text-xs uppercase tracking-wider text-muted-foreground"
-                  >
-                    0{idx + 1} · {category.name}
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">
-                    {category.topics.length} {category.topics.length === 1 ? "topic" : "topics"}
-                  </span>
-                </div>
-                <CardTitle
-                  className="text-2xl leading-tight tracking-tight text-foreground mt-2"
-                  style={{ fontFamily: "'Instrument Serif', serif" }}
-                >
+              price={`0${idx + 1}`}
+              badgeLabel={`${category.topics.length} topics`}
+              badgeVariant="neutral"
+              title={
+                <span>
                   {category.title.split(" ").slice(0, -1).join(" ")}{" "}
                   <em className="not-italic text-muted-foreground">
                     {category.title.split(" ").slice(-1)[0]}
                   </em>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pb-6 flex-1">
-                <CardDescription className="text-sm leading-relaxed text-muted-foreground mb-4">
-                  {category.summary}
-                </CardDescription>
-                <div className="flex flex-wrap gap-1.5 pt-2">
-                  {category.topics.slice(0, 3).map((topic) => (
-                    <span
-                      key={topic.slug}
-                      className="inline-block rounded-full bg-foreground/5 border border-border/30 px-2.5 py-0.5 text-[11px] text-muted-foreground"
-                    >
-                      {topic.title.split("—")[0].trim()}
-                    </span>
-                  ))}
-                  {category.topics.length > 3 && (
-                    <span className="inline-block rounded-full bg-foreground/5 border border-border/30 px-2 py-0.5 text-[11px] text-muted-foreground">
-                      +{category.topics.length - 3} more
-                    </span>
-                  )}
+                </span>
+              }
+              description={category.summary}
+              footerSlot={
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-wrap gap-1.5">
+                    {category.topics.slice(0, 3).map((topic) => (
+                      <span
+                        key={topic.slug}
+                        className="inline-block rounded-full bg-foreground/5 border border-border/50 px-2.5 py-0.5 text-[11px] text-muted-foreground font-mono"
+                      >
+                        {topic.title.split("—")[0].trim()}
+                      </span>
+                    ))}
+                    {category.topics.length > 3 && (
+                      <span className="inline-block rounded-full bg-foreground/5 border border-border/50 px-2 py-0.5 text-[11px] text-muted-foreground font-mono">
+                        +{category.topics.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-between px-2 text-xs uppercase tracking-wider text-foreground font-semibold hover:bg-primary/10 mt-2"
+                  >
+                    <Link to="/taxonomy/$slug" params={{ slug: category.slug }}>
+                      <span>Explore Section</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </Button>
                 </div>
-              </CardContent>
-              <CardFooter className="pt-0">
-                <Button
-                  asChild
-                  variant="ghost"
-                  size="sm"
-                  className="w-full justify-between px-2 text-xs uppercase tracking-widest text-foreground font-medium group-hover:bg-primary/10"
-                >
-                  <Link to="/taxonomy/$slug" params={{ slug: category.slug }}>
-                    <span>Explore Section</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
+              }
+            />
           ))}
         </div>
       </section>
 
       {/* Interactive Tools Section */}
       <TooltipProvider>
-        <section className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-8 py-20">
+        <section className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-8 py-20 border-t border-border/40">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <Badge
-                variant="outline"
-                className="rounded-full px-3 py-0.5 text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3"
-              >
-                Active Recovery
-              </Badge>
+              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-mono uppercase tracking-widest text-primary mb-3">
+                <Sparkles className="size-3.5" />
+                <span>Active Instruments</span>
+              </div>
               <h2
                 className="text-4xl font-normal leading-[1.02] tracking-[-1.4px] sm:text-5xl"
                 style={{ fontFamily: "'Instrument Serif', serif" }}
               >
                 Tools to <em className="not-italic text-muted-foreground">ground yourself.</em>
               </h2>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-3 max-w-xl text-sm sm:text-base leading-relaxed text-muted-foreground">
                 Practical, interactive exercises to map your nervous system, track your rest, and
                 plan your recovery. All data stays 100% on your device.
               </p>
             </div>
             <Button
               asChild
-              variant="ghost"
-              className="self-start md:self-auto group gap-2 text-muted-foreground hover:text-foreground"
+              variant="outline"
+              className="self-start md:self-auto rounded-full border-border bg-surface hover:bg-card gap-2 text-foreground font-medium"
             >
               <Link to="/tools">
-                View all instruments{" "}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <span>View all instruments</span>
+                <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {/* Main Feature: Brain Map */}
-            <Card className="liquid-glass group md:col-span-2 rounded-3xl border-border/40 p-2 transition-all duration-300 hover:border-primary/40 overflow-hidden relative flex flex-col justify-between">
-              <CardHeader className="p-6 sm:p-8 relative z-10">
-                <div className="flex items-center justify-between gap-4 mb-4">
-                  <div className="rounded-2xl bg-primary/10 border border-primary/20 p-3 w-fit text-primary">
+            <Tilt
+              rotationFactor={5}
+              className="group md:col-span-2 rounded-3xl border border-border bg-surface p-8 sm:p-10 transition-all duration-300 hover:border-foreground/30 relative flex flex-col justify-between overflow-hidden shadow-xl"
+            >
+              <div className="relative z-10">
+                <div className="flex items-center justify-between gap-4 mb-5">
+                  <div className="rounded-2xl bg-primary/10 border border-primary/20 p-3 w-fit text-primary group-hover:scale-105 transition-transform">
                     <BrainCircuit className="h-7 w-7" />
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className="rounded-full text-xs">
+                    <span className="rounded-full bg-primary/15 border border-primary/30 px-3 py-0.5 text-xs text-primary font-mono font-medium">
                       Interactive Visual Map
-                    </Badge>
+                    </span>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Badge
-                          variant="outline"
-                          className="cursor-help text-xs text-muted-foreground"
-                        >
+                        <span className="cursor-help rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-mono text-muted-foreground">
                           Private
-                        </Badge>
+                        </span>
                       </TooltipTrigger>
-                      <TooltipContent>
+                      <TooltipContent className="rounded-xl border border-border bg-surface p-2 text-xs text-foreground">
                         Runs 100% in your browser. Zero cloud tracking.
                       </TooltipContent>
                     </Tooltip>
                   </div>
                 </div>
-                <CardTitle
-                  className="text-3xl text-foreground font-normal tracking-tight mb-3"
+
+                <h3
+                  className="text-2xl sm:text-3xl text-foreground font-normal tracking-tight mb-3"
                   style={{ fontFamily: "'Instrument Serif', serif" }}
                 >
                   Interactive Brain & Nervous System Map
-                </CardTitle>
-                <CardDescription className="text-sm text-muted-foreground leading-relaxed max-w-xl">
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
                   Explore the regions of your mind affected by chronic stress and burnout. Learn the
-                  neuroscience behind brain fog and emotional dysregulation through a gentle visual
-                  atlas.
-                </CardDescription>
-              </CardHeader>
-              <CardFooter className="p-6 sm:p-8 pt-0 relative z-10">
-                <Button asChild className="rounded-full px-6 group/btn">
+                  neuroscience behind brain fog and emotional dysregulation through a gentle visual atlas.
+                </p>
+              </div>
+
+              <div className="relative z-10 mt-8">
+                <Button asChild className="rounded-full px-7 py-5 font-medium bg-primary text-primary-foreground hover:opacity-95 shadow-md">
                   <Link to="/tools">
                     <span>Open Interactive Map</span>
-                    <ArrowRight className="h-4 w-4 ml-2 transition-transform group-hover/btn:translate-x-1" />
+                    <ArrowRight className="h-4 w-4 ml-2" />
                   </Link>
                 </Button>
-              </CardFooter>
-              {/* Subtle ambient light */}
-              <div className="absolute right-0 bottom-0 w-80 h-80 bg-primary/10 blur-[90px] rounded-full -mr-20 -mb-20 pointer-events-none" />
-            </Card>
+              </div>
+
+              <ClippedCircle circleClassName="bg-primary/20" circleSize={650} />
+            </Tilt>
 
             {/* Burnout Assessment */}
-            <Card className="liquid-glass group rounded-3xl border-border/40 transition-all duration-300 hover:border-primary/40 hover:-translate-y-1 flex flex-col justify-between">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="rounded-2xl bg-rose-500/10 border border-rose-500/20 p-3 text-rose-400">
-                    <HeartPulse className="h-6 w-6" />
+            <TiltCard
+              price="Assessment"
+              badgeLabel="Pacing"
+              badgeVariant="warning"
+              title="Burnout Assessment"
+              description="Assess your current nervous system state and receive gentle, evidence-based recommendations for pacing and recovery."
+              headerSlot={
+                <div className="flex items-center justify-between mb-2">
+                  <div className="rounded-xl bg-rose-500/10 border border-rose-500/20 p-2.5 text-rose-400">
+                    <HeartPulse className="h-5 w-5" />
                   </div>
-                  <Badge variant="outline" className="text-xs">
-                    Assessment
-                  </Badge>
+                  <span className="text-xs font-mono text-muted-foreground">5 min check</span>
                 </div>
-                <CardTitle
-                  className="text-2xl text-foreground font-normal tracking-tight"
-                  style={{ fontFamily: "'Instrument Serif', serif" }}
-                >
-                  Burnout Assessment
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <CardDescription className="text-sm text-muted-foreground leading-relaxed">
-                  Assess your current nervous system state and receive gentle, evidence-based
-                  recommendations for pacing and recovery.
-                </CardDescription>
-              </CardContent>
-              <CardFooter>
+              }
+              footerSlot={
                 <Button
                   asChild
                   variant="ghost"
                   size="sm"
-                  className="w-full justify-between px-2 text-xs uppercase tracking-widest text-foreground font-medium group-hover:bg-primary/10"
+                  className="w-full justify-between px-2 text-xs uppercase tracking-wider text-foreground font-semibold hover:bg-primary/10"
                 >
                   <Link to="/tools">
                     <span>Take Quiz</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
-              </CardFooter>
-            </Card>
+              }
+            />
 
-            {/* Recovery Planner */}
-            <Card className="liquid-glass group rounded-3xl border-border/40 transition-all duration-300 hover:border-primary/40 hover:-translate-y-1 flex flex-col justify-between">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="rounded-2xl bg-amber-500/10 border border-amber-500/20 p-3 text-amber-400">
-                    <Sparkles className="h-6 w-6" />
+            {/* Daily Recovery Planner */}
+            <TiltCard
+              price="Rhythm"
+              badgeLabel="Pacing"
+              badgeVariant="primary"
+              title="Daily Recovery Planner"
+              description="Build a compassionate daily rhythm that respects your energy limits and guards against cognitive overwhelm."
+              headerSlot={
+                <div className="flex items-center justify-between mb-2">
+                  <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 p-2.5 text-amber-400">
+                    <Sparkles className="h-5 w-5" />
                   </div>
-                  <Badge variant="outline" className="text-xs">
-                    Rhythm Planner
-                  </Badge>
+                  <span className="text-xs font-mono text-muted-foreground">Energy pacing</span>
                 </div>
-                <CardTitle
-                  className="text-2xl text-foreground font-normal tracking-tight"
-                  style={{ fontFamily: "'Instrument Serif', serif" }}
-                >
-                  Daily Recovery Planner
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <CardDescription className="text-sm text-muted-foreground leading-relaxed">
-                  Build a compassionate daily rhythm that respects your energy limits and guards
-                  against cognitive overwhelm.
-                </CardDescription>
-              </CardContent>
-              <CardFooter>
+              }
+              footerSlot={
                 <Button
                   asChild
                   variant="ghost"
                   size="sm"
-                  className="w-full justify-between px-2 text-xs uppercase tracking-widest text-foreground font-medium group-hover:bg-primary/10"
+                  className="w-full justify-between px-2 text-xs uppercase tracking-wider text-foreground font-semibold hover:bg-primary/10"
                 >
                   <Link to="/tools">
                     <span>Plan Rhythm</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
-              </CardFooter>
-            </Card>
+              }
+            />
 
             {/* Sleep Diary */}
-            <Card className="liquid-glass group rounded-3xl border-border/40 transition-all duration-300 hover:border-primary/40 hover:-translate-y-1 flex flex-col justify-between">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="rounded-2xl bg-indigo-500/10 border border-indigo-500/20 p-3 text-indigo-400">
-                    <Moon className="h-6 w-6" />
+            <TiltCard
+              price="Sleep"
+              badgeLabel="Anchor"
+              badgeVariant="neutral"
+              title="Sleep Diary & Circadian Anchor"
+              description="Track your rest quality and sleep anchors securely. Zero cloud sync — all records stay safely on your local device."
+              headerSlot={
+                <div className="flex items-center justify-between mb-2">
+                  <div className="rounded-xl bg-indigo-500/10 border border-indigo-500/20 p-2.5 text-indigo-400">
+                    <Moon className="h-5 w-5" />
                   </div>
-                  <Badge variant="outline" className="text-xs">
-                    Sleep Tracker
-                  </Badge>
+                  <span className="text-xs font-mono text-muted-foreground">Local storage</span>
                 </div>
-                <CardTitle
-                  className="text-2xl text-foreground font-normal tracking-tight"
-                  style={{ fontFamily: "'Instrument Serif', serif" }}
-                >
-                  Sleep Diary
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <CardDescription className="text-sm text-muted-foreground leading-relaxed">
-                  Track your rest quality and sleep anchors securely. Zero cloud sync — all records
-                  stay safely on your local device.
-                </CardDescription>
-              </CardContent>
-              <CardFooter>
+              }
+              footerSlot={
                 <Button
                   asChild
                   variant="ghost"
                   size="sm"
-                  className="w-full justify-between px-2 text-xs uppercase tracking-widest text-foreground font-medium group-hover:bg-primary/10"
+                  className="w-full justify-between px-2 text-xs uppercase tracking-wider text-foreground font-semibold hover:bg-primary/10"
                 >
                   <Link to="/tools">
                     <span>Log Sleep</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
-              </CardFooter>
-            </Card>
+              }
+            />
 
             {/* Focus Timer */}
-            <Card className="liquid-glass group rounded-3xl border-border/40 transition-all duration-300 hover:border-primary/40 hover:-translate-y-1 flex flex-col justify-between">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/20 p-3 text-emerald-400">
-                    <Timer className="h-6 w-6" />
+            <TiltCard
+              price="Focus"
+              badgeLabel="Gentle"
+              badgeVariant="success"
+              title="Focus & Breath Timer"
+              description="Practice low-pressure deep work blocks with built-in breath grounding cycles to prevent attention exhaustion."
+              headerSlot={
+                <div className="flex items-center justify-between mb-2">
+                  <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-2.5 text-emerald-400">
+                    <Timer className="h-5 w-5" />
                   </div>
-                  <Badge variant="outline" className="text-xs">
-                    Gentle Focus
-                  </Badge>
+                  <span className="text-xs font-mono text-muted-foreground">Low pressure</span>
                 </div>
-                <CardTitle
-                  className="text-2xl text-foreground font-normal tracking-tight"
-                  style={{ fontFamily: "'Instrument Serif', serif" }}
-                >
-                  Focus & Breath Timer
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <CardDescription className="text-sm text-muted-foreground leading-relaxed">
-                  Practice low-pressure deep work blocks with built-in breath grounding cycles to
-                  prevent attention exhaustion.
-                </CardDescription>
-              </CardContent>
-              <CardFooter>
+              }
+              footerSlot={
                 <Button
                   asChild
                   variant="ghost"
                   size="sm"
-                  className="w-full justify-between px-2 text-xs uppercase tracking-widest text-foreground font-medium group-hover:bg-primary/10"
+                  className="w-full justify-between px-2 text-xs uppercase tracking-wider text-foreground font-semibold hover:bg-primary/10"
                 >
                   <Link to="/tools">
                     <span>Start Timer</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
-              </CardFooter>
-            </Card>
+              }
+            />
           </div>
         </section>
       </TooltipProvider>
 
-      {/* Philosophy Section */}
-      <section className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-8 py-20">
-        <Card className="liquid-glass rounded-3xl border-border/40 p-8 md:p-16 text-center">
-          <Badge
-            variant="outline"
-            className="rounded-full px-4 py-1 text-xs uppercase tracking-[0.25em] text-muted-foreground mb-6"
-          >
-            Our Philosophy
-          </Badge>
-          <blockquote
-            className="max-w-3xl mx-auto text-2xl sm:text-4xl md:text-5xl font-normal leading-[1.2] tracking-tight text-foreground"
+      {/* Philosophy Section — Unlumen MotionAccordion */}
+      <section className="relative z-10 mx-auto w-full max-w-5xl px-6 md:px-8 py-20 border-t border-border/40">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-1 text-xs font-mono uppercase tracking-widest text-primary mb-4">
+            <span className="size-1.5 rounded-full bg-primary" />
+            <span>Our Foundation</span>
+          </div>
+          <h2
+            className="text-4xl sm:text-5xl font-normal leading-tight text-foreground"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
-            "Healing is not about erasing the past. It is about building a nervous system capable of
-            holding it, while remaining{" "}
-            <em className="not-italic text-primary/90">present for today.</em>"
-          </blockquote>
+            What we believe about healing.
+          </h2>
+          <p className="mt-3 text-muted-foreground max-w-xl mx-auto text-sm sm:text-base">
+            Healing is not about erasing the past. It is about building a nervous system capable of holding it, while remaining present for today.
+          </p>
+        </div>
 
-          <Separator className="my-12 bg-border/40 max-w-3xl mx-auto" />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left max-w-5xl mx-auto">
-            <Card className="bg-foreground/[0.02] border-border/30 rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="rounded-xl bg-primary/10 p-2.5 text-primary">
-                  <ShieldCheck className="h-5 w-5" />
-                </div>
-                <h3 className="text-lg font-medium text-foreground">No Quick Fixes</h3>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                We don't promise overnight transformations. True recovery is slow, cyclical, and
-                requires immense patience with yourself.
-              </p>
-            </Card>
-
-            <Card className="bg-foreground/[0.02] border-border/30 rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="rounded-xl bg-primary/10 p-2.5 text-primary">
-                  <Microscope className="h-5 w-5" />
-                </div>
-                <h3 className="text-lg font-medium text-foreground">Evidence-Based</h3>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Our tools and essays are grounded in modern neuroscience, somatics, and
-                trauma-informed care protocols.
-              </p>
-            </Card>
-
-            <Card className="bg-foreground/[0.02] border-border/30 rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="rounded-xl bg-primary/10 p-2.5 text-primary">
-                  <HeartHandshake className="h-5 w-5" />
-                </div>
-                <h3 className="text-lg font-medium text-foreground">Always Free & Safe</h3>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Education about your own mind is never gated behind paywalls or data harvesting.
-                Trust is everything.
-              </p>
-            </Card>
-          </div>
-        </Card>
+        <MotionAccordion items={philosophyItems} defaultOpenIndex={0} />
       </section>
 
-      {/* Community Voices Section */}
-      <section className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-8 py-20 border-t border-border/20">
+      {/* Community Voices Section — Unlumen AnimatedList */}
+      <section className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-8 py-20 border-t border-border/40">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <Badge
-              variant="outline"
-              className="rounded-full px-3 py-0.5 text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3 flex items-center gap-1.5 w-fit"
-            >
-              <MessageCircle className="w-3.5 h-3.5 text-primary" /> Live Community
-            </Badge>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-mono uppercase tracking-widest text-primary mb-3">
+              <MessageCircle className="size-3.5" />
+              <span>Live Community Space</span>
+            </div>
             <h2
               className="text-4xl font-normal leading-[1.02] tracking-[-1.4px] sm:text-5xl"
               style={{ fontFamily: "'Instrument Serif', serif" }}
             >
               Voices of <em className="not-italic text-muted-foreground">recovery.</em>
             </h2>
-            <p className="mt-3 text-sm text-muted-foreground max-w-lg">
-              Read stories shared anonymously by others navigating similar terrain. You are not
-              alone in this.
+            <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-lg">
+              Read stories shared anonymously by others navigating similar terrain. You are not alone in this.
             </p>
           </div>
           <Button
             asChild
-            variant="ghost"
-            className="self-start md:self-auto group gap-2 text-muted-foreground hover:text-foreground"
+            variant="outline"
+            className="self-start md:self-auto rounded-full border-border bg-surface hover:bg-card gap-2 text-foreground font-medium"
           >
             <Link to="/community">
-              Enter community space{" "}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <span>Enter community space</span>
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {voicesLoading ? (
-            [1, 2, 3].map((i) => (
-              <Card
+        {voicesLoading ? (
+          <div className="grid gap-6 md:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <div
                 key={i}
-                className="liquid-glass rounded-3xl border-border/30 p-6 flex flex-col justify-between"
+                className="rounded-3xl border border-border bg-surface p-7 space-y-4"
               >
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <Skeleton className="h-4 w-20 rounded-full" />
-                    <Skeleton className="h-6 w-24 rounded-full" />
-                  </div>
-                  <Skeleton className="h-7 w-3/4" />
-                  <Skeleton className="h-20 w-full" />
-                </div>
-                <Skeleton className="h-4 w-24 mt-6" />
-              </Card>
-            ))
-          ) : !recentVoices || recentVoices.length === 0 ? (
-            <Card className="col-span-full liquid-glass rounded-3xl p-12 text-center border-border/30">
-              <CardContent className="flex flex-col items-center justify-center p-0">
-                <MessageCircle className="h-10 w-10 text-muted-foreground/50 mb-4" />
-                <p className="text-muted-foreground max-w-md text-sm leading-relaxed mb-6">
-                  The community space is quiet right now. Be the first to share your reflections
-                  anonymously.
-                </p>
-                <Button asChild className="rounded-full">
-                  <Link to="/community">Post anonymously</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ) : (
-            recentVoices.map((voice) => (
-              <Card
+                <Skeleton className="h-4 w-20 rounded-full" />
+                <Skeleton className="h-6 w-3/4 rounded-full" />
+                <Skeleton className="h-16 w-full rounded-2xl" />
+              </div>
+            ))}
+          </div>
+        ) : !recentVoices || recentVoices.length === 0 ? (
+          <div className="rounded-3xl border border-border bg-surface p-12 text-center">
+            <MessageCircle className="h-10 w-10 text-muted-foreground/50 mx-auto mb-4" />
+            <p className="text-muted-foreground max-w-md mx-auto text-sm leading-relaxed mb-6">
+              The community space is quiet right now. Be the first to share your reflections anonymously.
+            </p>
+            <Button asChild className="rounded-full bg-primary text-primary-foreground">
+              <Link to="/community">Post anonymously</Link>
+            </Button>
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-3">
+            {recentVoices.map((voice) => (
+              <TiltCard
                 key={voice.slug}
-                className="liquid-glass group rounded-3xl border-border/40 p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 flex flex-col justify-between"
-              >
-                <CardHeader className="p-0 pb-4">
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-xs text-muted-foreground">
+                title={voice.title}
+                description={<span className="italic">"{voice.excerpt}"</span>}
+                headerSlot={
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-xs font-mono text-muted-foreground">
                       {new Date(voice.published_at).toLocaleDateString(undefined, {
                         month: "short",
                         day: "numeric",
                       })}
                     </span>
                     <div className="flex items-center gap-2">
-                      <Avatar className="h-6 w-6 border border-border/60">
-                        <AvatarFallback className="text-[10px] bg-primary/10 text-primary font-medium">
+                      <Avatar className="h-6 w-6 border border-border">
+                        <AvatarFallback className="text-[10px] bg-primary/15 text-primary font-semibold">
                           {voice.author?.charAt(0)?.toUpperCase() || "A"}
                         </AvatarFallback>
                       </Avatar>
                       <span className="text-xs text-foreground/80 font-medium">{voice.author}</span>
                     </div>
                   </div>
-                  <CardTitle
-                    className="text-xl text-foreground font-normal leading-snug group-hover:text-primary transition-colors"
-                    style={{ fontFamily: "'Instrument Serif', serif" }}
-                  >
-                    {voice.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0 pb-6 flex-1">
-                  <CardDescription className="text-sm text-muted-foreground leading-relaxed italic line-clamp-4">
-                    "{voice.excerpt}"
-                  </CardDescription>
-                </CardContent>
-                <CardFooter className="p-0 pt-2">
+                }
+                footerSlot={
                   <Button
                     asChild
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-between px-2 text-xs uppercase tracking-widest text-foreground font-medium group-hover:bg-primary/10"
+                    className="w-full justify-between px-2 text-xs uppercase tracking-wider text-foreground font-semibold hover:bg-primary/10"
                   >
                     <Link to="/community/$slug" params={{ slug: voice.slug }}>
                       <span>Read story</span>
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
                   </Button>
-                </CardFooter>
-              </Card>
-            ))
-          )}
-        </div>
+                }
+              />
+            ))}
+          </div>
+        )}
       </section>
 
-      {/* Closing CTA */}
+      {/* Closing CTA Banner */}
       <section className="relative z-10 mx-auto w-full max-w-7xl px-6 md:px-8 pb-20">
-        <Card className="liquid-glass rounded-3xl border-border/40 p-8 sm:p-14 md:p-16 relative overflow-hidden">
+        <Tilt
+          rotationFactor={4}
+          className="rounded-3xl border border-border bg-surface p-8 sm:p-14 md:p-16 relative overflow-hidden shadow-2xl"
+        >
           <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
             <div className="max-w-xl">
-              <Badge
-                variant="outline"
-                className="rounded-full px-3 py-0.5 text-xs uppercase tracking-wider text-muted-foreground mb-4"
-              >
-                Begin With One Step
-              </Badge>
+              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-3 py-1 text-xs font-mono uppercase tracking-widest text-primary mb-4">
+                <CheckCircle2 className="size-3.5" />
+                <span>Begin With One Step</span>
+              </div>
               <h2
                 className="text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.08] tracking-tight text-foreground"
                 style={{ fontFamily: "'Instrument Serif', serif" }}
               >
                 Start with one night of sleep.{" "}
-                <em className="not-italic text-primary/90">The rest can wait until morning.</em>
+                <em className="not-italic text-primary">The rest can wait until morning.</em>
               </h2>
             </div>
             <Button
               asChild
               size="lg"
-              className="rounded-full px-8 py-6 text-base font-medium shadow-lg hover:scale-[1.02] transition-transform shrink-0"
+              className="rounded-full px-8 py-6 text-base font-medium shadow-lg hover:opacity-95 transition-all shrink-0 bg-primary text-primary-foreground"
             >
               <Link to="/taxonomy/$slug" params={{ slug: "rebuild" }}>
                 <span>Begin here</span>
@@ -794,12 +694,13 @@ function Index() {
               </Link>
             </Button>
           </div>
-          {/* Ambient light accent */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
-        </Card>
+
+          <ClippedCircle circleClassName="bg-primary/15" circleSize={800} />
+        </Tilt>
       </section>
 
       <SiteFooter />
+      <GradualBlur position="bottom" />
     </div>
   );
 }

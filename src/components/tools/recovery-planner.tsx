@@ -1,263 +1,250 @@
 import * as React from "react";
 import { Link } from "@tanstack/react-router";
+import { Sparkles, ArrowRight, RotateCcw, Check, Calendar, Moon, Shield } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function RecoveryPlanner() {
   const [step, setStep] = React.useState(0);
   const [inputs, setInputs] = React.useState({
-    primaryStruggle: "", // burnout, trauma, adhd, fog
+    primaryStruggle: "burnout",
     sleepHours: 7,
     stressLevel: 5,
     exercised: "no",
   });
   const [showPlan, setShowPlan] = React.useState(false);
 
-  const handleNext = () => setStep((s) => s + 1);
-
-  const generatePlan = () => {
-    setShowPlan(true);
-  };
-
   const plan = React.useMemo(() => {
     const tasks = [];
-    // Sleep logic
     if (inputs.sleepHours < 7) {
       tasks.push({
-        time: "Tonight (8:00 PM)",
-        title: "Early Lights Out",
-        desc: "You slept less than 7 hours. Aim for lights out at 9:30 PM. No screens 1 hour before.",
-        faith:
-          "Read Ayat al-Kursi and the last two ayats of Surah Al-Baqarah for protection and peace.",
+        time: "Tonight (8:30 PM)",
+        title: "Early Lights Out Protocol",
+        desc: "You logged less than 7 hours of rest. Aim for lights out at 9:30 PM with zero blue-light 60 minutes prior.",
+        tag: "Rest Anchor",
       });
     }
 
-    // Stress logic
-    if (inputs.stressLevel > 6) {
+    if (inputs.stressLevel > 5) {
       tasks.push({
-        time: "Afternoon Break",
-        title: "Regulate Nervous System",
-        desc: "Your stress is high. Take a 10-minute break for box breathing or a short walk outside.",
-        faith: "Use this time for Dhikr (remembrance) to actively lower your heart rate.",
+        time: "Afternoon (2:00 PM)",
+        title: "Physiological Sigh & Reset",
+        desc: "High nervous arousal detected. Practice 5 rounds of double-inhalation and slow exhalation to downregulate the vagus nerve.",
+        tag: "Somatic Grounding",
       });
     }
 
-    // Exercise logic
     if (inputs.exercised === "no") {
       tasks.push({
-        time: "Morning (or Lunch)",
-        title: "Gentle Movement",
-        desc: "A 20-minute brisk walk. This boosts BDNF in the brain, fighting brain fog.",
+        time: "Morning / Midday",
+        title: "20-Minute Sunlight Walk",
+        desc: "Gentle aerobic movement triggers hippocampal BDNF production, accelerating neuro-recovery and mental sharpness.",
+        tag: "Circadian Rhythm",
       });
     }
 
-    // Primary struggle logic
     if (inputs.primaryStruggle === "burnout") {
       tasks.push({
-        time: "Workday End",
-        title: "Hard Boundary",
-        desc: "Close laptop at a strict time. Write down tomorrow's tasks so they leave your mind.",
+        time: "End of Workday",
+        title: "Strict Transition Boundary",
+        desc: "Close screens at a firm hour. Write down open loops on paper so the brain stops cycling in background RAM.",
+        tag: "Boundary Setting",
       });
     } else if (inputs.primaryStruggle === "adhd") {
       tasks.push({
-        time: "Focus Blocks",
-        title: "Pomodoro Sprints",
-        desc: "Break today's main task into 25-minute sprints. Do not rely on willpower.",
+        time: "Peak Focus Window",
+        title: "Low-Pressure Sprint (25m)",
+        desc: "Single-task with timer. Do not rely on dopamine surges; simply work on one small friction point.",
+        tag: "Attention Pacing",
       });
     } else if (inputs.primaryStruggle === "trauma") {
       tasks.push({
-        time: "Anytime",
-        title: "Grounding Exercise",
-        desc: "Practice the 5-4-3-2-1 sensory method if you feel overwhelmed or disconnected.",
+        time: "Throughout Day",
+        title: "5-4-3-2-1 Sensory Orientation",
+        desc: "Name five things you can see, four you can touch. Remind your body that it is safe in this present room.",
+        tag: "Safety Anchor",
       });
     }
 
-    // Universal
     tasks.push({
-      time: "Evening",
-      title: "Gratitude Journal",
-      desc: "Write down 3 specific things you are grateful for today.",
-      faith: "Reflect on Shukr (gratitude) as a way to reframe your trials.",
+      time: "Evening Reflection",
+      title: "Quiet Gratitude & Log",
+      desc: "Record three concrete moments of peace or stability. Reinforce safety in the nervous system before sleep.",
+      tag: "Closure",
     });
 
-    return tasks.sort((a, b) => a.time.localeCompare(b.time));
+    return tasks;
   }, [inputs]);
 
   return (
-    <div className="liquid-glass overflow-hidden rounded-3xl p-8 md:p-12">
-      <div className="mb-8 flex items-start justify-between">
+    <div className="rounded-3xl border border-border bg-surface p-8 sm:p-10 md:p-12 shadow-xl">
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-3 py-1 text-xs font-mono uppercase tracking-widest text-primary mb-3">
+            <Sparkles className="size-3.5" />
+            <span>Daily Blueprint</span>
+          </div>
           <h3
-            className="text-2xl text-foreground"
+            className="text-3xl sm:text-4xl text-foreground font-normal tracking-tight"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
-            My Recovery Planner
+            Daily Recovery Planner
           </h3>
-          <p className="mt-2 text-sm text-muted-foreground">
-            A small wizard to generate your evidence-based daily structure.
+          <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+            A gentle interactive wizard to generate a compassionate, evidence-based daily rhythm.
           </p>
         </div>
       </div>
 
       {!showPlan ? (
         <div className="space-y-8">
-          {step === 0 && (
-            <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-              <label className="text-sm font-medium text-foreground/90">
-                What is your primary struggle right now?
-              </label>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                {[
-                  { id: "burnout", label: "Burnout / Exhaustion" },
-                  { id: "fog", label: "Brain Fog / Poor Memory" },
-                  { id: "trauma", label: "Trauma / High Anxiety" },
-                  { id: "adhd", label: "ADHD / Focus Loss" },
-                ].map((opt) => (
-                  <button
-                    key={opt.id}
-                    onClick={() => setInputs({ ...inputs, primaryStruggle: opt.id })}
-                    className={`rounded-xl border p-4 text-left transition-colors ${
-                      inputs.primaryStruggle === opt.id
-                        ? "border-[var(--color-primary)] bg-[var(--color-primary)]/10 text-primary"
-                        : "border-border/60 text-muted-foreground hover:border-foreground/30 hover:text-foreground"
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={handleNext}
-                disabled={!inputs.primaryStruggle}
-                className="liquid-glass mt-8 rounded-full px-8 py-3 text-sm text-foreground disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          )}
-
-          {step === 1 && (
-            <div className="animate-in fade-in slide-in-from-right-4 space-y-6 duration-500">
-              <div>
-                <label className="text-sm font-medium text-foreground/90">
-                  How many hours did you sleep last night?
-                </label>
-                <div className="mt-4 flex items-center gap-4">
-                  <input
-                    type="range"
-                    min="2"
-                    max="12"
-                    step="0.5"
-                    value={inputs.sleepHours}
-                    onChange={(e) =>
-                      setInputs({ ...inputs, sleepHours: parseFloat(e.target.value) })
-                    }
-                    className="flex-1 accent-[var(--color-primary)]"
-                  />
-                  <span className="w-12 text-sm text-muted-foreground">{inputs.sleepHours}h</span>
-                </div>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-foreground/90">
-                  Current Stress Level (1 = Calm, 10 = Overwhelmed)
-                </label>
-                <div className="mt-4 flex items-center gap-4">
-                  <input
-                    type="range"
-                    min="1"
-                    max="10"
-                    step="1"
-                    value={inputs.stressLevel}
-                    onChange={(e) =>
-                      setInputs({ ...inputs, stressLevel: parseInt(e.target.value) })
-                    }
-                    className="flex-1 accent-destructive"
-                  />
-                  <span className="w-12 text-sm text-muted-foreground">
-                    {inputs.stressLevel}/10
-                  </span>
-                </div>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-foreground/90">
-                  Have you exercised in the past 2 days?
-                </label>
-                <div className="mt-4 flex gap-4">
-                  {["yes", "no"].map((opt) => (
-                    <button
-                      key={opt}
-                      onClick={() => setInputs({ ...inputs, exercised: opt })}
-                      className={`flex-1 rounded-full border py-2 text-sm uppercase transition-colors ${
-                        inputs.exercised === opt
-                          ? "border-[var(--color-primary)] bg-[var(--color-primary)]/10 text-primary"
-                          : "border-border/60 text-muted-foreground hover:border-foreground/30 hover:text-foreground"
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex gap-4 pt-4">
+          {/* Step 1: Struggle */}
+          <div className="rounded-2xl border border-border/60 bg-background/40 p-6 space-y-4">
+            <label className="text-sm font-medium text-foreground">
+              1. What is your primary challenge right now?
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {[
+                { id: "burnout", label: "Burnout" },
+                { id: "fog", label: "Brain Fog" },
+                { id: "trauma", label: "Nervous Strain" },
+                { id: "adhd", label: "Attention Overwhelm" },
+              ].map((item) => (
                 <button
-                  onClick={() => setStep(0)}
-                  className="rounded-full px-6 py-3 text-sm text-muted-foreground hover:text-foreground"
+                  key={item.id}
+                  type="button"
+                  onClick={() => setInputs((prev) => ({ ...prev, primaryStruggle: item.id }))}
+                  className={`rounded-xl border p-3 text-xs sm:text-sm font-medium transition-all ${
+                    inputs.primaryStruggle === item.id
+                      ? "border-primary bg-primary/15 text-primary font-semibold"
+                      : "border-border bg-surface text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+                  }`}
                 >
-                  Back
+                  {item.label}
                 </button>
-                <button
-                  onClick={generatePlan}
-                  className="liquid-glass rounded-full px-8 py-3 text-sm text-foreground transition-transform hover:scale-[1.03]"
-                >
-                  Generate My Plan
-                </button>
-              </div>
+              ))}
             </div>
-          )}
-        </div>
-      ) : (
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <div className="mb-6 rounded-2xl bg-[var(--color-primary)]/10 p-6 text-primary">
-            <p className="text-sm">
-              Your plan is ready. Focus on consistency, not perfection. If you miss a task, just
-              pick it up tomorrow.
-            </p>
           </div>
 
-          <div className="space-y-4">
-            {plan.map((task, idx) => (
+          {/* Step 2: Sleep */}
+          <div className="rounded-2xl border border-border/60 bg-background/40 p-6 space-y-4">
+            <div className="flex justify-between items-center">
+              <label className="text-sm font-medium text-foreground">
+                2. Hours of sleep last night:
+              </label>
+              <span className="font-mono text-sm text-primary font-semibold">
+                {inputs.sleepHours} hrs
+              </span>
+            </div>
+            <input
+              type="range"
+              min="3"
+              max="11"
+              step="0.5"
+              value={inputs.sleepHours}
+              onChange={(e) =>
+                setInputs((prev) => ({ ...prev, sleepHours: parseFloat(e.target.value) }))
+              }
+              className="w-full accent-primary"
+            />
+          </div>
+
+          {/* Step 3: Stress */}
+          <div className="rounded-2xl border border-border/60 bg-background/40 p-6 space-y-4">
+            <div className="flex justify-between items-center">
+              <label className="text-sm font-medium text-foreground">
+                3. Current felt stress level (1 to 10):
+              </label>
+              <span className="font-mono text-sm text-primary font-semibold">
+                {inputs.stressLevel} / 10
+              </span>
+            </div>
+            <input
+              type="range"
+              min="1"
+              max="10"
+              value={inputs.stressLevel}
+              onChange={(e) =>
+                setInputs((prev) => ({ ...prev, stressLevel: parseInt(e.target.value) }))
+              }
+              className="w-full accent-primary"
+            />
+          </div>
+
+          {/* Step 4: Movement */}
+          <div className="rounded-2xl border border-border/60 bg-background/40 p-6 space-y-4">
+            <label className="text-sm font-medium text-foreground">
+              4. Have you had 20+ minutes of physical movement / outdoor air today?
+            </label>
+            <div className="flex gap-3">
+              {[
+                { id: "yes", label: "Yes, already moved" },
+                { id: "no", label: "Not yet" },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setInputs((prev) => ({ ...prev, exercised: item.id }))}
+                  className={`flex-1 rounded-xl border p-3 text-xs sm:text-sm font-medium transition-all ${
+                    inputs.exercised === item.id
+                      ? "border-primary bg-primary/15 text-primary font-semibold"
+                      : "border-border bg-surface text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <Button
+            onClick={() => setShowPlan(true)}
+            className="rounded-full px-8 py-5 bg-primary text-primary-foreground font-medium hover:opacity-90"
+          >
+            <span>Generate Recovery Rhythm</span>
+            <ArrowRight className="size-4 ml-2" />
+          </Button>
+        </div>
+      ) : (
+        <div className="animate-in fade-in duration-500 space-y-6">
+          <div className="flex justify-between items-center border-b border-border/40 pb-4">
+            <span className="text-xs font-mono uppercase tracking-widest text-primary">
+              Your Customized Daily Sequence
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowPlan(false)}
+              className="rounded-full border-border bg-surface text-muted-foreground hover:text-foreground gap-1.5"
+            >
+              <RotateCcw className="size-3.5" />
+              <span>Modify Inputs</span>
+            </Button>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {plan.map((item, idx) => (
               <div
                 key={idx}
-                className="flex gap-4 rounded-2xl border border-border/40 bg-foreground/5 p-6"
+                className="rounded-2xl border border-border/80 bg-background/50 p-6 flex flex-col justify-between"
               >
-                <div className="mt-1 h-5 w-5 shrink-0 rounded border border-muted-foreground/40" />
                 <div>
-                  <p className="text-xs uppercase tracking-[0.1em] text-muted-foreground">
-                    {task.time}
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="text-xs font-mono text-primary font-medium">
+                      {item.time}
+                    </span>
+                    <span className="rounded-full bg-foreground/5 border border-border/50 px-2 py-0.5 text-[10px] font-mono text-muted-foreground">
+                      {item.tag}
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-medium text-foreground mb-2">
+                    {item.title}
+                  </h4>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {item.desc}
                   </p>
-                  <p className="mt-1 font-medium text-foreground/90">{task.title}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{task.desc}</p>
-                  {task.faith && (
-                    <p className="mt-3 border-l-2 border-[var(--color-primary)]/30 pl-3 text-xs italic text-[var(--color-primary)]/80">
-                      {task.faith}
-                    </p>
-                  )}
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="mt-8 flex gap-4">
-            <button
-              onClick={() => {
-                setStep(0);
-                setShowPlan(false);
-              }}
-              className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
-            >
-              Start Over
-            </button>
           </div>
         </div>
       )}

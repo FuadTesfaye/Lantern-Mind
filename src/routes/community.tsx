@@ -5,9 +5,12 @@ import { CareNote } from "@/components/care-note";
 import { PostPleaseDialog } from "@/components/community/post-please-dialog";
 import { supportCircles } from "@/content/trauma";
 import { formatRelativeDate } from "@/lib/community/types";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
-import { toast } from "sonner";
+import { TiltCard } from "@/components/unlumen-ui/tilt-card";
+import { MotionHighlightContainer, MotionHighlightItem } from "@/components/unlumen-ui/motion-highlight";
+import { Button } from "@/components/ui/button";
+import { MessageCircle, ShieldCheck, ArrowRight, Heart, Users } from "lucide-react";
 
 export const Route = createFileRoute("/community")({
   head: () => ({
@@ -30,7 +33,6 @@ export const Route = createFileRoute("/community")({
 });
 
 function CommunityPage() {
-  const queryClient = useQueryClient();
   const [activeTag, setActiveTag] = useState<string | null>(null);
 
   const {
@@ -75,191 +77,199 @@ function CommunityPage() {
       }
       intro="A safe, moderated space for stories of recovery and circles of shared experience. Stories are anonymous. Tags come from the lived-experience map — not clinical labels. We witness; we do not diagnose."
     >
+      {/* Top Actions */}
       <div className="mb-10 flex flex-wrap items-center gap-3">
         <PostPleaseDialog />
-        <Link
-          to="/experiences"
-          className="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03]"
-        >
-          Browse the experience map
-        </Link>
-        <Link
-          to="/reach-us"
-          className="rounded-full border border-destructive/25 bg-destructive/5 px-6 py-2.5 text-sm text-destructive/90 transition-colors hover:bg-destructive/10"
-        >
-          I need help now
-        </Link>
+        <Button asChild variant="outline" className="rounded-full border-border bg-surface text-foreground hover:bg-card">
+          <Link to="/experiences">
+            <span>Browse Experience Map</span>
+          </Link>
+        </Button>
+        <Button asChild variant="outline" className="rounded-full border-destructive/30 bg-destructive/5 text-destructive hover:bg-destructive/10">
+          <Link to="/reach-us">
+            <span>I need help now</span>
+          </Link>
+        </Button>
       </div>
 
-      {/* Voices */}
+      {/* Voices Feed */}
       <section>
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Voices</p>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-0.5 text-xs font-mono uppercase tracking-widest text-primary mb-2">
+              <MessageCircle className="size-3.5" />
+              <span>Stories of Recovery</span>
+            </div>
             <h2
-              className="mt-3 text-3xl text-foreground sm:text-4xl"
+              className="text-3xl sm:text-4xl font-normal text-foreground tracking-tight"
               style={{ fontFamily: "'Instrument Serif', serif" }}
             >
-              Stories of recovery
+              Recent community submissions
             </h2>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Human-sized tiles. Soft tags underneath. Click a story to read the full text and join
-              the anonymous discussion. Use Post please to send a story for review before it appears
-              here.
-            </p>
           </div>
-          <p className="text-xs text-muted-foreground" aria-live="polite">
-            Live from Database
-          </p>
+          <span className="text-xs font-mono text-muted-foreground flex items-center gap-1.5">
+            <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+            Live Moderated
+          </span>
         </div>
 
-        <div className="mb-8 flex flex-wrap gap-2">
+        {/* Tag Filters with Unlumen Motion Highlight */}
+        <div className="mb-8 flex flex-wrap gap-1.5">
           <button
             type="button"
             onClick={() => setActiveTag(null)}
-            className={`rounded-full px-4 py-1.5 text-xs transition-colors ${
+            className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-all ${
               activeTag === null
-                ? "bg-foreground/15 text-foreground"
-                : "bg-foreground/5 text-muted-foreground hover:text-foreground"
+                ? "border border-primary bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "border border-border bg-surface text-muted-foreground hover:border-foreground/30 hover:text-foreground"
             }`}
           >
-            All threads
+            All Threads ({published.length})
           </button>
           {allTags.map((tag: any) => (
             <button
               key={tag}
               type="button"
               onClick={() => setActiveTag(tag === activeTag ? null : tag)}
-              className={`rounded-full px-4 py-1.5 text-xs transition-colors ${
+              className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-all ${
                 activeTag === tag
-                  ? "bg-foreground/15 text-foreground"
-                  : "bg-foreground/5 text-muted-foreground hover:text-foreground"
+                  ? "border border-primary bg-primary text-primary-foreground font-semibold shadow-xs"
+                  : "border border-border bg-surface text-muted-foreground hover:border-foreground/30 hover:text-foreground"
               }`}
             >
-              {tag}
+              #{tag}
             </button>
           ))}
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2">
           {isLoading && (
-            <p className="col-span-full text-sm text-muted-foreground">Loading stories...</p>
+            <div className="col-span-full py-12 text-center text-sm text-muted-foreground">
+              Loading stories...
+            </div>
           )}
           {error && (
-            <p className="col-span-full text-sm text-destructive">
-              Error loading stories from database.
-            </p>
+            <div className="col-span-full rounded-2xl border border-destructive/40 bg-destructive/5 p-6 text-sm text-destructive">
+              Error connecting to live community database.
+            </div>
           )}
           {stories.map((story: any) => (
-            <Link
+            <TiltCard
               key={story.id}
-              to="/community/$slug"
-              params={{ slug: story.slug }}
-              className="liquid-glass group flex flex-col rounded-3xl p-7 transition-transform hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <p className="text-xs text-muted-foreground">
-                {formatRelativeDate(story.published_at)}
-              </p>
-              <h3
-                className="mt-4 text-2xl leading-snug tracking-[-0.5px] text-foreground transition-colors group-hover:text-muted-foreground"
-                style={{ fontFamily: "'Instrument Serif', serif" }}
-              >
-                {story.title}
-              </h3>
-              <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">
-                {story.excerpt}
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {story.tags?.map((t: string) => (
-                  <span
-                    key={t}
-                    className="rounded-full bg-foreground/5 px-2.5 py-0.5 text-xs text-muted-foreground"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-6 flex items-center justify-between border-t border-border/40 pt-4">
-                <p className="text-xs text-foreground/60">— {story.author}</p>
-                <span className="text-xs text-muted-foreground transition-colors group-hover:text-foreground">
-                  {story.comments && story.comments.length > 0
-                    ? `${story.comments.length} in discussion`
-                    : "Open story & discussion"}
-                </span>
-              </div>
-            </Link>
+              price={formatRelativeDate(story.published_at)}
+              badgeLabel={`by ${story.author || "Anonymous"}`}
+              badgeVariant="neutral"
+              title={story.title}
+              description={story.excerpt}
+              footerSlot={
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-wrap gap-1.5">
+                    {story.tags?.map((t: string) => (
+                      <span
+                        key={t}
+                        className="rounded-full bg-foreground/5 border border-border/50 px-2.5 py-0.5 text-[11px] font-mono text-muted-foreground"
+                      >
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-xs font-mono text-primary font-medium">
+                      {story.comments && story.comments.length > 0
+                        ? `${story.comments.length} in discussion`
+                        : "Open story & discussion"}
+                    </span>
+                    <Button asChild variant="ghost" size="sm" className="text-xs uppercase tracking-wider text-foreground font-semibold hover:bg-primary/10">
+                      <Link to="/community/$slug" params={{ slug: story.slug }}>
+                        <span>Read</span>
+                        <ArrowRight className="size-3.5 ml-1" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              }
+            />
           ))}
+
           {!isLoading && !error && stories.length === 0 ? (
-            <p className="col-span-full text-sm text-muted-foreground">
-              No stories found. Yours could be the first.
-            </p>
+            <div className="col-span-full rounded-3xl border border-border bg-surface p-12 text-center">
+              <MessageCircle className="size-10 text-muted-foreground mx-auto mb-4" />
+              <p className="text-sm text-muted-foreground">
+                No stories match this filter. Be the first to share.
+              </p>
+            </div>
           ) : null}
         </div>
       </section>
 
-      {/* Circles */}
-      <section id="circles" className="mt-20 scroll-mt-28">
-        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Support Circles</p>
+      {/* Support Circles */}
+      <section id="circles" className="mt-24 border-t border-border/40 pt-16 scroll-mt-28">
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-0.5 text-xs font-mono uppercase tracking-widest text-primary mb-3">
+          <Users className="size-3.5" />
+          <span>Support Circles</span>
+        </div>
         <h2
-          className="mt-3 text-3xl text-foreground sm:text-4xl"
+          className="text-3xl sm:text-4xl text-foreground font-normal tracking-tight"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
           Gather by theme, <em className="not-italic text-muted-foreground">not diagnosis.</em>
         </h2>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-3 max-w-2xl text-sm sm:text-base leading-relaxed text-muted-foreground">
           Moderated rooms. Not therapy. The tags help match people who carry similar weight —
           parentification, displacement, burnout, return to faith, and more.
         </p>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {supportCircles.map((circle) => (
-            <article key={circle.slug} className="liquid-glass rounded-3xl px-6 py-7">
-              <h3
-                className="text-xl text-foreground"
-                style={{ fontFamily: "'Instrument Serif', serif" }}
-              >
-                {circle.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {circle.description}
-              </p>
-              <button
-                type="button"
-                className="mt-6 text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Enter quietly
-              </button>
-            </article>
+            <TiltCard
+              key={circle.slug}
+              title={circle.title}
+              description={circle.description}
+              badgeLabel="Circle"
+              badgeVariant="primary"
+              footerSlot={
+                <span className="text-xs uppercase tracking-widest font-mono text-muted-foreground group-hover:text-primary transition-colors">
+                  Enter quietly →
+                </span>
+              }
+            />
           ))}
         </div>
       </section>
 
-      {/* Guidelines */}
-      <div className="liquid-glass mt-16 rounded-3xl px-8 py-10 md:px-12">
-        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
-          How we stay safe
-        </p>
-        <ul className="mt-6 max-w-2xl space-y-4 text-sm leading-relaxed text-muted-foreground">
-          <li className="border-l border-border/60 pl-5">
-            New stories use Post please — they wait in the admin queue before going public.
-          </li>
-          <li className="border-l border-border/60 pl-5">
-            Discussions stay anonymous. Witness; don’t diagnose or pile on advice.
-          </li>
-          <li className="border-l border-border/60 pl-5">
-            No trauma comparison or invalidation. Pain is not a contest.
-          </li>
-          <li className="border-l border-border/60 pl-5">
-            No harassment, hate speech, or identifying information. Disagreements stay civil.
-          </li>
-        </ul>
+      {/* Community Guidelines */}
+      <div className="mt-16 rounded-3xl border border-border bg-surface p-8 sm:p-10 md:p-12">
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-3 py-1 text-xs font-mono uppercase tracking-widest text-primary mb-6">
+          <ShieldCheck className="size-3.5" />
+          <span>Sanctuary Guidelines</span>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 text-sm text-muted-foreground">
+          <div className="rounded-2xl border border-border/60 bg-background/40 p-5">
+            <span className="text-foreground font-medium block mb-1">Human-Reviewed Queue</span>
+            New stories use "Post please" — they are gently reviewed before appearing publicly.
+          </div>
+          <div className="rounded-2xl border border-border/60 bg-background/40 p-5">
+            <span className="text-foreground font-medium block mb-1">Anonymous & Compassionate</span>
+            Discussions stay anonymous. Witness each other; do not diagnose or force unsolicited advice.
+          </div>
+          <div className="rounded-2xl border border-border/60 bg-background/40 p-5">
+            <span className="text-foreground font-medium block mb-1">No Comparison</span>
+            No trauma comparison or invalidation. Every human struggle is valid; pain is not a contest.
+          </div>
+          <div className="rounded-2xl border border-border/60 bg-background/40 p-5">
+            <span className="text-foreground font-medium block mb-1">Dignity Protected</span>
+            Zero tolerance for harassment or identifying private details. Civility is mandatory.
+          </div>
+        </div>
       </div>
 
-      <CareNote>
-        This community is educational peer space, not therapy or crisis care. If you are in
-        immediate danger or thinking of harming yourself, contact local emergency services or a
-        crisis line now — don’t wait for a reply here.
-      </CareNote>
+      <div className="mt-16">
+        <CareNote>
+          This community is educational peer space, not therapy or crisis care. If you are in
+          immediate danger or thinking of harming yourself, contact local emergency services or a
+          crisis line now — don’t wait for a reply here.
+        </CareNote>
+      </div>
     </PageShell>
   );
 }

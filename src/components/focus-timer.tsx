@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { Timer, Play, Pause, RotateCcw } from "lucide-react";
+import { Button } from "./ui/button";
 
 const PRESETS = [25, 15, 5];
 
@@ -34,53 +36,67 @@ export function FocusTimer() {
   const ss = String(remaining % 60).padStart(2, "0");
 
   return (
-    <div className="liquid-glass rounded-3xl px-8 py-10 text-center">
+    <div className="rounded-3xl border border-border bg-surface p-8 sm:p-12 md:p-14 text-center shadow-xl">
+      <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-3 py-1 text-xs font-mono uppercase tracking-widest text-primary mb-6">
+        <Timer className="size-3.5" />
+        <span>Low-Pressure Sprint</span>
+      </div>
+
       <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
         One task. Phone in another room.
       </p>
+
       <p
-        className="mt-6 text-6xl tabular-nums tracking-tight text-foreground sm:text-7xl"
+        className="mt-6 text-7xl sm:text-8xl tabular-nums tracking-tight text-foreground"
         style={{ fontFamily: "'Instrument Serif', serif" }}
         aria-live="off"
       >
         {mm}:{ss}
       </p>
 
-      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+      {/* Presets */}
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
         {PRESETS.map((m) => (
           <button
             key={m}
             type="button"
             onClick={() => select(m)}
-            className={`liquid-glass rounded-full px-5 py-2 text-sm transition-transform hover:scale-[1.03] ${
-              minutes === m ? "text-foreground" : "text-muted-foreground"
+            className={`rounded-full border px-5 py-1.5 text-xs sm:text-sm font-medium transition-all ${
+              minutes === m
+                ? "border-primary bg-primary text-primary-foreground font-semibold shadow-xs"
+                : "border-border bg-background/60 text-muted-foreground hover:border-foreground/30 hover:text-foreground"
             }`}
           >
-            {m} min
+            {m} min block
           </button>
         ))}
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <button
+      {/* Actions */}
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <Button
           type="button"
           onClick={() => setRunning((r) => !r)}
-          className="liquid-glass cursor-pointer rounded-full px-10 py-3 text-sm text-foreground transition-transform hover:scale-[1.03]"
+          className="rounded-full px-8 py-5 text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 shadow-md gap-2"
         >
-          {running ? "Pause" : remaining === 0 ? "Again" : "Begin"}
-        </button>
-        <button
+          {running ? <Pause className="size-4" /> : <Play className="size-4" />}
+          <span>{running ? "Pause" : remaining === 0 ? "Repeat Block" : "Begin Sprint"}</span>
+        </Button>
+
+        <Button
           type="button"
+          variant="outline"
           onClick={() => select(minutes)}
-          className="rounded-full px-4 py-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          className="rounded-full px-5 py-5 text-sm border-border bg-surface text-muted-foreground hover:text-foreground gap-1.5"
         >
-          Reset
-        </button>
+          <RotateCcw className="size-4" />
+          <span>Reset</span>
+        </Button>
       </div>
 
       {remaining === 0 ? (
-        <p className="mt-6 text-sm text-muted-foreground">
-          That was a full block. Five minutes away from every screen now.
+        <p className="mt-6 text-sm text-emerald-400 font-mono">
+          Sprint complete. Step away from the screen for 5 minutes now.
         </p>
       ) : null}
     </div>
