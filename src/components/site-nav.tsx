@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, Sparkles, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -19,26 +19,42 @@ export function SiteNav() {
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="relative z-50 mx-auto w-full max-w-7xl px-4 sm:px-6 pt-5 pb-2">
-      <nav className="flex items-center justify-between gap-4 rounded-full border border-border/80 bg-surface/90 px-4 sm:px-6 py-2.5 shadow-lg backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full transition-all duration-300 px-4 sm:px-6 pt-3 pb-2">
+      <nav
+        className={cn(
+          "mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full border px-4 sm:px-6 py-2 transition-all duration-300",
+          isScrolled
+            ? "border-border bg-surface/90 shadow-xl backdrop-blur-xl"
+            : "border-border/60 bg-surface/75 shadow-md backdrop-blur-lg",
+        )}
+      >
         {/* Brand Logo */}
         <Link
           to="/"
-          className="group flex items-center gap-2 text-2xl font-normal tracking-tight text-foreground transition-colors hover:text-primary"
+          className="group flex items-center gap-2.5 text-2xl font-normal tracking-tight text-foreground transition-colors hover:text-primary"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
-          <span className="flex size-7 items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-primary group-hover:scale-105 transition-transform">
+          <span className="flex size-7 items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-primary group-hover:scale-105 transition-transform shadow-xs">
             <Compass className="size-4" />
           </span>
-          <span>
+          <span className="flex items-center">
             Lantern-Mind<sup className="text-[10px] text-muted-foreground ml-0.5">®</sup>
           </span>
         </Link>
 
         {/* Desktop Navigation Links with Unlumen Motion Highlight */}
-        <div className="hidden items-center gap-1 lg:flex bg-background/50 border border-border/60 rounded-full p-1">
+        <div className="hidden items-center gap-1 lg:flex bg-background/50 border border-border/50 rounded-full p-1 shadow-inner">
           {links.map((link) => {
             const isActive =
               link.to === "/" ? currentPath === "/" : currentPath.startsWith(link.to);
@@ -69,22 +85,22 @@ export function SiteNav() {
         </div>
 
         {/* Right Action & Live Online Pill */}
-        <div className="flex items-center gap-3">
-          {/* Live Visitor Indicator */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Live Safe & Open Indicator */}
           <div
-            className="hidden sm:flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground"
-            title="Safe space open"
+            className="hidden sm:flex items-center gap-2 rounded-full border border-border/50 bg-background/40 px-3 py-1 text-xs text-muted-foreground select-none"
+            title="Safe peer space open"
           >
             <span className="relative flex size-2">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
             </span>
-            <span className="font-mono text-[11px] text-foreground/80">Safe & Open</span>
+            <span className="font-mono text-[11px] text-foreground/80 tracking-wide">Safe & Open</span>
           </div>
 
           <Link
             to="/studio"
-            className="group relative inline-flex items-center justify-center gap-1.5 overflow-hidden rounded-full bg-primary px-4 sm:px-5 py-2 text-xs sm:text-sm font-medium text-primary-foreground transition-all duration-200 hover:opacity-95 hover:shadow-md active:scale-95"
+            className="group relative inline-flex items-center justify-center gap-1.5 overflow-hidden rounded-full bg-primary px-4 sm:px-5 py-2 text-xs sm:text-sm font-medium text-primary-foreground transition-all duration-200 hover:opacity-95 hover:shadow-md active:scale-95 shadow-xs"
           >
             <Sparkles className="size-3.5 transition-transform group-hover:rotate-12" />
             <span>Begin Journey</span>
@@ -94,7 +110,7 @@ export function SiteNav() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="inline-flex lg:hidden size-9 items-center justify-center rounded-full border border-border bg-surface text-foreground hover:bg-card"
+            className="inline-flex lg:hidden size-9 items-center justify-center rounded-full border border-border bg-surface text-foreground hover:bg-card transition-colors"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
@@ -110,7 +126,7 @@ export function SiteNav() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="lg:hidden mt-2 rounded-3xl border border-border bg-surface/95 p-5 shadow-2xl backdrop-blur-xl"
+            className="lg:hidden mx-auto max-w-7xl mt-2 rounded-3xl border border-border bg-surface/95 p-5 shadow-2xl backdrop-blur-xl"
           >
             <div className="flex flex-col gap-1.5">
               {links.map((link) => {

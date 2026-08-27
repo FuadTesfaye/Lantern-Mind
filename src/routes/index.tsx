@@ -102,8 +102,11 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/25">
       <GradualBlur position="top" />
 
+      {/* Sticky Site Navigation */}
+      <SiteNav />
+
       {/* Hero Section — Preserved intact */}
-      <section className="relative min-h-screen overflow-hidden">
+      <section className="relative min-h-screen overflow-hidden -mt-16 sm:-mt-20">
         <video
           className="absolute inset-0 z-0 h-full w-full object-cover"
           autoPlay
@@ -116,9 +119,7 @@ function Index() {
           <source src={VIDEO_SRC} type="video/mp4" />
         </video>
 
-        <SiteNav />
-
-        <div className="relative z-10 flex flex-col items-center px-6 py-[90px] pb-40 pt-32 text-center">
+        <div className="relative z-10 flex flex-col items-center px-6 py-[90px] pb-40 pt-36 sm:pt-40 text-center">
           <h1
             className="animate-fade-rise max-w-7xl text-5xl font-normal leading-[0.95] tracking-[-2.46px] sm:text-7xl md:text-8xl"
             style={{ fontFamily: "'Instrument Serif', serif" }}
